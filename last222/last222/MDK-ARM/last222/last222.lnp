@@ -42,6 +42,7 @@
 "last222\ramp.o"
 "last222\can.o"
 "last222\usart.o"
+"last222\time.o"
 "last222\pid.o"
 --library_type=microlib --strict --scatter "last222\last222.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols

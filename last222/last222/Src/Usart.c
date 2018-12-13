@@ -22,7 +22,7 @@ int fputc(int ch, FILE *f)
 #endif 
 
 uint8_t rc_RxBuffer[RECEIVELEN];
-uint8_t PC_DATA[14];
+uint8_t Rx_data[8];
 RC_Ctl_t RC_CtrlData = {0};
 
 UART_HandleTypeDef huart1;
@@ -81,7 +81,7 @@ void MX_USART2_UART_Init(void)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
-	SET_BIT(huart2.Instance->CR1, USART_CR1_IDLEIE);//¿ªÆô´®¿Ú¿ÕÏÐÖÐ¶Ï
+	SET_BIT(huart2.Instance->CR1, USART_CR1_IDLEIE);//¿ªÆô´®¿Ú¿ÕÏÐÖÐ¶Ï.
 	HAL_UART_Receive_DMA(&huart2, (uint8_t *)rc_RxBuffer, RECEIVELEN);	
 }
 
@@ -102,7 +102,7 @@ void MX_USART6_UART_Init(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 	SET_BIT(huart6.Instance->CR1, USART_CR1_IDLEIE);
-	HAL_UART_Receive_DMA(&huart6, (uint8_t *)PC_DATA, RECEIVELEN);	
+	HAL_UART_Receive_DMA(&huart6, (uint8_t *)Rx_data, RECEIVELEN);	
 }
 
 uint16_t	temp;
@@ -146,7 +146,10 @@ void USART6_IRQHandler(void)
      	temp = huart6.hdmarx->Instance->NDTR;  
 			if((RECEIVELEN - temp) == 7)
 			{
-				
+				if(Rx_data[0]==0xaa&&Rx_data[1])
+				{
+				                                                                                                                            
+				}
 			}
 			
 			 DMA2->LIFCR = DMA_FLAG_DMEIF1_5 | DMA_FLAG_FEIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TCIF1_5 | DMA_FLAG_TEIF1_5;

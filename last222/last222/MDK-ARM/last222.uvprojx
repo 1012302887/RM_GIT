@@ -417,11 +417,6 @@
               <FileType>1</FileType>
               <FilePath>..\Src\NI_MING.c</FilePath>
             </File>
-            <File>
-              <FileName>NI_MING.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Inc\NI_MING.h</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -593,19 +588,9 @@
               <FilePath>..\Src\Chassis_Task.c</FilePath>
             </File>
             <File>
-              <FileName>Chassis_Task.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Inc\Chassis_Task.h</FilePath>
-            </File>
-            <File>
               <FileName>Gimbal_Task.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\Gimbal_Task.c</FilePath>
-            </File>
-            <File>
-              <FileName>Gimbal_Task.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Inc\Gimbal_Task.h</FilePath>
             </File>
             <File>
               <FileName>Commom_Task.c</FileName>
@@ -613,29 +598,14 @@
               <FilePath>..\Src\Commom_Task.c</FilePath>
             </File>
             <File>
-              <FileName>Common_Task.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Inc\Common_Task.h</FilePath>
-            </File>
-            <File>
               <FileName>Get_Shoot_Info.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\Get_Shoot_Info.c</FilePath>
             </File>
             <File>
-              <FileName>GET_Shoot_Info.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Inc\GET_Shoot_Info.h</FilePath>
-            </File>
-            <File>
               <FileName>Shoot_Task.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\Shoot_Task.c</FilePath>
-            </File>
-            <File>
-              <FileName>Shoot_Task.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Inc\Shoot_Task.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -647,11 +617,6 @@
               <FileType>1</FileType>
               <FilePath>..\Src\Ramp.c</FilePath>
             </File>
-            <File>
-              <FileName>Ramp.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Inc\Ramp.h</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -661,11 +626,6 @@
               <FileName>Can.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\Can.c</FilePath>
-            </File>
-            <File>
-              <FileName>Can.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Inc\Can.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -677,15 +637,17 @@
               <FileType>1</FileType>
               <FilePath>..\Src\Usart.c</FilePath>
             </File>
-            <File>
-              <FileName>Usart.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Inc\Usart.h</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>Time</GroupName>
+          <Files>
+            <File>
+              <FileName>Time.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\Time.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>PID</GroupName>
@@ -694,11 +656,6 @@
               <FileName>PID.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\PID.c</FilePath>
-            </File>
-            <File>
-              <FileName>PID.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Inc\PID.h</FilePath>
             </File>
           </Files>
         </Group>
