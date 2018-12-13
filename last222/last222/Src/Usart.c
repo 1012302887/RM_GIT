@@ -137,7 +137,6 @@ void USART6_IRQHandler(void)
 	if (__HAL_UART_GET_FLAG(&huart6, UART_FLAG_IDLE) && 
       __HAL_UART_GET_IT_SOURCE(&huart6, UART_IT_IDLE))
     {
-			
       uint16_t tmp = huart6.Instance->DR;
       tmp = huart6.Instance->SR;
       tmp--;
@@ -146,12 +145,11 @@ void USART6_IRQHandler(void)
      	temp = huart6.hdmarx->Instance->NDTR;  
 			if((RECEIVELEN - temp) == 7)
 			{
-				if(Rx_data[0]==0xaa&&Rx_data[1])
+				if(Rx_data[0]==0xaa && Rx_data[1]==0xbb)
 				{
 				                                                                                                                            
 				}
 			}
-			
 			 DMA2->LIFCR = DMA_FLAG_DMEIF1_5 | DMA_FLAG_FEIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TCIF1_5 | DMA_FLAG_TEIF1_5;
       __HAL_DMA_SET_COUNTER(huart6.hdmarx, RECEIVELEN);
       __HAL_DMA_ENABLE(huart6.hdmarx);

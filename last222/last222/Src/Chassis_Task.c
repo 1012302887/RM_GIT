@@ -16,7 +16,7 @@ void Chassis_Task(void const *argument)
 	}
 	else if(gim.ctrl_mode == GIMBAL_NORMAL)
 	{
-		chassis.vw = pid_calc(&pid_rotate, chassis.follow_gimbal, 0);
+		chassis.vw = pid_calc(&pid_rotate, chassis.follow_gimbal, 0); //chassis.follow_gimbal = moto_yaw.total_angle;
 	}
 	else if(gim.ctrl_mode == GIMBAL_WRITHE)
 	{
