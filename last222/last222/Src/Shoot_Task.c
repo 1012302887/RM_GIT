@@ -20,7 +20,6 @@ void Shoot_Task(void const * argument)
 					case REMOTE_CTRL:
 						shoot_remote_handler();
 					break;
-					
 					default:
 					break;
 				}

@@ -19,7 +19,7 @@ void Can_Send_Task(void const *argument)
       }
 			else if (event.value.signals & GIMBAL_MOTOR_MSG_SEND)
       {
-			send_gimbal_motor_ctrl_message(glb_cur.gimbal_cur);
+			send_gimbal_motor_ctrl_message(glb_cur.gimbal_cur);     
       }
 			else if (event.value.signals & SHOOT_MOTOR_MSG_SEND)
 			{

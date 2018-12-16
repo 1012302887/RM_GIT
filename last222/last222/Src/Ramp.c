@@ -1,4 +1,4 @@
-#include "ramp.h"
+#include "main.h"
 
 void ramp_init(ramp_t *ramp, int32_t scale)
 {
@@ -6,7 +6,7 @@ void ramp_init(ramp_t *ramp, int32_t scale)
   ramp->scale = scale;
 }
 
-float ramp_calc(ramp_t *ramp)//比例,拆分成scale份
+float ramp_calc(ramp_t *ramp)
 {
   if (ramp->scale <= 0)
     return 0;

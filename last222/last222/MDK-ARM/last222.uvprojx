@@ -568,6 +568,11 @@
           <GroupName>Task</GroupName>
           <Files>
             <File>
+              <FileName>Get_Gimbal_Info.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\Get_Gimbal_Info.c</FilePath>
+            </File>
+            <File>
               <FileName>Mode_Switch_Task.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\Mode_Switch_Task.c</FilePath>
@@ -576,11 +581,6 @@
               <FileName>Get_Chassis_Info.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\Get_Chassis_Info.c</FilePath>
-            </File>
-            <File>
-              <FileName>Get_Gimbal_Info.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\Get_Gimbal_Info.c</FilePath>
             </File>
             <File>
               <FileName>Chassis_Task.c</FileName>
@@ -656,6 +656,36 @@
               <FileName>PID.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\PID.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Keyboard</GroupName>
+          <Files>
+            <File>
+              <FileName>Keyboard.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Inc\Keyboard.h</FilePath>
+            </File>
+            <File>
+              <FileName>Keyboard.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\Keyboard.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>CAR_NUM</GroupName>
+          <Files>
+            <File>
+              <FileName>Car_num.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\Car_num.c</FilePath>
+            </File>
+            <File>
+              <FileName>Car_num.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Inc\Car_num.h</FilePath>
             </File>
           </Files>
         </Group>

@@ -145,7 +145,8 @@ void PID_struct_init(
 }
 
 /* gimabl pid */
-
+pid_t pid_auto_yaw      = {0};
+pid_t pid_auto_pit 			= {0};
 pid_t pid_yaw						= {0};
 pid_t pid_pit						= {0};
 pid_t pid_yaw_spd				= {0};

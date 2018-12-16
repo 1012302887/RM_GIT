@@ -40,7 +40,5 @@ typedef struct
 
 void Chassis_Task(void const * argument);
 void Chassis_Param_Init(void);
-
 extern chassis_t chassis;
-
 #endif

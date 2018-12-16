@@ -31,9 +31,9 @@
 "last222\tasks.o"
 "last222\timers.o"
 "last222\cmsis_os.o"
+"last222\get_gimbal_info.o"
 "last222\mode_switch_task.o"
 "last222\get_chassis_info.o"
-"last222\get_gimbal_info.o"
 "last222\chassis_task.o"
 "last222\gimbal_task.o"
 "last222\commom_task.o"
@@ -44,6 +44,8 @@
 "last222\usart.o"
 "last222\time.o"
 "last222\pid.o"
+"last222\keyboard.o"
+"last222\car_num.o"
 --library_type=microlib --strict --scatter "last222\last222.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

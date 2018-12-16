@@ -37,6 +37,7 @@ last222\stm32f4xx_hal_dma.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_d
 last222\stm32f4xx_hal_dma.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma_ex.h
 last222\stm32f4xx_hal_dma.o: ../Inc/Mode_Switch_Task.h
 last222\stm32f4xx_hal_dma.o: ../Inc/main.h
+last222\stm32f4xx_hal_dma.o: ../Inc/Ramp.h
 last222\stm32f4xx_hal_dma.o: ../Inc/Can_Send_Task.h
 last222\stm32f4xx_hal_dma.o: ../Inc/Get_Gimbal_Info.h
 last222\stm32f4xx_hal_dma.o: ../Inc/Get_Chassis_Info.h
@@ -45,11 +46,12 @@ last222\stm32f4xx_hal_dma.o: ../Inc/Usart.h
 last222\stm32f4xx_hal_dma.o: ../Inc/Chassis_Task.h
 last222\stm32f4xx_hal_dma.o: ../Inc/Gimbal_Task.h
 last222\stm32f4xx_hal_dma.o: ../Inc/PID.h
-last222\stm32f4xx_hal_dma.o: ../Inc/Ramp.h
 last222\stm32f4xx_hal_dma.o: ../Inc/Common_Task.h
 last222\stm32f4xx_hal_dma.o: ../Inc/NI_MING.h
 last222\stm32f4xx_hal_dma.o: ../Inc/Get_Shoot_Info.h
 last222\stm32f4xx_hal_dma.o: ../Inc/Shoot_Task.h
+last222\stm32f4xx_hal_dma.o: ../Inc/Keyboard.h
+last222\stm32f4xx_hal_dma.o: ../Inc/Car_num.h
 last222\stm32f4xx_hal_dma.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h
 last222\stm32f4xx_hal_dma.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 last222\stm32f4xx_hal_dma.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h

@@ -50,6 +50,7 @@ last222\usart.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups
 last222\usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 last222\usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 last222\usart.o: ../Inc/Mode_Switch_Task.h
+last222\usart.o: ../Inc/Ramp.h
 last222\usart.o: ../Inc/Can_Send_Task.h
 last222\usart.o: ../Inc/Get_Gimbal_Info.h
 last222\usart.o: ../Inc/Get_Chassis_Info.h
@@ -58,8 +59,9 @@ last222\usart.o: ../Inc/Usart.h
 last222\usart.o: ../Inc/Chassis_Task.h
 last222\usart.o: ../Inc/Gimbal_Task.h
 last222\usart.o: ../Inc/PID.h
-last222\usart.o: ../Inc/Ramp.h
 last222\usart.o: ../Inc/Common_Task.h
 last222\usart.o: ../Inc/NI_MING.h
 last222\usart.o: ../Inc/Get_Shoot_Info.h
 last222\usart.o: ../Inc/Shoot_Task.h
+last222\usart.o: ../Inc/Keyboard.h
+last222\usart.o: ../Inc/Car_num.h

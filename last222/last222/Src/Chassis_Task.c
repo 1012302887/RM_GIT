@@ -1,10 +1,10 @@
 #include "main.h"
 #include "math.h"
 /* chassis task global parameter */
+ramp_t FBSpeedRamp = RAMP_GEN_DAFAULT;
+ramp_t LRSpeedRamp = RAMP_GEN_DAFAULT;
 chassis_t chassis = {0};//储存底盘处理各项信息的结构体
 static float d_theta = 0;
-ramp_t FBSpeedRamp;//前后
-ramp_t LRSpeedRamp;//左右
 extern osThreadId CAN_SEND_TASKHandle;
 extern osThreadId GET_CHASSIS_INFHandle;
 /* 底盘定时任务*/

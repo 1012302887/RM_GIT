@@ -12,6 +12,7 @@
 #include "stm32f4xx_hal_uart.h"
 #include "stm32f4xx_hal_dma.h"
 #include "Mode_Switch_Task.h"
+#include "Ramp.h"
 #include "Can_Send_Task.h"
 #include "Get_Gimbal_Info.h"
 #include "Get_Chassis_Info.h"
@@ -20,11 +21,12 @@
 #include "Chassis_Task.h"
 #include "Gimbal_Task.h"
 #include "PID.h"
-#include "Ramp.h"
 #include "Common_Task.h"
 #include "NI_MING.h"
 #include "Get_Shoot_Info.h"
 #include "Shoot_Task.h"
+#include "Keyboard.h"
+#include "Car_num.h"
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */

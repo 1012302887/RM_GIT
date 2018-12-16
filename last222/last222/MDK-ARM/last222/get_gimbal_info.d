@@ -50,6 +50,7 @@ last222\get_gimbal_info.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/ev
 last222\get_gimbal_info.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 last222\get_gimbal_info.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 last222\get_gimbal_info.o: ../Inc/Mode_Switch_Task.h
+last222\get_gimbal_info.o: ../Inc/Ramp.h
 last222\get_gimbal_info.o: ../Inc/Can_Send_Task.h
 last222\get_gimbal_info.o: ../Inc/Get_Gimbal_Info.h
 last222\get_gimbal_info.o: ../Inc/Get_Chassis_Info.h
@@ -58,8 +59,9 @@ last222\get_gimbal_info.o: ../Inc/Usart.h
 last222\get_gimbal_info.o: ../Inc/Chassis_Task.h
 last222\get_gimbal_info.o: ../Inc/Gimbal_Task.h
 last222\get_gimbal_info.o: ../Inc/PID.h
-last222\get_gimbal_info.o: ../Inc/Ramp.h
 last222\get_gimbal_info.o: ../Inc/Common_Task.h
 last222\get_gimbal_info.o: ../Inc/NI_MING.h
 last222\get_gimbal_info.o: ../Inc/Get_Shoot_Info.h
 last222\get_gimbal_info.o: ../Inc/Shoot_Task.h
+last222\get_gimbal_info.o: ../Inc/Keyboard.h
+last222\get_gimbal_info.o: ../Inc/Car_num.h

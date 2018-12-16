@@ -1,4 +1,6 @@
 #include "main.h"
+extern uint8_t auto_shoot;
+extern uint32_t turn_time_last;
 void Get_Shoot_Info(void const * argument)
 {
 	osEvent event;
@@ -18,8 +20,9 @@ void Get_Shoot_Info(void const * argument)
 				}
 				/* get remote and keyboard trig and friction wheel control information */
 				remote_ctrl_shoot_hook();
+				keyboard_shoot_hook();
      }
-   }
+   } 
  }
 }
 void send_shoot_motor_ctrl_message(int16_t shoot_cur[])
@@ -40,4 +43,26 @@ void remote_ctrl_shoot_hook(void)
 	{
 		shoot.mode = RC_CtrlData.rc.s2;
 	}		
+}
+void keyboard_shoot_hook(void)
+{
+	if((RC_CtrlData.key.v & F) && (handler_run_time -turn_time_last>350))																
+	{
+		turn_time_last = handler_run_time;
+		
+		if(shoot.fric.switching == ON)
+			shoot.fric.switching  = OFF;
+		else
+			shoot.fric.switching  = ON;
+	}
+	
+	if((RC_CtrlData.mouse.press_l == 1) && (shoot.fric.switching == ON))
+	{
+		shoot.trig.switching = ON;
+	}
+	else
+	{
+		shoot.trig.switching = OFF;
+	}
+	
 }

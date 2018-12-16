@@ -4,6 +4,7 @@
 void Get_Gimbal_Info(void const * argument);
 void get_gimbal_info(void);
 void remote_ctrl_gimbal_hook(void);
+void keyboard_gimbal_hook(void);
 void GimbalAngleLimit(void);
 void send_gimbal_motor_ctrl_message(int16_t gimbal_cur[]);
 /* gimbal remote control angle factor */

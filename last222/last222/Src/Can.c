@@ -1,9 +1,3 @@
-/*************主要功能*************/
-/*
-
-
-
-*/
 #include "main.h"
 CAN_HandleTypeDef hcan1;
 CAN_HandleTypeDef hcan2;

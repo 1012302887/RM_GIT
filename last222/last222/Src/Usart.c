@@ -24,6 +24,7 @@ int fputc(int ch, FILE *f)
 uint8_t rc_RxBuffer[RECEIVELEN];
 uint8_t Rx_data[8];
 RC_Ctl_t RC_CtrlData = {0};
+pc_data_t pc_data = {0};//
 
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
