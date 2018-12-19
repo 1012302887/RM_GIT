@@ -122,8 +122,6 @@ void USART2_IRQHandler(void)
 		if((RECEIVELEN - temp) == 18)
 		{
 			Get_Remote_info(&RC_CtrlData ,rc_RxBuffer);
-			//Ni_Ming(0xf1,RC_CtrlData.rc.ch0,RC_CtrlData.rc.ch1,RC_CtrlData.rc.ch2,RC_CtrlData.rc.ch3);
-			//Ni_Ming(0xf2,RC_CtrlData.rc.s1,RC_CtrlData.rc.s2,ctrl_mode,0);
 		}
 		HAL_UART_Receive_DMA(&huart2, (uint8_t *)rc_RxBuffer, RECEIVELEN);
 		SET_BIT(huart2.Instance->CR1, USART_CR1_IDLEIE);
@@ -132,7 +130,7 @@ void USART2_IRQHandler(void)
 		__HAL_DMA_ENABLE(huart2.hdmarx);
 	} 
 }
-
+extern uint32_t pc_i;
 void USART6_IRQHandler(void)
 {
 	if (__HAL_UART_GET_FLAG(&huart6, UART_FLAG_IDLE) && 
@@ -141,14 +139,33 @@ void USART6_IRQHandler(void)
       uint16_t tmp = huart6.Instance->DR;
       tmp = huart6.Instance->SR;
       tmp--;
-      //CLEAR_BIT(huart2.Instance->SR, USART_SR_IDLE);
 			__HAL_DMA_DISABLE(huart6.hdmarx);
      	temp = huart6.hdmarx->Instance->NDTR;  
 			if((RECEIVELEN - temp) == 7)
 			{
 				if(Rx_data[0]==0xaa && Rx_data[1]==0xbb)
 				{
-				                                                                                                                            
+				  pc_data.raw_pit_angle = Rx_data[2]<<8 | Rx_data[1];  //pit
+					pc_data.raw_yaw_angle = Rx_data[4]<<8 | Rx_data[3];	 //yaw		
+					pc_data.dynamic_pit = (float)pc_data.raw_pit_angle / 100.0f; //pit动态角度
+					pc_data.dynamic_yaw = (float)pc_data.raw_yaw_angle / 100.0f; //yaw
+					pc_data.last_star_shoot = pc_data.star_shoot;
+					pc_data.star_shoot = Rx_data[5];    
+					if(Rx_data[5]==1)
+					{
+					pc_data.last_times = pc_data.now_times;
+					pc_data.now_times = pc_data.last_times;
+					pc_data.last_dynamic_pit = pc_data.dynamic_pit;
+					pc_data.last_dynamic_yaw = pc_data.dynamic_yaw;
+						
+					pc_data.dynamic_yaw += AUTOSHOOT_X_OFFSET;//偏移量
+						
+					pc_data.v_last = pc_data.v_now;
+					pc_data.last_coordinate = pc_data.coordinate;
+					pc_data.coordinate = pc_data.yaw_befoer[(pc_i+ 1)%100] - pc_data.dynamic_yaw;
+					/*目标移动速度*/
+				  pc_data.v_now = (pc_data.coordinate - pc_data.last_coordinate) / (pc_data.now_times - pc_data.last_times);	
+					}
 				}
 			}
 			 DMA2->LIFCR = DMA_FLAG_DMEIF1_5 | DMA_FLAG_FEIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TCIF1_5 | DMA_FLAG_TEIF1_5;

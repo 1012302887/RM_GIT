@@ -20,13 +20,17 @@ void Shoot_Task(void const * argument)
 					case REMOTE_CTRL:
 						shoot_remote_handler();
 					break;
-					default:
+					case KEYBOR_CTRL:
+						shoot_keyboard_handler();
+						pid_fric_spd[0].i = 0;
+						pid_fric_spd[1].i = 0;
+					break;
+				 default:
 					break;
 				}
-				
 				if(shoot.heat > shoot.trig.max_ref)
 				{shoot.trig.spd_ref = 0;}
-
+				
 				glb_cur.shoot_cur[0] = chassis_pid_calc(&pid_fric_spd[0], shoot.fric.fric_wheel_spd_fdb[0], -shoot.fric.fric_wheel_spd_ref[0] * 28.571248f);
 				glb_cur.shoot_cur[1] = chassis_pid_calc(&pid_fric_spd[1], shoot.fric.fric_wheel_spd_fdb[1],  shoot.fric.fric_wheel_spd_ref[1] * 28.571248f);
 				glb_cur.shoot_cur[2] = chassis_pid_calc(&pid_trigger_spd, shoot.trig.trig_spd, shoot.trig.spd_ref);				
@@ -55,6 +59,70 @@ void shoot_remote_handler(void)
 	}
 }
 
+void shoot_keyboard_handler(void)
+{
+	if(shoot.fric.switching == ON)
+	{
+		if(RC_CtrlData.key.v & B)
+		{
+			shoot.fric.fric_wheel_spd_ref[0] = shoot.fric.fric_wheel_spd_ref[1] = 16;
+		}
+		else
+		{
+			shoot.fric.fric_wheel_spd_ref[0] = shoot.fric.fric_wheel_spd_ref[1] = 14;
+		}
+	}
+	else
+	{
+		shoot.fric.fric_wheel_spd_ref[0] = shoot.fric.fric_wheel_spd_ref[1] = 0;
+	}
+	
+	if(shoot.trig.switching == ON)
+	{
+		switch (shoot.level)
+	  {		
+		 case Lv_3:
+			 if(shoot.buff & FIVEFOLD_HEAT)
+			 {
+				 shoot.trig.spd_ref = -15;
+			 }
+			 else
+			 {
+				shoot.trig.spd_ref = -6;
+			 }				 
+		 break;
+		
+		 case Lv_2:
+			 shoot.trig.max_ref = 210;
+			 if(shoot.buff & FIVEFOLD_HEAT)
+			 {
+				 shoot.trig.spd_ref = -10;
+			 }
+			 else
+			 {
+				 shoot.trig.spd_ref = -4;  //4
+			 }
+		 break;
+		
+		 default:
+			 shoot.trig.max_ref = 100;
+			 if(shoot.buff & FIVEFOLD_HEAT)
+			 {
+				 shoot.trig.spd_ref = -6;
+			 }
+			 else
+			 {
+				 shoot.trig.spd_ref = -2; //2~3
+			 }
+		 break;
+	  }
+	}
+	else
+	{
+		shoot.trig.spd_ref = 0;
+	}
+	shoot.get_pos = 1;
+}
 void Shoot_Param_Init(void)
 {
 		 for (int k = 0; k < 2; k++)

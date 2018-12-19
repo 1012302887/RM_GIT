@@ -412,11 +412,6 @@
               <FileType>1</FileType>
               <FilePath>../Src/stm32f4xx_hal_msp.c</FilePath>
             </File>
-            <File>
-              <FileName>NI_MING.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\NI_MING.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -568,9 +563,19 @@
           <GroupName>Task</GroupName>
           <Files>
             <File>
+              <FileName>Commom_Task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\Commom_Task.c</FilePath>
+            </File>
+            <File>
               <FileName>Get_Gimbal_Info.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\Get_Gimbal_Info.c</FilePath>
+            </File>
+            <File>
+              <FileName>Gimbal_Task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\Gimbal_Task.c</FilePath>
             </File>
             <File>
               <FileName>Mode_Switch_Task.c</FileName>
@@ -586,16 +591,6 @@
               <FileName>Chassis_Task.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\Chassis_Task.c</FilePath>
-            </File>
-            <File>
-              <FileName>Gimbal_Task.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\Gimbal_Task.c</FilePath>
-            </File>
-            <File>
-              <FileName>Commom_Task.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\Commom_Task.c</FilePath>
             </File>
             <File>
               <FileName>Get_Shoot_Info.c</FileName>
@@ -686,6 +681,16 @@
               <FileName>Car_num.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Inc\Car_num.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>NI_MING</GroupName>
+          <Files>
+            <File>
+              <FileName>NI_MING.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\NI_MING.c</FilePath>
             </File>
           </Files>
         </Group>

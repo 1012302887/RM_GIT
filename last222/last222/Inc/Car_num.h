@@ -12,6 +12,8 @@
 	#define 			OPEN_COVER		      888
 	#define  			CLOSE_COVER         1766
   #define				AUTOSHOOT_X_OFFSET  -2
+	#define       MOTO_YAW_OFFSET_ECD  3100
+	#define       MOTO_PIT_OFFSET_ECD  847
 #else
 	#define 			OPEN_COVER		      1300
 	#define  			CLOSE_COVER         2150

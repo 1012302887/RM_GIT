@@ -141,7 +141,7 @@ void keyboard_chassis_hook(void)
 		}
 		
 		/*********** chassis mode is waist ***********/
-		if((RC_CtrlData.key.v & CTRL_) && (handler_run_time -turn_time_last>350))																
+		if((RC_CtrlData.key.v & CTRL_) && (handler_run_time -turn_time_last>350)) // Gimbal_Task "handler_run_time++"													
 		{
 			turn_time_last = handler_run_time;
 			

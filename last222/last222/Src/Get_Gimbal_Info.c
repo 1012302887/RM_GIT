@@ -14,8 +14,6 @@ void Get_Gimbal_Info(void const * argument)
 			  taskENTER_CRITICAL();
 				get_gimbal_info();
 			  taskEXIT_CRITICAL();
-				//Ni_Ming(0xf1,moto_friction[0].ecd,moto_friction[1].ecd,moto_trigger.ecd,0);
-			  //Ni_Ming(0xf2,gyro_data.pitch,gyro_data.yaw,0,0);
 		}
 	}
 }
@@ -74,13 +72,11 @@ void keyboard_gimbal_hook(void)
 		if(auto_shoot == 1)
 		{	
 			pid_yaw.p = 20;
-			pid_calc(&pid_auto_pit, pc_data.filter_pit, 0);
 			if(RC_CtrlData.key.v & Q )      {add_angle += 0.01f;}
 			else if(RC_CtrlData.key.v & E ) {add_angle -= 0.01f;}
 			else {add_angle = 0;}
 			gim.pid.yaw_angle_ref  = pc_data.filter_yaw-RC_CtrlData.mouse.x*0.2f+add_angle;	
 			gim.pid.pit_angle_ref += RC_CtrlData.mouse.y * MOUSE_TO_PITCH_ANGLE_INC_FACT ;
-	//		gim.pid.pit_angle_ref -= pid_auto_pit.out;
 		}
 		else if(gim.ctrl_mode == GIMBAL_SUPPLY)
 		{
@@ -107,7 +103,7 @@ void keyboard_gimbal_hook(void)
 	}
 		     
 	/* car is or is not supply state */
-  if((RC_CtrlData.key.v & Z) && (handler_run_time -turn_time_last>350))																
+  if((RC_CtrlData.key.v & Z) && (handler_run_time -turn_time_last>350))	// Gimbal_Task "handler_run_time++"												
 	{
 		turn_time_last = handler_run_time;
 		
@@ -172,7 +168,7 @@ void GimbalAngleLimit(void)
 }
 void send_gimbal_motor_ctrl_message(int16_t gimbal_cur[])
 {
-  /* 0: yaw motor current
+    /* 0: yaw motor current
      1: pitch motor current
      2: trigger motor current*/
   send_gimbal_cur(-gimbal_cur[0], gimbal_cur[1], gimbal_cur[2]);

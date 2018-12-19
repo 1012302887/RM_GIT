@@ -56,6 +56,7 @@ typedef __packed struct
 
 void Shoot_Task(void const * argument);
 void shoot_remote_handler(void);
+void shoot_keyboard_handler(void);
 void Shoot_Param_Init(void);
 
 extern shoot_t shoot;

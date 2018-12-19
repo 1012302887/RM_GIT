@@ -33,16 +33,12 @@ void send_shoot_motor_ctrl_message(int16_t shoot_cur[])
   send_shoot_cur(shoot_cur[0], shoot_cur[1], shoot_cur[2]);
 }
 void remote_ctrl_shoot_hook(void)
-{
-	if(shoot.mode == REMOTE_CTRL)
+{	
+	if(ctrl_mode == REMOTE_CTRL)
 	{
 		shoot.fric.switching = RC_CtrlData.rc.s1;
 		shoot.mode = RC_CtrlData.rc.s2;
 	}
-	else if(shoot.mode != SHOOT_BUFF)
-	{
-		shoot.mode = RC_CtrlData.rc.s2;
-	}		
 }
 void keyboard_shoot_hook(void)
 {
