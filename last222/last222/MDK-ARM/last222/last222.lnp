@@ -1,9 +1,5 @@
 --cpu=Cortex-M4.fp
 "last222\startup_stm32f407xx.o"
-"last222\main.o"
-"last222\freertos.o"
-"last222\stm32f4xx_it.o"
-"last222\stm32f4xx_hal_msp.o"
 "last222\stm32f4xx_hal_can.o"
 "last222\stm32f4xx_hal_tim.o"
 "last222\stm32f4xx_hal_tim_ex.o"
@@ -20,7 +16,6 @@
 "last222\stm32f4xx_hal_pwr_ex.o"
 "last222\stm32f4xx_hal_cortex.o"
 "last222\stm32f4xx_hal.o"
-"last222\system_stm32f4xx.o"
 "last222\heap_4.o"
 "last222\port.o"
 "last222\croutine.o"
@@ -30,6 +25,11 @@
 "last222\tasks.o"
 "last222\timers.o"
 "last222\cmsis_os.o"
+"last222\system_stm32f4xx.o"
+"last222\main.o"
+"last222\freertos.o"
+"last222\stm32f4xx_it.o"
+"last222\stm32f4xx_hal_msp.o"
 "last222\commom_task.o"
 "last222\get_gimbal_info.o"
 "last222\gimbal_task.o"
@@ -46,7 +46,9 @@
 "last222\keyboard.o"
 "last222\car_num.o"
 "last222\ni_ming.o"
---library_type=microlib --strict --scatter "last222\last222.sct"
+"last222\matrix.o"
+"last222\kalman.o"
+--library_type=microlib --nodebug --strict --scatter "last222\last222.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list "last222.map" -o last222\last222.axf

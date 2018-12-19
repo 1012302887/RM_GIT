@@ -66,7 +66,7 @@ void keyboard_chassis_hook(void)
 			forward_back_speed = 30.0f;
 			left_right_speed   = 30.0f;
 		}
-		else if(RC_CtrlData.key.v & SHIFT)																	
+		else if(RC_CtrlData.key.v & SHIFT_KEY)																	
 		{
 			forward_back_speed = HIGH_FORWARD_BACK_SPEED;
 			left_right_speed 	 = HIGH_LEFT_RIGHT_SPEED;
@@ -83,11 +83,11 @@ void keyboard_chassis_hook(void)
 		}
 		
 		/*********** get forward chassis wheel ref speed ***********/
-		if(RC_CtrlData.key.v & W)
+		if(RC_CtrlData.key.v & W_KEY)
 		{
 			chassis.vx_offset =  forward_back_speed * ramp_calc(&FBSpeedRamp);
 		}
-		else if(RC_CtrlData.key.v & S)
+		else if(RC_CtrlData.key.v & S_KEY)
 		{
 			chassis.vx_offset = -forward_back_speed * ramp_calc(&FBSpeedRamp);
 		}
@@ -98,11 +98,11 @@ void keyboard_chassis_hook(void)
 		}
 		
 		/*********** get rightward chassis wheel ref speed ***********/
-		if(RC_CtrlData.key.v & A)
+		if(RC_CtrlData.key.v & A_KEY)
 		{
 			chassis.vy_offset = -left_right_speed * ramp_calc(&LRSpeedRamp);
 		}
-		else if(RC_CtrlData.key.v & D)
+		else if(RC_CtrlData.key.v & D_KEY)
 		{
 			chassis.vy_offset = left_right_speed * ramp_calc(&LRSpeedRamp);
 		}
@@ -113,7 +113,7 @@ void keyboard_chassis_hook(void)
 		}
 		
 		/*********** get chassis rotate ref ***********/
-		if(RC_CtrlData.key.v & Q && auto_shoot != 1)
+		if(RC_CtrlData.key.v & Q_KEY && auto_shoot != 1)
 		{
 			if(gim.ctrl_mode == GIMBAL_SUPPLY)
 			{
@@ -124,7 +124,7 @@ void keyboard_chassis_hook(void)
 				gim.pid.yaw_angle_ref += CHASSIS_ROTATE_FACT;
 			}
 		}
-		else if(RC_CtrlData.key.v & E && auto_shoot != 1)
+		else if(RC_CtrlData.key.v & E_KEY && auto_shoot != 1)
 		{
 			if(gim.ctrl_mode == GIMBAL_SUPPLY)
 			{
@@ -141,7 +141,7 @@ void keyboard_chassis_hook(void)
 		}
 		
 		/*********** chassis mode is waist ***********/
-		if((RC_CtrlData.key.v & CTRL_) && (handler_run_time -turn_time_last>350)) // Gimbal_Task "handler_run_time++"													
+		if((RC_CtrlData.key.v & CTRL_KEY) && (handler_run_time -turn_time_last>350)) // Gimbal_Task "handler_run_time++"													
 		{
 			turn_time_last = handler_run_time;
 			

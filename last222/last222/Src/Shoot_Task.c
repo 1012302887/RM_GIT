@@ -63,7 +63,7 @@ void shoot_keyboard_handler(void)
 {
 	if(shoot.fric.switching == ON)
 	{
-		if(RC_CtrlData.key.v & B)
+		if(RC_CtrlData.key.v & B_KEY)
 		{
 			shoot.fric.fric_wheel_spd_ref[0] = shoot.fric.fric_wheel_spd_ref[1] = 16;
 		}

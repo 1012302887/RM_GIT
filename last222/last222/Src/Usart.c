@@ -160,11 +160,14 @@ void USART6_IRQHandler(void)
 						
 					pc_data.dynamic_yaw += AUTOSHOOT_X_OFFSET;//偏移量
 						
+				/*暂时没有用上这部分*/
 					pc_data.v_last = pc_data.v_now;
 					pc_data.last_coordinate = pc_data.coordinate;
 					pc_data.coordinate = pc_data.yaw_befoer[(pc_i+ 1)%100] - pc_data.dynamic_yaw;
 					/*目标移动速度*/
 				  pc_data.v_now = (pc_data.coordinate - pc_data.last_coordinate) / (pc_data.now_times - pc_data.last_times);	
+				/*暂时没有用上这部分*/
+						
 					}
 				}
 			}

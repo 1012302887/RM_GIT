@@ -42,7 +42,7 @@ void remote_ctrl_shoot_hook(void)
 }
 void keyboard_shoot_hook(void)
 {
-	if((RC_CtrlData.key.v & F) && (handler_run_time -turn_time_last>350))																
+	if((RC_CtrlData.key.v & F_KEY) && (handler_run_time -turn_time_last>350))																
 	{
 		turn_time_last = handler_run_time;
 		

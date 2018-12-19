@@ -159,7 +159,7 @@ void  HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 			}break;
 			case CAN_PIT_MOTOR_ID:
 			{
-				moto_pit.offset_ecd = MOTO_PIT_OFFSET_ECD ;		//电机初始值，需要自行修改。
+			moto_pit.offset_ecd = MOTO_PIT_OFFSET_ECD ;		//电机初始值，需要自行修改。
 				encoder_data_handler(&moto_pit, DATA);
 				
 				#if (0)//不同小车，需要修改

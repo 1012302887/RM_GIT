@@ -32,7 +32,7 @@ void get_gimbal_info(void)
 		gim.sensor.yaw_relative_angle = gyro_data.yaw   - gim.sensor.yaw_offset_angle;
 		gim.sensor.pit_relative_angle = gyro_data.pitch - gim.sensor.pit_offset_angle;//gim.sensor.pit_offset_angle暂时为0
 		
-		pid_yaw.p = 5;
+		//pid_yaw.p = 5;
 
 		ramp_init(&pit_ramp, PIT_PREPARE_TIMS_MS);
 		ramp_init(&yaw_ramp, YAW_PREPARE_TIMS_MS);
@@ -64,78 +64,88 @@ void keyboard_gimbal_hook(void)
 {	
 	if((gim.ctrl_mode != GIMBAL_INIT) && (ctrl_mode == KEYBOR_CTRL))
 	{
-		VAL_LIMIT(RC_CtrlData.mouse.x, -128, 128); 
-		VAL_LIMIT(RC_CtrlData.mouse.y, -18, 32);   
-		/* get remote gimbal info */
-		pc_i++;
-		pc_data.yaw_befoer[pc_i%100] = gim.sensor.yaw_relative_angle; 
-		if(auto_shoot == 1)
-		{	
-			pid_yaw.p = 20;
-			if(RC_CtrlData.key.v & Q )      {add_angle += 0.01f;}
-			else if(RC_CtrlData.key.v & E ) {add_angle -= 0.01f;}
-			else {add_angle = 0;}
-			gim.pid.yaw_angle_ref  = pc_data.filter_yaw-RC_CtrlData.mouse.x*0.2f+add_angle;	
-			gim.pid.pit_angle_ref += RC_CtrlData.mouse.y * MOUSE_TO_PITCH_ANGLE_INC_FACT ;
-		}
-		else if(gim.ctrl_mode == GIMBAL_SUPPLY)
-		{
-			gim.pid.yaw_angle_ref	 = 0;
-			gim.pid.pit_angle_ref += RC_CtrlData.mouse.y * MOUSE_TO_PITCH_ANGLE_INC_FACT;
-		}
-		else if(gim.ctrl_mode == GIMBAL_SHOOT_BUFF)
-		{
-//			RC_CtrlData.mouse.x = 0;
-//			RC_CtrlData.mouse.y = 0;
-		}
+			VAL_LIMIT(RC_CtrlData.mouse.x, -128, 128); 
+			VAL_LIMIT(RC_CtrlData.mouse.y, -18, 32); 
+			
+			/* get remote gimbal info */
+			pc_i++;
+			pc_data.yaw_befoer[pc_i%100] = gim.sensor.yaw_relative_angle; 
+			/* get remote gimbal info */
+			
+			/* 自瞄部分 */
+			if(auto_shoot == 1)
+			{	
+				pid_yaw.p = 20;
+				if(RC_CtrlData.key.v & Q_KEY)      {add_angle += 0.01f;}
+				else if(RC_CtrlData.key.v & E_KEY ) {add_angle -= 0.01f;}
+				else {add_angle = 0;}
+				gim.pid.yaw_angle_ref  = pc_data.dynamic_yaw-RC_CtrlData.mouse.x*0.2f+add_angle;	
+				gim.pid.pit_angle_ref += RC_CtrlData.mouse.y * MOUSE_TO_PITCH_ANGLE_INC_FACT ;
+			}
+			/* 自瞄部分 */
+		
+			else if(gim.ctrl_mode == GIMBAL_SUPPLY)
+			{
+				gim.pid.yaw_angle_ref	 = 0;
+				gim.pid.pit_angle_ref += RC_CtrlData.mouse.y * MOUSE_TO_PITCH_ANGLE_INC_FACT;
+			}
+			
+			else if(gim.ctrl_mode == GIMBAL_SHOOT_BUFF)
+			{
+	//			RC_CtrlData.mouse.x = 0;
+	//			RC_CtrlData.mouse.y = 0;
+			}
+		
+		/* 正常模式 */
 		else 
-		{
-			pc_data.v_now_i = 0;
-			pid_yaw.p = 10;
-			gim.pid.yaw_angle_ref -= RC_CtrlData.mouse.x * MOUSE_TO_YAW_ANGLE_INC_FACT  ;//+ shoot_buff_data.dynamic_yaw * 0.015f;
-			gim.pid.pit_angle_ref += RC_CtrlData.mouse.y * MOUSE_TO_PITCH_ANGLE_INC_FACT ;//+ shoot_buff_data.dynamic_pit * 0.015f;
-		}
+			{
+				pc_data.v_now_i = 0;
+				pid_yaw.p = 10;
+				gim.pid.yaw_angle_ref -= RC_CtrlData.mouse.x * MOUSE_TO_YAW_ANGLE_INC_FACT  ;//+ shoot_buff_data.dynamic_yaw * 0.015f;
+				gim.pid.pit_angle_ref += RC_CtrlData.mouse.y * MOUSE_TO_PITCH_ANGLE_INC_FACT ;//+ shoot_buff_data.dynamic_pit * 0.015f;
+			}
+			/* 正常模式 */
 	}	
 	else
 	{
-		RC_CtrlData.mouse.x = 0;
-		RC_CtrlData.mouse.y = 0;
+			RC_CtrlData.mouse.x = 0;
+			RC_CtrlData.mouse.y = 0;
 	}
 		     
 	/* car is or is not supply state */
-  if((RC_CtrlData.key.v & Z) && (handler_run_time -turn_time_last>350))	// Gimbal_Task "handler_run_time++"												
+  if((RC_CtrlData.key.v & Z_KEY) && (handler_run_time -turn_time_last>350))	// Gimbal_Task "handler_run_time++"												
 	{
-		turn_time_last = handler_run_time;
-		
-		if(gim.ctrl_mode == GIMBAL_NORMAL)
-		{	
-			HATCH_COVER   = OPEN_COVER;
-			gim.ctrl_mode = GIMBAL_SUPPLY;
-		}
-		else
-		{
-			HATCH_COVER   = CLOSE_COVER;
-			gim.ctrl_mode = GIMBAL_NORMAL;
-		}
+			turn_time_last = handler_run_time;
+			
+			if(gim.ctrl_mode == GIMBAL_NORMAL)
+			{	
+				HATCH_COVER   = OPEN_COVER;
+				gim.ctrl_mode = GIMBAL_SUPPLY;
+			}
+			else
+			{
+				HATCH_COVER   = CLOSE_COVER;
+				gim.ctrl_mode = GIMBAL_NORMAL;
+			}
 	}
 	
 	/* car is or is not shoot_buff state */
-	if((RC_CtrlData.key.v & R) && (handler_run_time -turn_time_last>350))																
+	if((RC_CtrlData.key.v & R_KEY) && (handler_run_time -turn_time_last>350))																
 	{
-		turn_time_last = handler_run_time;
-		
-		if(gim.ctrl_mode == GIMBAL_NORMAL)
-		{	
-			gim.ctrl_mode = GIMBAL_SHOOT_BUFF;
-			shoot.mode    = SHOOT_BUFF;
-			pc_data.shoot_data = 1;
-		}
-		else
-		{
-			gim.ctrl_mode = GIMBAL_NORMAL;
-			shoot.mode    = KEYBOR_CTRL;
-			pc_data.shoot_data = 0;
-		}
+			turn_time_last = handler_run_time;
+			
+			if(gim.ctrl_mode == GIMBAL_NORMAL)
+			{	
+				gim.ctrl_mode = GIMBAL_SHOOT_BUFF;
+				shoot.mode    = SHOOT_BUFF;
+				pc_data.shoot_data = 1;
+			}
+			else
+			{
+				gim.ctrl_mode = GIMBAL_NORMAL;
+				shoot.mode    = KEYBOR_CTRL;
+				pc_data.shoot_data = 0;
+			}
 	}
 	
 	/* car is or is not autushoot */
