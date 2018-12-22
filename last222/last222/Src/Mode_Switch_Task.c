@@ -22,10 +22,9 @@ void Mode_Switch_Task(void const * argument)
 	osTimerStart(chassis_timer_id ,4);
 	osTimerStart(gimbal_timer_id  ,1);
 	osTimerStart(shoot_timer_id  ,1);
-	
 	uint32_t mode_wake_time = osKernelSysTick();
 	for(;;)
-	{
+	{ 
 		/* uint32_t  is :4294967295 ms
 								 is :4294967    s
 								 is :71582      min

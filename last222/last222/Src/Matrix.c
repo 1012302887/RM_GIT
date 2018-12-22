@@ -1,10 +1,15 @@
 //==============       该文件矩阵均采用一维数组, 以提高效率      =============//
 /* Includes ------------------------------------------------------------------*/
-#include "main.h"	
-#include "kalman.h"	
-#include "matrix.h"	
-#include <math.h>		
+#include "stm32f4xx_hal.h"
+#include "arm_math.h"
 
+#define mat         arm_matrix_instance_f32 
+#define mat_init    arm_mat_init_f32
+#define mat_add     arm_mat_add_f32
+#define mat_sub     arm_mat_sub_f32
+#define mat_mult    arm_mat_mult_f32
+#define mat_trans   arm_mat_trans_f32
+#define mat_inv     arm_mat_inverse_f32
 
 /*单独使用需调用的头文件
 #include  "matrix.h"
@@ -280,7 +285,7 @@ unsigned char Gauss_Jordan(float *a, unsigned char n)
           { l=i*n+j; p=fabs(a[l]);
             if (p>d) { d=p; is[k]=i; js[k]=j;}
           }
-        if (d+1.0f==1.0f)
+        if (d+1.0==1.0)
           {
             return(0);
           }
@@ -295,7 +300,7 @@ unsigned char Gauss_Jordan(float *a, unsigned char n)
               p=a[u]; a[u]=a[v]; a[v]=p;
             }
         l=k*n+k;
-        a[l]=1.0f/a[l];
+        a[l]=1.0/a[l];
         for (j=0; j<=n-1; j++)
           if (j!=k)
             { u=k*n+j; a[u]=a[u]*a[l];}

@@ -73,6 +73,7 @@ typedef struct
 	uint8_t shoot_data;
 } pc_data_t;
 extern pc_data_t pc_data;
+extern uint8_t Send_Pc_Data[4]; 
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart6;
@@ -84,4 +85,5 @@ void MX_USART1_UART_Init(void);
 void MX_USART2_UART_Init(void);
 void MX_USART6_UART_Init(void);
 void Get_Remote_info(RC_Ctl_t *rc, uint8_t *pData);
+void USART6_Transmit(void);
 #endif

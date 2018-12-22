@@ -1,11 +1,5 @@
 last222\time.o: ..\Src\Time.c
 last222\time.o: ../Inc/main.h
-last222\time.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
-last222\time.o: ../Inc/stm32f4xx_hal_conf.h
-last222\time.o: ../Inc/main.h
-last222\time.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h
-last222\time.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h
-last222\time.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 last222\time.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h
 last222\time.o: ../Drivers/CMSIS/Include/core_cm4.h
 last222\time.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -14,6 +8,12 @@ last222\time.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
 last222\time.o: ../Drivers/CMSIS/Include/core_cmFunc.h
 last222\time.o: ../Drivers/CMSIS/Include/core_cmSimd.h
 last222\time.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h
+last222\time.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
+last222\time.o: ../Inc/stm32f4xx_hal_conf.h
+last222\time.o: ../Inc/main.h
+last222\time.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h
+last222\time.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h
+last222\time.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 last222\time.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 last222\time.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
 last222\time.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
@@ -65,3 +65,4 @@ last222\time.o: ../Inc/Get_Shoot_Info.h
 last222\time.o: ../Inc/Shoot_Task.h
 last222\time.o: ../Inc/Keyboard.h
 last222\time.o: ../Inc/Car_num.h
+last222\time.o: ../Inc/Kalman.h

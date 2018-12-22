@@ -15,7 +15,7 @@ void Shoot_Task(void const * argument)
 {
     if(gim.ctrl_mode != GIMBAL_INIT)
     {
-				 switch (shoot.mode)
+				 switch (ctrl_mode)
 				{
 					case REMOTE_CTRL:
 						shoot_remote_handler();

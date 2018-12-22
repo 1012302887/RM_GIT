@@ -53,8 +53,8 @@
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
-          <DebugInformation>0</DebugInformation>
-          <BrowseInformation>0</BrowseInformation>
+          <DebugInformation>1</DebugInformation>
+          <BrowseInformation>1</BrowseInformation>
           <ListingPath></ListingPath>
           <HexFormatSelection>1</HexFormatSelection>
           <Merge32K>0</Merge32K>
@@ -336,7 +336,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_HAL_DRIVER,STM32F407xx</Define>
+              <Define>USE_HAL_DRIVER,STM32F407xx,ARM_MATH_CM4, __CC_ARM,__FPU_PRESENT</Define>
               <Undefine></Undefine>
               <IncludePath>../Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Drivers/CMSIS/Include</IncludePath>
             </VariousControls>
@@ -696,26 +696,59 @@
         </Group>
         <Group>
           <GroupName>Kalman</GroupName>
+        </Group>
+        <Group>
+          <GroupName>DSP_LIB</GroupName>
           <Files>
             <File>
-              <FileName>Matrix.c</FileName>
+              <FileName>arm_mat_init_f32.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Src\Matrix.c</FilePath>
+              <FilePath>..\Drivers\CMSIS\DSP_Lib\Source\MatrixFunctions\arm_mat_init_f32.c</FilePath>
             </File>
             <File>
-              <FileName>Kalman.c</FileName>
+              <FileName>arm_mat_add_f32.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Src\Kalman.c</FilePath>
+              <FilePath>..\Drivers\CMSIS\DSP_Lib\Source\MatrixFunctions\arm_mat_add_f32.c</FilePath>
             </File>
             <File>
-              <FileName>Matrix.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Inc\Matrix.h</FilePath>
+              <FileName>arm_mat_sub_f32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\CMSIS\DSP_Lib\Source\MatrixFunctions\arm_mat_sub_f32.c</FilePath>
             </File>
             <File>
-              <FileName>Kalman.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Inc\Kalman.h</FilePath>
+              <FileName>arm_mat_inverse_f32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\CMSIS\DSP_Lib\Source\MatrixFunctions\arm_mat_inverse_f32.c</FilePath>
+            </File>
+            <File>
+              <FileName>arm_mat_trans_f32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\CMSIS\DSP_Lib\Source\MatrixFunctions\arm_mat_trans_f32.c</FilePath>
+            </File>
+            <File>
+              <FileName>arm_mat_mult_f32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\CMSIS\DSP_Lib\Source\MatrixFunctions\arm_mat_mult_f32.c</FilePath>
+            </File>
+            <File>
+              <FileName>arm_cos_f32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\CMSIS\DSP_Lib\Source\FastMathFunctions\arm_cos_f32.c</FilePath>
+            </File>
+            <File>
+              <FileName>arm_sin_f32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\CMSIS\DSP_Lib\Source\FastMathFunctions\arm_sin_f32.c</FilePath>
+            </File>
+            <File>
+              <FileName>arm_common_tables.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\CMSIS\DSP_Lib\Source\CommonTables\arm_common_tables.c</FilePath>
+            </File>
+            <File>
+              <FileName>arm_const_structs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\CMSIS\DSP_Lib\Source\CommonTables\arm_const_structs.c</FilePath>
             </File>
           </Files>
         </Group>

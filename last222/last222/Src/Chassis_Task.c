@@ -1,5 +1,7 @@
 #include "main.h"
-#include "math.h"
+#include "arm_math.h"
+#define FPU_COS arm_cos_f32
+#define FPU_SIN arm_sin_f32
 /* chassis task global parameter */
 ramp_t FBSpeedRamp = RAMP_GEN_DAFAULT;
 ramp_t LRSpeedRamp = RAMP_GEN_DAFAULT;
@@ -10,6 +12,11 @@ extern osThreadId GET_CHASSIS_INFHandle;
 /* 底盘定时任务*/
 void Chassis_Task(void const *argument)
 {
+//			Send_Pc_Data[1] = (uint8_t) gyro_data.yaw;
+//			Send_Pc_Data[2] = (uint8_t) gyro_data.pitch;
+//			printf("%f",gyro_data.yaw);
+//	Ni_Ming(0xf1,gim.pid.pit_angle_fdb,gim.pid.yaw_angle_fdb,0,0);
+//	USART6_Transmit();
 	if(gim.ctrl_mode == GIMBAL_INIT)//chassis dose not follow gimbal when gimbal initializa
 	{
 		chassis.vw = 0;
@@ -58,8 +65,8 @@ void Chassis_Task(void const *argument)
 	}
 	d_theta /= -57.295;
 	
-	chassis.vx = chassis.vx_offset * cos(d_theta) - chassis.vy_offset * sin(d_theta);
-	chassis.vy = chassis.vx_offset * sin(d_theta) + chassis.vy_offset * cos(d_theta);
+	chassis.vx = chassis.vx_offset * FPU_COS(d_theta) - chassis.vy_offset * FPU_SIN(d_theta);
+	chassis.vy = chassis.vx_offset * FPU_SIN(d_theta) + chassis.vy_offset * FPU_COS(d_theta);
 	
 	chassis.wheel_spd_ref[0] = -chassis.vx + chassis.vy + chassis.vw;
 	chassis.wheel_spd_ref[1] =  chassis.vx + chassis.vy + chassis.vw;

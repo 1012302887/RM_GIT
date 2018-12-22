@@ -70,17 +70,17 @@ void keyboard_gimbal_hook(void)
 			/* get remote gimbal info */
 			pc_i++;
 			pc_data.yaw_befoer[pc_i%100] = gim.sensor.yaw_relative_angle; 
-			/* get remote gimbal info */
-			
 			/* 自瞄部分 */
 			if(auto_shoot == 1)
 			{	
-				pid_yaw.p = 20;
+				pid_yaw.p = 15;
 				if(RC_CtrlData.key.v & Q_KEY)      {add_angle += 0.01f;}
 				else if(RC_CtrlData.key.v & E_KEY ) {add_angle -= 0.01f;}
 				else {add_angle = 0;}
-				gim.pid.yaw_angle_ref  = pc_data.dynamic_yaw-RC_CtrlData.mouse.x*0.2f+add_angle;	
-				gim.pid.pit_angle_ref += RC_CtrlData.mouse.y * MOUSE_TO_PITCH_ANGLE_INC_FACT ;
+//				gim.pid.yaw_angle_ref  = pc_data.dynamic_yaw-RC_CtrlData.mouse.x*0.2f+add_angle;	
+//				gim.pid.pit_angle_ref += RC_CtrlData.mouse.y * MOUSE_TO_PITCH_ANGLE_INC_FACT ;
+				gim.pid.yaw_angle_ref = gim.sensor.yaw_relative_angle + pc_data.dynamic_yaw+add_angle;
+//				gim.pid.pit_angle_ref = pc_data.dynamic_pit;
 			}
 			/* 自瞄部分 */
 		

@@ -25,7 +25,7 @@ uint8_t rc_RxBuffer[RECEIVELEN];
 uint8_t Rx_data[8];
 RC_Ctl_t RC_CtrlData = {0};
 pc_data_t pc_data = {0};//
-
+uint8_t Send_Pc_Data[4]; 
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
 UART_HandleTypeDef huart6;
@@ -140,33 +140,35 @@ void USART6_IRQHandler(void)
       tmp = huart6.Instance->SR;
       tmp--;
 			__HAL_DMA_DISABLE(huart6.hdmarx);
-     	temp = huart6.hdmarx->Instance->NDTR;  
+     	temp = huart6.hdmarx->Instance->NDTR; 
 			if((RECEIVELEN - temp) == 7)
 			{
-				if(Rx_data[0]==0xaa && Rx_data[1]==0xbb)
+				if(Rx_data[0]==0xaa && Rx_data[6]==0xbb)
 				{
 				  pc_data.raw_pit_angle = Rx_data[2]<<8 | Rx_data[1];  //pit
 					pc_data.raw_yaw_angle = Rx_data[4]<<8 | Rx_data[3];	 //yaw		
 					pc_data.dynamic_pit = (float)pc_data.raw_pit_angle / 100.0f; //pit动态角度
 					pc_data.dynamic_yaw = (float)pc_data.raw_yaw_angle / 100.0f; //yaw
 					pc_data.last_star_shoot = pc_data.star_shoot;
-					pc_data.star_shoot = Rx_data[5];    
+					pc_data.star_shoot = Rx_data[5];   
+					printf("%f",pc_data.dynamic_yaw);					
 					if(Rx_data[5]==1)
 					{
+//						printf("%f",pc_data.dynamic_yaw);
 					pc_data.last_times = pc_data.now_times;
 					pc_data.now_times = pc_data.last_times;
 					pc_data.last_dynamic_pit = pc_data.dynamic_pit;
 					pc_data.last_dynamic_yaw = pc_data.dynamic_yaw;
 						
-					pc_data.dynamic_yaw += AUTOSHOOT_X_OFFSET;//偏移量
+//					pc_data.dynamic_yaw += AUTOSHOOT_X_OFFSET;//偏移量
 						
-				/*暂时没有用上这部分*/
-					pc_data.v_last = pc_data.v_now;
-					pc_data.last_coordinate = pc_data.coordinate;
-					pc_data.coordinate = pc_data.yaw_befoer[(pc_i+ 1)%100] - pc_data.dynamic_yaw;
-					/*目标移动速度*/
-				  pc_data.v_now = (pc_data.coordinate - pc_data.last_coordinate) / (pc_data.now_times - pc_data.last_times);	
-				/*暂时没有用上这部分*/
+//				/*暂时没有用上这部分*/
+//					pc_data.v_last = pc_data.v_now;
+//					pc_data.last_coordinate = pc_data.coordinate;
+//					pc_data.coordinate = pc_data.yaw_befoer[(pc_i+ 1)%100] - pc_data.dynamic_yaw;
+//					/*目标移动速度*/
+//				  pc_data.v_now = (pc_data.coordinate - pc_data.last_coordinate) / (pc_data.now_times - pc_data.last_times);	
+//				/*暂时没有用上这部分*/
 						
 					}
 				}
@@ -175,6 +177,15 @@ void USART6_IRQHandler(void)
       __HAL_DMA_SET_COUNTER(huart6.hdmarx, RECEIVELEN);
       __HAL_DMA_ENABLE(huart6.hdmarx);
 		}
+}
+/*串口六发送*/
+uint8_t SEND_DATA[7]={0};
+void USART6_Transmit(void)
+{
+SEND_DATA[0]= 0xaa ;SEND_DATA[6]= 0xbb ;SEND_DATA[2]= (int)gim.pid.pit_angle_fdb*100<<8;
+SEND_DATA[1]= (int)gim.pid.pit_angle_fdb*100;SEND_DATA[4]= (int)gim.pid.yaw_angle_fdb*100<<8;
+SEND_DATA[3]= (int)gim.pid.yaw_angle_fdb*100;
+HAL_UART_Transmit(&huart6,SEND_DATA,7,20);
 }
 void Get_Remote_info(RC_Ctl_t *rc, uint8_t *pData)
 {

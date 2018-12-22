@@ -2,6 +2,7 @@
 #define __MAIN_H__
 
 /* Includes ------------------------------------------------------------------*/
+#include "stm32f407xx.h"
 #include "stm32f4xx_hal.h"
 #include "cmsis_os.h"
 #include "FreeRTOS.h"
@@ -27,6 +28,7 @@
 #include "Shoot_Task.h"
 #include "Keyboard.h"
 #include "Car_num.h"
+#include "Kalman.h"
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */

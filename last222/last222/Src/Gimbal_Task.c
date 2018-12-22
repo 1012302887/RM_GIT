@@ -108,5 +108,6 @@ void Gimbal_Param_Init(void)
                   8, 0, 0); //
   PID_struct_init(&pid_yaw_spd, POSITION_PID, 6000, 2000,
                   60, 2, 0);
-	
+	Send_Pc_Data[0] = 0xAA;
+	Send_Pc_Data[3] = 0xBB;
 }

@@ -248,7 +248,9 @@ void encoder_data_handler(moto_measure_t* ptr, uint8_t Data[])
   }
 	ptr->last_filter_rate = ptr->filter_rate;
   ptr->filter_rate = (int32_t)(temp_sum/FILTER_BUF);
+	
   ptr->speed_rpm   = (int16_t)(ptr->filter_rate * 7.324f);
+	
 #else
   ptr->speed_rpm     = (int16_t)(Data[2] << 8 | Data[3]);
   ptr->given_current = (int16_t)(Data[4] << 8 | Data[5]);

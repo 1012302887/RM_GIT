@@ -1,0 +1,12 @@
+last222\arm_const_structs.o: ..\Drivers\CMSIS\DSP_Lib\Source\CommonTables\arm_const_structs.c
+last222\arm_const_structs.o: ../Drivers/CMSIS/Include/arm_const_structs.h
+last222\arm_const_structs.o: ../Drivers/CMSIS/Include/arm_math.h
+last222\arm_const_structs.o: ../Drivers/CMSIS/Include/core_cm4.h
+last222\arm_const_structs.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+last222\arm_const_structs.o: ../Drivers/CMSIS/Include/core_cmInstr.h
+last222\arm_const_structs.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
+last222\arm_const_structs.o: ../Drivers/CMSIS/Include/core_cmFunc.h
+last222\arm_const_structs.o: ../Drivers/CMSIS/Include/core_cmSimd.h
+last222\arm_const_structs.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+last222\arm_const_structs.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+last222\arm_const_structs.o: ../Drivers/CMSIS/Include/arm_common_tables.h

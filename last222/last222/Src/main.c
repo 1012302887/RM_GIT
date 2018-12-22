@@ -22,7 +22,7 @@ int main(void)
 	Gimbal_Param_Init();
 	Chassis_Param_Init();
 	Shoot_Param_Init();
-	FreeRtos_Init();
+  FreeRtos_Init();
   osKernelStart();
   while (1)
   {
@@ -97,7 +97,7 @@ void SystemClock_Config(void)
 */
 static void MX_GPIO_Init(void)
 {
-
+	GPIO_InitTypeDef GPIO_InitStruct;
   /* GPIO Ports Clock Enable */
 	__HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOE_CLK_ENABLE();
@@ -106,6 +106,14 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
+  /*Configure GPIO pin : PA15 */	
+	//¼¤¹âÒý½Å
+  GPIO_InitStruct.Pin = GPIO_PIN_15;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+	HAL_GPIO_WritePin(GPIOA,GPIO_PIN_15,GPIO_PIN_SET);	
 }
 
 /**

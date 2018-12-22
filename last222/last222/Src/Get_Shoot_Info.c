@@ -11,6 +11,7 @@ void Get_Shoot_Info(void const * argument)
 	 {
 			if(event.value.signals & SHOOT_GET_SIGNAL)
 	   {
+				taskENTER_CRITICAL();
 			shoot.trig.trig_spd 				  = moto_trigger.filter_rate / 36;
 			shoot.trig.trig_pos        		= moto_trigger.total_angle / 36;
 				/* get friction wheel fdb speed */
@@ -21,6 +22,7 @@ void Get_Shoot_Info(void const * argument)
 				/* get remote and keyboard trig and friction wheel control information */
 				remote_ctrl_shoot_hook();
 				keyboard_shoot_hook();
+				taskEXIT_CRITICAL();
      }
    } 
  }
