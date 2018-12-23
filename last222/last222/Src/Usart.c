@@ -150,8 +150,7 @@ void USART6_IRQHandler(void)
 					pc_data.dynamic_pit = (float)pc_data.raw_pit_angle / 100.0f; //pit¶¯Ì¬½Ç¶È
 					pc_data.dynamic_yaw = (float)pc_data.raw_yaw_angle / 100.0f; //yaw
 					pc_data.last_star_shoot = pc_data.star_shoot;
-					pc_data.star_shoot = Rx_data[5];   
-					printf("%f",pc_data.dynamic_yaw);					
+					pc_data.star_shoot = Rx_data[5];   			
 					if(Rx_data[5]==1)
 					{
 //						printf("%f",pc_data.dynamic_yaw);

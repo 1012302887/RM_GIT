@@ -70,6 +70,7 @@ void Gimbal_Task(void const * argument)
 
 void init_mode_handler(void)
 {
+	pid_yaw.p = 6;
 	gim.pid.pit_angle_fdb = gim.sensor.pit_relative_angle;
   gim.pid.yaw_angle_fdb = gim.sensor.yaw_relative_angle;
 	gim.pid.pit_angle_ref = 0;
@@ -99,9 +100,9 @@ void Gimbal_Param_Init(void)
 	
 	/* pitch axis motor pid parameter */
   PID_struct_init(&pid_pit, POSITION_PID, 1000, 1000,
-                  30, 0, 0); //30
+                  20, 0, 0); //30
   PID_struct_init(&pid_pit_spd, POSITION_PID, 6000, 2000,
-                  60, 0, 0); //60
+                  30, 0, 0); //60
 
   /* yaw axis motor pid parameter */
   PID_struct_init(&pid_yaw, POSITION_PID, 1000, 1000,

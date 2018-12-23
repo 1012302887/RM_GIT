@@ -73,13 +73,14 @@ void keyboard_gimbal_hook(void)
 			/* 自瞄部分 */
 			if(auto_shoot == 1)
 			{	
-				pid_yaw.p = 15;
+				pid_yaw.p = 10;
 				if(RC_CtrlData.key.v & Q_KEY)      {add_angle += 0.01f;}
 				else if(RC_CtrlData.key.v & E_KEY ) {add_angle -= 0.01f;}
 				else {add_angle = 0;}
 //				gim.pid.yaw_angle_ref  = pc_data.dynamic_yaw-RC_CtrlData.mouse.x*0.2f+add_angle;	
 //				gim.pid.pit_angle_ref += RC_CtrlData.mouse.y * MOUSE_TO_PITCH_ANGLE_INC_FACT ;
-				gim.pid.yaw_angle_ref = gim.sensor.yaw_relative_angle + pc_data.dynamic_yaw+add_angle;
+				gim.pid.yaw_angle_ref = -(gim.sensor.yaw_relative_angle + pc_data.dynamic_yaw+add_angle);
+//				Ni_Ming(0xf1,gim.pid.yaw_angle_ref,pc_data.dynamic_yaw,pc_data.dynamic_pit,0);
 //				gim.pid.pit_angle_ref = pc_data.dynamic_pit;
 			}
 			/* 自瞄部分 */
@@ -172,7 +173,7 @@ void GimbalAngleLimit(void)
 	}
 	else
 	{
-		VAL_LIMIT(gim.pid.pit_angle_ref, -35 ,12);
+		VAL_LIMIT(gim.pid.pit_angle_ref, -33 ,13);
 	}
 	VAL_LIMIT(gim.pid.yaw_angle_ref, gim.sensor.yaw_relative_angle-30, gim.sensor.yaw_relative_angle+30);  
 }
@@ -181,5 +182,5 @@ void send_gimbal_motor_ctrl_message(int16_t gimbal_cur[])
     /* 0: yaw motor current
      1: pitch motor current
      2: trigger motor current*/
-  send_gimbal_cur(-gimbal_cur[0], gimbal_cur[1], gimbal_cur[2]);
+  send_gimbal_cur(-gimbal_cur[0], -gimbal_cur[1], gimbal_cur[2]);
 }

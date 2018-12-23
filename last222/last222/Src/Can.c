@@ -156,12 +156,14 @@ void  HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 			{
 				moto_yaw.offset_ecd = MOTO_YAW_OFFSET_ECD ;//电机初始值，需要自行修改。
 				encoder_data_handler1(&moto_yaw, DATA);//用encoder_data_handler1还是encoder_data_handler自己体会，无法言传
+				#if (1)//不同小车，需要修改
+				moto_yaw.total_angle += 360;
+				#endif				
 			}break;
 			case CAN_PIT_MOTOR_ID:
 			{
 			moto_pit.offset_ecd = MOTO_PIT_OFFSET_ECD ;		//电机初始值，需要自行修改。
 				encoder_data_handler(&moto_pit, DATA);
-				
 				#if (0)//不同小车，需要修改
 				moto_pit.total_angle += 360;				
 				#endif
@@ -180,6 +182,7 @@ void  HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 			case 100:
 			{
 				gyro_data_receive(&gyro_data,Data);
+				printf("1-");
 			}
 			break;
 			case 101:
@@ -193,11 +196,13 @@ void  HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 				static uint8_t i;
 				i = Rx2Message.StdId - CAN_3510_M1_ID;
 				encoder_data_handler2(&moto_friction[i], Data);
+				printf("2-");
 			}
 			break;
 			case CAN_TRIGGER_MOTOR_ID:
 			{
 				moto_trigger.msg_cnt++ <= 50 ? get_moto_offset(&moto_trigger, Data) : encoder_data_handler1(&moto_trigger, Data);
+				printf("%d",moto_trigger.ecd);
 			}
 			break;
 			default:

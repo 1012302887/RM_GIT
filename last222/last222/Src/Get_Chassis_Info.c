@@ -124,7 +124,8 @@ void keyboard_chassis_hook(void)
 			}
 			else
 			{
-				gim.pid.yaw_angle_ref += CHASSIS_ROTATE_FACT;
+				gim.pid.yaw_angle_ref += 
+				CHASSIS_ROTATE_FACT;
 			}
 		}
 		else if(RC_CtrlData.key.v & E_KEY && auto_shoot != 1)

@@ -15,7 +15,7 @@ void Chassis_Task(void const *argument)
 //			Send_Pc_Data[1] = (uint8_t) gyro_data.yaw;
 //			Send_Pc_Data[2] = (uint8_t) gyro_data.pitch;
 //			printf("%f",gyro_data.yaw);
-//	Ni_Ming(0xf1,gim.pid.pit_angle_fdb,gim.pid.yaw_angle_fdb,0,0);
+//	Ni_Ming(0xf1,chassis.wheel_spd_fdb[0],chassis.wheel_spd_ref[0],chassis.vx_offset,chassis.vy_offset);
 //	USART6_Transmit();
 	if(gim.ctrl_mode == GIMBAL_INIT)//chassis dose not follow gimbal when gimbal initializa
 	{
@@ -25,6 +25,7 @@ void Chassis_Task(void const *argument)
 	{
 		chassis.vw = pid_calc(&pid_rotate, chassis.follow_gimbal, 0); //chassis.follow_gimbal = moto_yaw.total_angle
 	}
+	
 	else if(gim.ctrl_mode == GIMBAL_WRITHE)
 	{
 		if((chassis.vx_offset == 0) && (chassis.vy_offset == 0))
@@ -64,6 +65,7 @@ void Chassis_Task(void const *argument)
 		d_theta = 360 - chassis.follow_gimbal + 0;
 	}
 	d_theta /= -57.295;
+	
 	
 	chassis.vx = chassis.vx_offset * FPU_COS(d_theta) - chassis.vy_offset * FPU_SIN(d_theta);
 	chassis.vy = chassis.vx_offset * FPU_SIN(d_theta) + chassis.vy_offset * FPU_COS(d_theta);
