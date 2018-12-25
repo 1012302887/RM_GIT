@@ -96,6 +96,17 @@ void send_chassis_cur(int16_t a, int16_t b, int16_t c, int16_t d)
 	HAL_CAN_AddTxMessage(&hcan1,&Tx1Message,i,(uint32_t*)CAN_TX_MAILBOX0);
 }
 
+void send_fri_cur(int16_t a)//速度3000到6000
+{ 
+	uint8_t i[2];
+	Tx1Message.RTR = CAN_RTR_DATA;
+	Tx1Message.IDE = CAN_ID_STD;
+	Tx1Message.DLC = 0x08;
+	Tx1Message.StdId = 0x149;
+	i[0]= a >> 8;i[1]= a;
+	HAL_CAN_AddTxMessage(&hcan1,&Tx1Message,i,(uint32_t*)CAN_TX_MAILBOX0);
+}
+
 void send_gimbal_cur(int16_t yaw_iq, int16_t pit_iq, int16_t trigger_iq)
 {
 	uint8_t Data[8];
@@ -156,7 +167,7 @@ void  HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 			{
 				moto_yaw.offset_ecd = MOTO_YAW_OFFSET_ECD ;//电机初始值，需要自行修改。
 				encoder_data_handler1(&moto_yaw, DATA);//用encoder_data_handler1还是encoder_data_handler自己体会，无法言传
-				#if (1)//不同小车，需要修改
+				#if (CAR_NUM==1)//不同小车，需要修改
 				moto_yaw.total_angle += 360;
 				#endif				
 			}break;
@@ -168,6 +179,11 @@ void  HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 				moto_pit.total_angle += 360;				
 				#endif
 			}break;
+				case 0x207:
+			{
+				moto_trigger.msg_cnt++ <= 50 ? get_moto_offset(&moto_trigger, DATA):encoder_data_handler1(&moto_trigger, DATA);
+			}
+			break;
 			default:
 			{
 			}break;
@@ -182,27 +198,11 @@ void  HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 			case 100:
 			{
 				gyro_data_receive(&gyro_data,Data);
-				printf("1-");
 			}
 			break;
 			case 101:
 			{
 				zitai_data_receive2(&gyro_data,Data);//用哪个函数，看实际情况修改
-			}
-			break;
-			case CAN_3510_M1_ID:
-			case CAN_3510_M2_ID:
-			{
-				static uint8_t i;
-				i = Rx2Message.StdId - CAN_3510_M1_ID;
-				encoder_data_handler2(&moto_friction[i], Data);
-				printf("2-");
-			}
-			break;
-			case CAN_TRIGGER_MOTOR_ID:
-			{
-				moto_trigger.msg_cnt++ <= 50 ? get_moto_offset(&moto_trigger, Data) : encoder_data_handler1(&moto_trigger, Data);
-				printf("%d",moto_trigger.ecd);
 			}
 			break;
 			default:
@@ -304,6 +304,7 @@ void encoder_data_handler1(moto_measure_t* ptr, uint8_t Data[])
 	ptr->total_angle = ptr->total_ecd / ENCODER_ANGLE_RATIO + (float)360.0f;
 #else
 	ptr->total_angle = ptr->total_ecd / ENCODER_ANGLE_RATIO;
+//	Ni_Ming(0xf1, ptr->total_ecd, ptr->total_angle,ENCODER_ANGLE_RATIO,0);
 #endif
   
 #ifdef CHASSIS_3510

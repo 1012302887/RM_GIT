@@ -30,6 +30,11 @@ void get_gimbal_info(void)
 	else if((gim.ctrl_mode == GIMBAL_NORMAL) || (gim.ctrl_mode == GIMBAL_WRITHE))
 	{
 		gim.sensor.yaw_relative_angle = gyro_data.yaw   - gim.sensor.yaw_offset_angle;
+		
+		if (CAR_NUM == 1)
+		{
+		gim.sensor.pit_offset_angle = -10;
+		}
 		gim.sensor.pit_relative_angle = gyro_data.pitch - gim.sensor.pit_offset_angle;//gim.sensor.pit_offset_angleÔÝÊ±Îª0
 		
 		//pid_yaw.p = 5;
@@ -55,7 +60,7 @@ void remote_ctrl_gimbal_hook(void)
 		{					
 			/* get remote gimbal info */
 		  gim.pid.yaw_angle_ref -= RC_CtrlData.rc.ch2 * GIMBAL_YAW_REF_FACT;
-			gim.pid.pit_angle_ref -= RC_CtrlData.rc.ch3 * GIMBAL_PIT_REF_FACT;
+			gim.pid.pit_angle_ref += RC_CtrlData.rc.ch3 * GIMBAL_PIT_REF_FACT;
 		}
 }
 static float add_angle = 0;
@@ -120,12 +125,10 @@ void keyboard_gimbal_hook(void)
 			
 			if(gim.ctrl_mode == GIMBAL_NORMAL)
 			{	
-				HATCH_COVER   = OPEN_COVER;
 				gim.ctrl_mode = GIMBAL_SUPPLY;
 			}
 			else
 			{
-				HATCH_COVER   = CLOSE_COVER;
 				gim.ctrl_mode = GIMBAL_NORMAL;
 			}
 	}
@@ -173,7 +176,7 @@ void GimbalAngleLimit(void)
 	}
 	else
 	{
-		VAL_LIMIT(gim.pid.pit_angle_ref, -33 ,13);
+		VAL_LIMIT(gim.pid.pit_angle_ref, -33 ,14);
 	}
 	VAL_LIMIT(gim.pid.yaw_angle_ref, gim.sensor.yaw_relative_angle-30, gim.sensor.yaw_relative_angle+30);  
 }
@@ -182,5 +185,5 @@ void send_gimbal_motor_ctrl_message(int16_t gimbal_cur[])
     /* 0: yaw motor current
      1: pitch motor current
      2: trigger motor current*/
-  send_gimbal_cur(-gimbal_cur[0], -gimbal_cur[1], gimbal_cur[2]);
+  send_gimbal_cur(-gimbal_cur[0], gimbal_cur[1], gimbal_cur[2]);
 }

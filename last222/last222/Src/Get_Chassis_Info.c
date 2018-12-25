@@ -3,6 +3,7 @@ uint8_t auto_shoot = 0;
 uint32_t turn_time_last = 0;
 extern ramp_t FBSpeedRamp;
 extern ramp_t LRSpeedRamp;
+
 /*left wheel:2   right wheel:1 */
 
 /*left wheel:4   right wheel:3 */

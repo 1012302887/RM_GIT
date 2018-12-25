@@ -48,6 +48,8 @@ last222\chassis_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue
 last222\chassis_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 last222\chassis_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
 last222\chassis_task.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+last222\chassis_task.o: ../Drivers/CMSIS/Include/arm_math.h
+last222\chassis_task.o: ../Drivers/CMSIS/Include/core_cm4.h
 last222\chassis_task.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 last222\chassis_task.o: ../Inc/Mode_Switch_Task.h
 last222\chassis_task.o: ../Inc/Ramp.h
@@ -66,5 +68,3 @@ last222\chassis_task.o: ../Inc/Shoot_Task.h
 last222\chassis_task.o: ../Inc/Keyboard.h
 last222\chassis_task.o: ../Inc/Car_num.h
 last222\chassis_task.o: ../Inc/Kalman.h
-last222\chassis_task.o: ../Drivers/CMSIS/Include/arm_math.h
-last222\chassis_task.o: ../Drivers/CMSIS/Include/core_cm4.h

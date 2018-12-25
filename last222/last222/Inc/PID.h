@@ -61,8 +61,6 @@ extern pid_t pid_pit_spd;
 extern pid_t pid_yaw_spd;
 extern pid_t pid_trigger;
 extern pid_t pid_trigger_spd;
-extern pid_t pid_fric[2];
-extern pid_t pid_fric_spd[2];
 
 extern pid_t pid_rotate;
 extern pid_t pid_pos[4];

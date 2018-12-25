@@ -1,11 +1,10 @@
 #include "main.h"
-
+int yyy=3000;
 extern osTimerId chassis_timer_id;
 extern osTimerId gimbal_timer_id;
 extern void FreeRtos_Init(void);
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
-
 int main(void)
 {
   HAL_Init();
@@ -19,11 +18,12 @@ int main(void)
   MX_USART2_UART_Init();
 	MX_USART6_UART_Init();
   //MX_TIM9_Init();
+	Kalman_Init();
 	Gimbal_Param_Init();
 	Chassis_Param_Init();
 	Shoot_Param_Init();
-  FreeRtos_Init();
-  osKernelStart();
+	FreeRtos_Init();
+	osKernelStart();
   while (1)
   {
   }

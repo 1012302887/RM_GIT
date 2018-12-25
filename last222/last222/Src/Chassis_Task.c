@@ -12,11 +12,12 @@ extern osThreadId GET_CHASSIS_INFHandle;
 /* 底盘定时任务*/
 void Chassis_Task(void const *argument)
 {
-//			Send_Pc_Data[1] = (uint8_t) gyro_data.yaw;
-//			Send_Pc_Data[2] = (uint8_t) gyro_data.pitch;
-//			printf("%f",gyro_data.yaw);
-//	Ni_Ming(0xf1,chassis.wheel_spd_fdb[0],chassis.wheel_spd_ref[0],chassis.vx_offset,chassis.vy_offset);
-//	USART6_Transmit();
+//	float test[2] ={0};
+//	kalman_filter_calc(&Kalman_filter,chassis.wheel_spd_fdb[0],chassis.wheel_spd_fdb[1]);
+//	test[0]=Kalman_filter.filtered_value[0];
+//	test[1]=Kalman_filter.filtered_value[1];
+//	Ni_Ming(0xf1, moto_trigger.ecd, moto_trigger.total_angle,shoot.trig.trig_spd,shoot.trig.trig_pos);
+	pid_rotate.p=0;//关闭底盘跟随
 	if(gim.ctrl_mode == GIMBAL_INIT)//chassis dose not follow gimbal when gimbal initializa
 	{
 		chassis.vw = 0;

@@ -1,6 +1,6 @@
 #include "main.h"
 #include "math.h"
-
+uint8_t fric_swich=0;
 /* shoot task global parameter */
 shoot_t shoot = {0};
 
@@ -22,41 +22,45 @@ void Shoot_Task(void const * argument)
 					break;
 					case KEYBOR_CTRL:
 						shoot_keyboard_handler();
-						pid_fric_spd[0].i = 0;
-						pid_fric_spd[1].i = 0;
 					break;
 				 default:
 					break;
 				}
-				if(shoot.heat > shoot.trig.max_ref)
-				{shoot.trig.spd_ref = 0;}
-				
-				glb_cur.shoot_cur[0] = chassis_pid_calc(&pid_fric_spd[0], shoot.fric.fric_wheel_spd_fdb[0], -shoot.fric.fric_wheel_spd_ref[0] * 28.571248f);
-				glb_cur.shoot_cur[1] = chassis_pid_calc(&pid_fric_spd[1], shoot.fric.fric_wheel_spd_fdb[1],  shoot.fric.fric_wheel_spd_ref[1] * 28.571248f);
-				glb_cur.shoot_cur[2] = chassis_pid_calc(&pid_trigger_spd, shoot.trig.trig_spd, shoot.trig.spd_ref);				
+				glb_cur.shoot_cur[0] = 0;
+				glb_cur.shoot_cur[1] = 0;
+				glb_cur.shoot_cur[2] = chassis_pid_calc(&pid_trigger_spd, shoot.trig.trig_spd, -shoot.trig.spd_ref);
 				osSignalSet(GET_SHOOT_TASK_HANDEL, SHOOT_GET_SIGNAL);
-				osSignalSet(CAN_SEND_TASKHandle, SHOOT_MOTOR_MSG_SEND);
+				osSignalSet(CAN_SEND_TASKHandle, GIMBAL_MOTOR_MSG_SEND);
+//				osSignalSet(CAN_SEND_TASKHandle, SHOOT_MOTOR_MSG_SEND);
 		}
 }
 
 void shoot_remote_handler(void)
 {
 	if(shoot.fric.switching == ON)
-	{
+	{		
 		shoot.trig.delay++;
-		shoot.trig.max_ref = 88888;
-		shoot.fric.fric_wheel_spd_ref[0] = shoot.fric.fric_wheel_spd_ref[1] = 15;		
-		if(shoot.trig.delay > 1000)
+		if (fric_swich==0)
+		{
+			send_fri_cur(4400);
+			fric_swich=1;
+		}
+			if(shoot.trig.delay > 1000)
 		{
 			shoot.trig.spd_ref = -6;
 		}
 	}
 	else
 	{	
+		
 		shoot.trig.delay = 0;
 		shoot.trig.spd_ref = 0;
-		shoot.fric.fric_wheel_spd_ref[0] = shoot.fric.fric_wheel_spd_ref[1] = 0;	
-	}
+		if(fric_swich==1)
+		{
+			fric_swich=0;
+			send_fri_cur(3000);
+		}
+		}
 }
 
 void shoot_keyboard_handler(void)
@@ -65,16 +69,28 @@ void shoot_keyboard_handler(void)
 	{
 		if(RC_CtrlData.key.v & B_KEY)
 		{
-			shoot.fric.fric_wheel_spd_ref[0] = shoot.fric.fric_wheel_spd_ref[1] = 16;
+			if (fric_swich==0)
+			{
+				send_fri_cur(4800);
+				fric_swich=1;
+			}
 		}
 		else
 		{
-			shoot.fric.fric_wheel_spd_ref[0] = shoot.fric.fric_wheel_spd_ref[1] = 14;
+			if (fric_swich==0)
+			{
+				send_fri_cur(4400);
+				fric_swich=1;
+			}
 		}
 	}
 	else
 	{
-		shoot.fric.fric_wheel_spd_ref[0] = shoot.fric.fric_wheel_spd_ref[1] = 0;
+			if(fric_swich==1)
+		{
+			fric_swich=0;
+			send_fri_cur(3000);
+		}
 	}
 	
 	if(shoot.trig.switching == ON)
@@ -125,16 +141,10 @@ void shoot_keyboard_handler(void)
 }
 void Shoot_Param_Init(void)
 {
-		 for (int k = 0; k < 2; k++)
-  {
-    PID_struct_init(&pid_fric_spd[k], POSITION_PID, 10000, 7000,
-		150, 3, 0); 
-	}
-	
 	shoot.trig.max_ref = 100;
 	 /* bullet trigger motor pid parameter */
   PID_struct_init(&pid_trigger, POSITION_PID, 30, 2000,
                   0.5, 0, 0);
   PID_struct_init(&pid_trigger_spd, POSITION_PID, 10000, 5000,
-                  1200, 2, 0);
+	1200, 2, 0);//p:1200
 }

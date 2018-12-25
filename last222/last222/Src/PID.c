@@ -158,7 +158,5 @@ pid_t pid_pos[4]        = {0};
 pid_t pid_spd[4]        = {0};
 
 /* shoot pid  */
-pid_t pid_fric[2]       = {0};
-pid_t pid_fric_spd[2]   = {0};
 pid_t pid_trigger       = {0};
 pid_t pid_trigger_spd   = {0};

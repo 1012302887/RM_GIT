@@ -48,6 +48,8 @@ last222\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
 last222\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 last222\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
 last222\freertos.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+last222\freertos.o: ../Drivers/CMSIS/Include/arm_math.h
+last222\freertos.o: ../Drivers/CMSIS/Include/core_cm4.h
 last222\freertos.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 last222\freertos.o: ../Inc/Mode_Switch_Task.h
 last222\freertos.o: ../Inc/Ramp.h

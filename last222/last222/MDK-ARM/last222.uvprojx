@@ -696,6 +696,13 @@
         </Group>
         <Group>
           <GroupName>Kalman</GroupName>
+          <Files>
+            <File>
+              <FileName>Kalman.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\Kalman.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>DSP_LIB</GroupName>

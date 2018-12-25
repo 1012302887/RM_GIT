@@ -1,47 +1,23 @@
 /* second-order kalman filter on stm32 */
-#include "stm32f4xx_hal.h"
-#include "arm_math.h"
-
-#define mat         arm_matrix_instance_f32 
-#define mat_init    arm_mat_init_f32
-#define mat_add     arm_mat_add_f32
-#define mat_sub     arm_mat_sub_f32
-#define mat_mult    arm_mat_mult_f32
-#define mat_trans   arm_mat_trans_f32
-#define mat_inv     arm_mat_inverse_f32
-
-typedef struct
-{
-  float raw_value;
-  float filtered_value[2];
-  mat xhat, xhatminus, z, A, H, AT, HT, Q, R, P, Pminus, K;
-} kalman_filter_t;
-
-typedef struct
-{
-  float raw_value;
-  float filtered_value[2];
-  float xhat_data[2], xhatminus_data[2], z_data[2],Pminus_data[4], K_data[4];
-  float P_data[4];
-  float AT_data[4], HT_data[4];
-  float A_data[4];
-  float H_data[4];
-  float Q_data[4];
-  float R_data[4];
-} kalman_filter_init_t;
-
+#include "main.h"
+kalman_filter_init_t Kalman_filter_init={0} ;
+kalman_filter_t Kalman_filter;
 void kalman_filter_init(kalman_filter_t *F, kalman_filter_init_t *I)
 {
   mat_init(&F->xhat,2,1,(float *)I->xhat_data);
-	
   mat_init(&F->xhatminus,2,1,(float *)I->xhatminus_data);
-	mat_init(&F->z,2,1,(float *)I->A_data);
-	mat_init(&F->A,4,1,(float *)I->z_data);
-	mat_init(&F->AT,2,2,(float *)I->z_data);
-	
-	
+	mat_init(&F->z,2,1, (float *)I->z_data);
+	mat_init(&F->A,2,2, (float *)I->A_data);
+	mat_init(&F->H,2,2, (float *)I->H_data);
+	mat_init(&F->AT,2,2,(float *)I->AT_data);
+	mat_init(&F->Q,2,2, (float *)I->Q_data);// 预测过程噪声协方差
+	mat_init(&F->R,2,2, (float *)I->R_data);// 测量过程噪声协方差
+	mat_init(&F->P,2,2, (float *)I->P_data);
+	mat_init(&F->Pminus,2,2,(float *)I->Pminus_data);
+	mat_init(&F->K,2,2,(float *)I->K_data);
   mat_init(&F->HT,2,2,(float *)I->HT_data);
   mat_trans(&F->H, &F->HT);
+	mat_trans(&F->A, &F->AT);
 }
 
 float *kalman_filter_calc(kalman_filter_t *F, float signal1, float signal2)
@@ -88,4 +64,24 @@ float *kalman_filter_calc(kalman_filter_t *F, float signal1, float signal2)
   F->filtered_value[1] = F->xhat.pData[1];
 
   return F->filtered_value;
+}
+void Kalman_Init(void)
+{
+	for(int i=0;i<4;i++)
+	{
+		Kalman_filter_init.A_data[i]=1;
+	}
+	for(int i=0;i<4;i++)
+	{
+		Kalman_filter_init.H_data[i]=1;
+	}
+	for(int i=0;i<4;i++)
+	{
+		Kalman_filter_init.Q_data[i]=0.01;
+	}
+	for(int i=0;i<4;i++)
+	{
+		Kalman_filter_init.R_data[i]=0.2;
+	}
+	kalman_filter_init(&Kalman_filter,&Kalman_filter_init);
 }
