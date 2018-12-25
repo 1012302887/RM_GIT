@@ -22,6 +22,12 @@ void get_gimbal_info(void)
 		if(gim.ctrl_mode == GIMBAL_INIT)
 	{
 		/* get gimbal relative angle */
+		#if (CAR_NUM==1)//不同小车，需要修改
+			if(moto_yaw.total_angle>250)
+				{
+				moto_yaw.total_angle = moto_yaw.total_angle-360;
+				}
+		#endif				
 		gim.sensor.yaw_relative_angle = moto_yaw.total_angle * ramp_calc(&yaw_ramp);
 		gim.sensor.pit_relative_angle = gyro_data.pitch * ramp_calc(&pit_ramp);
 		

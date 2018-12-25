@@ -179,7 +179,7 @@ void  HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 				moto_pit.total_angle += 360;				
 				#endif
 			}break;
-				case 0x207:
+				case CAN_TRIGGER_MOTOR_ID:
 			{
 				moto_trigger.msg_cnt++ <= 50 ? get_moto_offset(&moto_trigger, DATA):encoder_data_handler1(&moto_trigger, DATA);
 			}

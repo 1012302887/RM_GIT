@@ -45,7 +45,7 @@ void shoot_remote_handler(void)
 			send_fri_cur(4400);
 			fric_swich=1;
 		}
-			if(shoot.trig.delay > 1000)
+			if(shoot.trig.delay > 500)
 		{
 			shoot.trig.spd_ref = -6;
 		}
@@ -146,5 +146,5 @@ void Shoot_Param_Init(void)
   PID_struct_init(&pid_trigger, POSITION_PID, 30, 2000,
                   0.5, 0, 0);
   PID_struct_init(&pid_trigger_spd, POSITION_PID, 10000, 5000,
-	1200, 2, 0);//p:1200
+	600, 2, 0);//p:1200
 }

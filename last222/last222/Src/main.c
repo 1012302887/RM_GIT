@@ -18,7 +18,6 @@ int main(void)
   MX_USART2_UART_Init();
 	MX_USART6_UART_Init();
   //MX_TIM9_Init();
-	Kalman_Init();
 	Gimbal_Param_Init();
 	Chassis_Param_Init();
 	Shoot_Param_Init();

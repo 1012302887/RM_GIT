@@ -9,7 +9,7 @@ typedef enum
 {
 	CAN_3510_M1_ID       = 0x201,
   CAN_3510_M2_ID       = 0x202,
-	CAN_TRIGGER_MOTOR_ID = 0x203,
+	CAN_TRIGGER_MOTOR_ID = 0x207,
 	
   CAN_3508_M1_ID       = 0x201,
   CAN_3508_M2_ID       = 0x202,

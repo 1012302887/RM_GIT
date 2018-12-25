@@ -12,12 +12,8 @@ extern osThreadId GET_CHASSIS_INFHandle;
 /* µ×ÅÌ¶¨Ê±ÈÎÎñ*/
 void Chassis_Task(void const *argument)
 {
-//	float test[2] ={0};
-//	kalman_filter_calc(&Kalman_filter,chassis.wheel_spd_fdb[0],chassis.wheel_spd_fdb[1]);
-//	test[0]=Kalman_filter.filtered_value[0];
-//	test[1]=Kalman_filter.filtered_value[1];
-//	Ni_Ming(0xf1, moto_trigger.ecd, moto_trigger.total_angle,shoot.trig.trig_spd,shoot.trig.trig_pos);
-	pid_rotate.p=0;//¹Ø±Õµ×ÅÌ¸úËæ
+//	pid_rotate.p=0;//¹Ø±Õµ×ÅÌ¸úËæ
+//	Ni_Ming(0xf1,moto_yaw.total_angle,gim.sensor.yaw_relative_angle ,0,0);
 	if(gim.ctrl_mode == GIMBAL_INIT)//chassis dose not follow gimbal when gimbal initializa
 	{
 		chassis.vw = 0;

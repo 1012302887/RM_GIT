@@ -38,9 +38,10 @@ void Gimbal_Task(void const * argument)
 		break;
 	}
 	/* gimbal pit and yaw position pid */
-//	pid_pit.p = ppidp;
-//	pid_pit.i = ppidi;
-//	pid_pit.d = ppidd;
+
+//	gim.pid.pit_angle_ref = 0;
+//	gim.pid.yaw_angle_ref = 0;
+//	
 	
 	pid_calc(&pid_yaw, gim.pid.yaw_angle_fdb, gim.pid.yaw_angle_ref);
 	pid_calc(&pid_pit, gim.pid.pit_angle_fdb, gim.pid.pit_angle_ref);
@@ -51,10 +52,6 @@ void Gimbal_Task(void const * argument)
 	/* gimbal pid and yaw speed pid */
 	gim.pid.yaw_spd_fdb = gim.sensor.yaw_palstance;
 	gim.pid.pit_spd_fdb = gim.sensor.pit_palstance;
-	
-//	pid_pit_spd.p = spidp;
-//	pid_pit_spd.i = spidi;
-//	pid_pit_spd.d = spidd;
 	
 	pid_calc(&pid_yaw_spd, gim.pid.yaw_spd_fdb, gim.pid.yaw_spd_ref);
 	pid_calc(&pid_pit_spd, gim.pid.pit_spd_fdb, gim.pid.pit_spd_ref);
@@ -101,9 +98,9 @@ void Gimbal_Param_Init(void)
 	
 	/* pitch axis motor pid parameter */
   PID_struct_init(&pid_pit, POSITION_PID, 1000, 1000,
-                  7, 0, 0); //30
+                  10, 0, 0); //30
   PID_struct_init(&pid_pit_spd, POSITION_PID, 6000, 2000,
-                  12, 0, 0); //60
+                 17, 0, 0); //60
 
   /* yaw axis motor pid parameter */
   PID_struct_init(&pid_yaw, POSITION_PID, 1000, 1000,

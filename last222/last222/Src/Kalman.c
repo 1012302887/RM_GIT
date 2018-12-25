@@ -75,13 +75,14 @@ void Kalman_Init(void)
 	{
 		Kalman_filter_init.H_data[i]=1;
 	}
-	for(int i=0;i<4;i++)
+
+		Kalman_filter_init.Q_data[0]=Kalman_filter_init.Q_data[3]=0.01;
+
+		Kalman_filter_init.R_data[0]=1;Kalman_filter_init.R_data[3]=1;
+
+		for(int i=0;i<4;i++)
 	{
-		Kalman_filter_init.Q_data[i]=0.01;
-	}
-	for(int i=0;i<4;i++)
-	{
-		Kalman_filter_init.R_data[i]=0.2;
+		Kalman_filter_init.P_data[i]=1;
 	}
 	kalman_filter_init(&Kalman_filter,&Kalman_filter_init);
 }
