@@ -17,7 +17,6 @@ extern osThreadId GET_GIMBAL_INFOHandle;
 void Mode_Switch_Task(void const * argument)
 {
   osDelay(1500);
-	
 	//启动定时器任务，指定定时时间（毫秒）
 	osTimerStart(chassis_timer_id ,4);
 	osTimerStart(gimbal_timer_id  ,1);
@@ -79,7 +78,7 @@ void get_main_ctrl_mode(void)
 	if(moto_pit.total_angle + gyro_data.pitch < -8)
 	{
 		gim.limit_delay++;
-		if(gim.limit_delay > 100)
+		if(gim.limit_delay > 1000)
 		{
 			ramp_mode = RAMP_UP;
 		}
@@ -87,7 +86,7 @@ void get_main_ctrl_mode(void)
 	else if(moto_pit.total_angle + gyro_data.pitch > 8)
 	{
 		gim.limit_delay++;
-		if(gim.limit_delay > 100)
+		if(gim.limit_delay > 1000)
 		{
 			ramp_mode = RAMP_DOWN;
 		}

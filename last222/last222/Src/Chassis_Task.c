@@ -10,10 +10,12 @@ static float d_theta = 0;
 extern osThreadId CAN_SEND_TASKHandle;
 extern osThreadId GET_CHASSIS_INFHandle;
 /* 底盘定时任务*/
+float yyy;
 void Chassis_Task(void const *argument)
 {
+	Kalman_filter_calc(&KF_T,chassis.wheel_spd_fdb[0]);
 //	pid_rotate.p=0;//关闭底盘跟随
-//	Ni_Ming(0xf1,moto_yaw.total_angle,gim.sensor.yaw_relative_angle ,0,0);
+	Ni_Ming(0xf1, chassis.wheel_spd_fdb[0],KF_T._X_,0,0);
 	if(gim.ctrl_mode == GIMBAL_INIT)//chassis dose not follow gimbal when gimbal initializa
 	{
 		chassis.vw = 0;

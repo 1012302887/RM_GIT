@@ -1,5 +1,4 @@
 #include "main.h"
-int yyy=3000;
 extern osTimerId chassis_timer_id;
 extern osTimerId gimbal_timer_id;
 extern void FreeRtos_Init(void);
@@ -21,10 +20,12 @@ int main(void)
 	Gimbal_Param_Init();
 	Chassis_Param_Init();
 	Shoot_Param_Init();
+	Kalman_filter_init(&KF_T,1,1,2000);
 	FreeRtos_Init();
 	osKernelStart();
   while (1)
   {
+
   }
 }
 

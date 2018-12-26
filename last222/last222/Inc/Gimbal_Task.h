@@ -76,7 +76,7 @@ typedef struct
 
 extern gimbal_t gim;
 extern uint32_t handler_run_time;
-
+extern ramp_t fric_ramp;
 void Gimbal_Param_Init(void);
 void Gimbal_Task(void const * argument);
 void init_mode_handler(void);

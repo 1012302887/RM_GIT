@@ -1,5 +1,6 @@
 #include "main.h"
 #include "math.h"
+ramp_t fric_ramp 	 = RAMP_GEN_DAFAULT;
 uint8_t fric_swich=0;
 /* shoot task global parameter */
 shoot_t shoot = {0};
@@ -147,4 +148,5 @@ void Shoot_Param_Init(void)
                   0.5, 0, 0);
   PID_struct_init(&pid_trigger_spd, POSITION_PID, 10000, 5000,
 	600, 2, 0);//p:1200
+	ramp_init(&fric_ramp,1);
 }

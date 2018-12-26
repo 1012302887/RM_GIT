@@ -68,3 +68,4 @@ last222\ramp.o: ../Inc/Shoot_Task.h
 last222\ramp.o: ../Inc/Keyboard.h
 last222\ramp.o: ../Inc/Car_num.h
 last222\ramp.o: ../Inc/Kalman.h
+last222\ramp.o: ../Inc/Kalman_2.h

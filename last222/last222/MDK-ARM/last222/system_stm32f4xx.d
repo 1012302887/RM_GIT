@@ -56,6 +56,7 @@ last222\system_stm32f4xx.o: ../Inc/Shoot_Task.h
 last222\system_stm32f4xx.o: ../Inc/Keyboard.h
 last222\system_stm32f4xx.o: ../Inc/Car_num.h
 last222\system_stm32f4xx.o: ../Inc/Kalman.h
+last222\system_stm32f4xx.o: ../Inc/Kalman_2.h
 last222\system_stm32f4xx.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h
 last222\system_stm32f4xx.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 last222\system_stm32f4xx.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h

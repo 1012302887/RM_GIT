@@ -68,3 +68,4 @@ last222\freertos.o: ../Inc/Shoot_Task.h
 last222\freertos.o: ../Inc/Keyboard.h
 last222\freertos.o: ../Inc/Car_num.h
 last222\freertos.o: ../Inc/Kalman.h
+last222\freertos.o: ../Inc/Kalman_2.h

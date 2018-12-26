@@ -60,5 +60,5 @@ void shoot_keyboard_handler(void);
 void Shoot_Param_Init(void);
 
 extern shoot_t shoot;
-
+extern ramp_t fric_ramp;
 #endif

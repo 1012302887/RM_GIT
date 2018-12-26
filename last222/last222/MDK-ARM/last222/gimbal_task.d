@@ -68,3 +68,4 @@ last222\gimbal_task.o: ../Inc/Shoot_Task.h
 last222\gimbal_task.o: ../Inc/Keyboard.h
 last222\gimbal_task.o: ../Inc/Car_num.h
 last222\gimbal_task.o: ../Inc/Kalman.h
+last222\gimbal_task.o: ../Inc/Kalman_2.h

@@ -3,12 +3,12 @@
 
 /* gimbal task global parameter */
 gimbal_t gim;
-
 uint32_t gimbal_time_last;
 int gimbal_time_ms;
 uint32_t handler_run_time = 0;
 ramp_t pit_ramp 	 = RAMP_GEN_DAFAULT;
 ramp_t yaw_ramp    = RAMP_GEN_DAFAULT;
+
 extern osThreadId GET_GIMBAL_INFOHandle;
 extern osThreadId GET_CHASSIS_INFHandle;
 extern osThreadId CAN_SEND_TASKHandle;
@@ -95,12 +95,11 @@ void Gimbal_Param_Init(void)
 	/* pitch and yaw ramp Initializa */
 	ramp_init(&pit_ramp, PIT_PREPARE_TIMS_MS);
 	ramp_init(&yaw_ramp, YAW_PREPARE_TIMS_MS);
-	
 	/* pitch axis motor pid parameter */
   PID_struct_init(&pid_pit, POSITION_PID, 1000, 1000,
-                  10, 0, 0); //30
+                  6, 0, 0.003); //30
   PID_struct_init(&pid_pit_spd, POSITION_PID, 6000, 2000,
-                 17, 0, 0); //60
+                 19, 0, 0.003); //60
 
   /* yaw axis motor pid parameter */
   PID_struct_init(&pid_yaw, POSITION_PID, 1000, 1000,
