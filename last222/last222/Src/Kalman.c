@@ -9,6 +9,7 @@ void Kalman_filter_init(Kalman_t* Kalman_filter,float _P_,\
 	Kalman_filter->_Q_=_Q_;
 	Kalman_filter->_R_=_R_;
 }
+
 void Kalman_filter_calc(Kalman_t* Kalman_filter,float Z)
 {
 	//¹«Ê½Ò»£ºK(k) = P(k|k-1) / (P(k|k-1) + R)
