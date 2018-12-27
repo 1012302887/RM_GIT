@@ -1,5 +1,6 @@
 #include "main.h"
-Kalman_t KF_T;
+Kalman_t CHASSIS_KF[4];
+Kalman_t zi_miao_kf[2];
 void Kalman_filter_init(Kalman_t* Kalman_filter,float _P_,\
 	float _Q_,float _R_)
 {
@@ -10,7 +11,7 @@ void Kalman_filter_init(Kalman_t* Kalman_filter,float _P_,\
 	Kalman_filter->_R_=_R_;
 }
 
-void Kalman_filter_calc(Kalman_t* Kalman_filter,float Z)
+float Kalman_filter_calc(Kalman_t* Kalman_filter,float Z)
 {
 	//公式一：K(k) = P(k|k-1) / (P(k|k-1) + R)
 	Kalman_filter->_K_ = Kalman_filter->_P_/(Kalman_filter->_P_+Kalman_filter->_R_);
@@ -18,4 +19,5 @@ void Kalman_filter_calc(Kalman_t* Kalman_filter,float Z)
 	Kalman_filter->_X_ = Kalman_filter->_X_+ (Kalman_filter->_K_*(Z-Kalman_filter->_X_));
 	//公式三：P(k+1|k) = (1 - K(k)) · P(k|k-1) + Q
 	Kalman_filter->_P_ = (1-Kalman_filter->_K_)*Kalman_filter->_P_+Kalman_filter->_Q_;
+	return Kalman_filter->_X_;
 }

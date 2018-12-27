@@ -68,7 +68,7 @@ void Gimbal_Task(void const * argument)
 
 void init_mode_handler(void)
 {
-	pid_yaw.p = 6;
+//	pid_yaw.p = 6;
 	gim.pid.pit_angle_fdb = gim.sensor.pit_relative_angle;
   gim.pid.yaw_angle_fdb = gim.sensor.yaw_relative_angle;
 	gim.pid.pit_angle_ref = 0;
@@ -87,6 +87,10 @@ void normal_mode_handler(void)
 
 void Gimbal_Param_Init(void)
 {
+		for(int i =0;i<2;i++)
+	{
+		Kalman_filter_init(&zi_miao_kf[i],1,1,20);//P-Q-R
+	}
 	memset(&gim, 0, sizeof(gimbal_t));
 	
 	gim.ctrl_mode 		 = GIMBAL_INIT;
@@ -97,15 +101,15 @@ void Gimbal_Param_Init(void)
 	ramp_init(&yaw_ramp, YAW_PREPARE_TIMS_MS);
 	/* pitch axis motor pid parameter */
   PID_struct_init(&pid_pit, POSITION_PID, 1000, 1000,
-                  6, 0, 0.003); //30
+                  8, 0, 0.003); //30
   PID_struct_init(&pid_pit_spd, POSITION_PID, 6000, 2000,
-                 19, 0, 0.003); //60
+                 29, 0, 0.003); //60
 
   /* yaw axis motor pid parameter */
   PID_struct_init(&pid_yaw, POSITION_PID, 1000, 1000,
-                  8, 0, 0); //
+                  11, 0, 0); //
   PID_struct_init(&pid_yaw_spd, POSITION_PID, 6000, 2000,
-                  60, 2, 0);
+                  29.5, 0.05, 0);
 	Send_Pc_Data[0] = 0xAA;
 	Send_Pc_Data[3] = 0xBB;
 }

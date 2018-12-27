@@ -20,7 +20,6 @@ int main(void)
 	Gimbal_Param_Init();
 	Chassis_Param_Init();
 	Shoot_Param_Init();
-	Kalman_filter_init(&KF_T,1,1,2000);
 	FreeRtos_Init();
 	osKernelStart();
   while (1)

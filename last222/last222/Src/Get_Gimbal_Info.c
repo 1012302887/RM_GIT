@@ -36,19 +36,12 @@ void get_gimbal_info(void)
 	else if((gim.ctrl_mode == GIMBAL_NORMAL) || (gim.ctrl_mode == GIMBAL_WRITHE))
 	{
 		gim.sensor.yaw_relative_angle = gyro_data.yaw   - gim.sensor.yaw_offset_angle;
-		
-		if (CAR_NUM == 1)
-		{
-		gim.sensor.pit_offset_angle = +5;
-		}
-		
 		gim.sensor.pit_relative_angle = gyro_data.pitch - gim.sensor.pit_offset_angle;//gim.sensor.pit_offset_angleÔÝÊ±Îª0
 		
-		//pid_yaw.p = 5;
-
 		ramp_init(&pit_ramp, PIT_PREPARE_TIMS_MS);
 		ramp_init(&yaw_ramp, YAW_PREPARE_TIMS_MS);
 	}
+
 	/* get gimbal relative palstance */
   //the Z axis(yaw) of gimbal coordinate system corresponds to the IMU Z axis
   gim.sensor.yaw_palstance = gyro_data.v_z;
@@ -91,7 +84,7 @@ void keyboard_gimbal_hook(void)
 				else {add_angle = 0;}
 //				gim.pid.yaw_angle_ref  = pc_data.dynamic_yaw-RC_CtrlData.mouse.x*0.2f+add_angle;	
 //				gim.pid.pit_angle_ref += RC_CtrlData.mouse.y * MOUSE_TO_PITCH_ANGLE_INC_FACT ;
-				gim.pid.yaw_angle_ref = -(gim.sensor.yaw_relative_angle + pc_data.dynamic_yaw+add_angle);
+				gim.pid.yaw_angle_ref = gim.sensor.yaw_relative_angle + pc_data.dynamic_yaw+add_angle;
 //				Ni_Ming(0xf1,gim.pid.yaw_angle_ref,pc_data.dynamic_yaw,pc_data.dynamic_pit,0);
 //				gim.pid.pit_angle_ref = pc_data.dynamic_pit;
 			}

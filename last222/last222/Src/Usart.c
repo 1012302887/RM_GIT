@@ -131,8 +131,10 @@ void USART2_IRQHandler(void)
 	} 
 }
 extern uint32_t pc_i;
+int iii_,ooo_;
 void USART6_IRQHandler(void)
 {
+	
 	if (__HAL_UART_GET_FLAG(&huart6, UART_FLAG_IDLE) && 
       __HAL_UART_GET_IT_SOURCE(&huart6, UART_IT_IDLE))
     {
@@ -153,9 +155,14 @@ void USART6_IRQHandler(void)
 					pc_data.star_shoot = Rx_data[5];   			
 					if(Rx_data[5]==1)
 					{
+						/*ÂË²¨*/
+						
+						iii_=Kalman_filter_calc(&zi_miao_kf[0],pc_data.dynamic_yaw);//
+						ooo_=Kalman_filter_calc(&zi_miao_kf[1],pc_data.dynamic_pit);//
+						
 //						printf("%f",pc_data.dynamic_yaw);
 					pc_data.last_times = pc_data.now_times;
-					pc_data.now_times = pc_data.last_times;
+					pc_data.now_times = osKernelSysTick(); 
 					pc_data.last_dynamic_pit = pc_data.dynamic_pit;
 					pc_data.last_dynamic_yaw = pc_data.dynamic_yaw;
 						

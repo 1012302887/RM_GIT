@@ -74,26 +74,26 @@ void get_main_ctrl_mode(void)
 	}
 	
 	/*遥控无信号，底盘目标输出为0*/
-	
-	if(moto_pit.total_angle + gyro_data.pitch < -8)
-	{
-		gim.limit_delay++;
-		if(gim.limit_delay > 1000)
-		{
-			ramp_mode = RAMP_UP;
-		}
-	}
-	else if(moto_pit.total_angle + gyro_data.pitch > 8)
-	{
-		gim.limit_delay++;
-		if(gim.limit_delay > 1000)
-		{
-			ramp_mode = RAMP_DOWN;
-		}
-	}
-	else
-	{
-		gim.limit_delay = 0;
-		ramp_mode = RAMP_FLAT;
-	}
+//	
+//	if(moto_pit.total_angle + gyro_data.pitch < -10)
+//	{
+//		gim.limit_delay++;
+//		if(gim.limit_delay > 1000)
+//		{
+//			ramp_mode = RAMP_UP;
+//		}
+//	}
+//	else if(moto_pit.total_angle + gyro_data.pitch > 10)
+//	{
+//		gim.limit_delay++;
+//		if(gim.limit_delay > 1000)
+//		{
+//			ramp_mode = RAMP_DOWN;
+//		}
+//	}
+//	else
+//	{
+//		gim.limit_delay = 0;
+//		ramp_mode = RAMP_FLAT;
+//	}
 }

@@ -28,7 +28,10 @@ void Get_Chassis_Info(void const * argument)
 				/* get chassis wheel fdb speed */
 				for (uint8_t i = 0; i < 4; i++)
 				 {
-					chassis.wheel_spd_fdb[i] = moto_chassis[i].filter_rate/19.0;
+					 /*ÂË²¨*/
+					moto_chassis[i].filter_rate =	Kalman_filter_calc(&CHASSIS_KF[i],moto_chassis[i].filter_rate);
+					 /*ÂË²¨*/
+						chassis.wheel_spd_fdb[i] = moto_chassis[i].filter_rate/19.0;
 				 }
 				/* get remote and keyboard chassis control information */
 				keyboard_chassis_hook();

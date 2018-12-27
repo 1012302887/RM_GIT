@@ -10,13 +10,12 @@ static float d_theta = 0;
 extern osThreadId CAN_SEND_TASKHandle;
 extern osThreadId GET_CHASSIS_INFHandle;
 /* µ×ÅÌ¶¨Ê±ÈÎÎñ*/
-float yyy;
+extern int iii_,ooo_;
 void Chassis_Task(void const *argument)
 {
-	Kalman_filter_calc(&KF_T,chassis.wheel_spd_fdb[0]);
-//	pid_rotate.p=0;//¹Ø±Õµ×ÅÌ¸úËæ
-	Ni_Ming(0xf1, chassis.wheel_spd_fdb[0],KF_T._X_,0,0);
-	if(gim.ctrl_mode == GIMBAL_INIT)//chassis dose not follow gimbal when gimbal initializa
+////	pid_rotate.p=0;//¹Ø±Õµ×ÅÌ¸úËæ
+	Ni_Ming(0xf1, pc_data.dynamic_pit,pc_data.dynamic_yaw,gim.sensor.yaw_relative_angle,gim.pid.yaw_angle_ref);
+		if(gim.ctrl_mode == GIMBAL_INIT)//chassis dose not follow gimbal when gimbal initializa
 	{
 		chassis.vw = 0;
 	}
@@ -68,6 +67,8 @@ void Chassis_Task(void const *argument)
 	
 	chassis.vx = chassis.vx_offset * FPU_COS(d_theta) - chassis.vy_offset * FPU_SIN(d_theta);
 	chassis.vy = chassis.vx_offset * FPU_SIN(d_theta) + chassis.vy_offset * FPU_COS(d_theta);
+//		chassis.vx = chassis.vx_offset * cos(d_theta) - chassis.vy_offset * sin(d_theta);
+//		chassis.vy = chassis.vx_offset * sin(d_theta) + chassis.vy_offset * cos(d_theta);
 	
 	chassis.wheel_spd_ref[0] = -chassis.vx + chassis.vy + chassis.vw;
 	chassis.wheel_spd_ref[1] =  chassis.vx + chassis.vy + chassis.vw;
@@ -103,11 +104,16 @@ void Chassis_Param_Init(void)
 	
 	/* initializa chassis follow gimbal pid */
 		PID_struct_init(&pid_rotate, POSITION_PID, 40, 0, 
-		1.7, 0, 0);//2.0
+		2, 0, 0);//2.0
 	
 	 for (int k = 0; k < 4; k++)
   {
-    PID_struct_init(&pid_spd[k], POSITION_PID, 8000, 0,
-		400, 2, 0); 
+    PID_struct_init(&pid_spd[k], POSITION_PID, 10000, 0,
+		300, 0, 0); 
+	}
+	
+	for(int i =0;i<4;i++)
+	{
+		Kalman_filter_init(&CHASSIS_KF[i],1,1,200);//P-Q-R
 	}
 }
