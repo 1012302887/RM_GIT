@@ -1,5 +1,7 @@
 #include "main.h"
-
+extern uint8_t TC;
+extern UART_HandleTypeDef huart1;
+extern DMA_HandleTypeDef hdma_usart1_tx;
 uint8_t send_buf[21];
 void Ni_Ming(uint8_t fun,float Pid_ref1,float Pid_ref2,float Pid_ref3,float Pid_ref4)
 {
@@ -31,11 +33,10 @@ void Ni_Ming(uint8_t fun,float Pid_ref1,float Pid_ref2,float Pid_ref3,float Pid_
   send_buf[19]=(unsigned char)(*(p4+0));
 	send_buf[20]=0;
 	for(uint8_t i=0;i<20;i++)send_buf[20]+=send_buf[i];	//计算校验和
-	
 	for(uint8_t i=0;i<21;i++)
 	{
 		while(__HAL_UART_GET_FLAG(&huart1,UART_FLAG_TC)==RESET){}; 
     USART1->DR=send_buf[i];
 	}
-	
+//	HAL_UART_Transmit_DMA(&huart1,send_buf,21);
 }

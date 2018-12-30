@@ -573,14 +573,14 @@
               <FilePath>..\Src\Get_Gimbal_Info.c</FilePath>
             </File>
             <File>
-              <FileName>Gimbal_Task.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\Gimbal_Task.c</FilePath>
-            </File>
-            <File>
               <FileName>Mode_Switch_Task.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\Mode_Switch_Task.c</FilePath>
+            </File>
+            <File>
+              <FileName>Gimbal_Task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\Gimbal_Task.c</FilePath>
             </File>
             <File>
               <FileName>Get_Chassis_Info.c</FileName>

@@ -104,9 +104,9 @@ void Gimbal_Param_Init(void)
 	ramp_init(&yaw_ramp, YAW_PREPARE_TIMS_MS);
 	/* pitch axis motor pid parameter */
   PID_struct_init(&pid_pit, POSITION_PID, 1000, 1000,
-                  13, 0.02, 0); //30
+                  10, 0, 0); //30
   PID_struct_init(&pid_pit_spd, POSITION_PID, 6000, 2000,
-                 25, 0.1, 0); //60
+                 23, 0, 0); //60
 
   /* yaw axis motor pid parameter */
   PID_struct_init(&pid_yaw, POSITION_PID, 1000, 1000,

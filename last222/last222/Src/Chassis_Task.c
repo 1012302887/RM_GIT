@@ -10,12 +10,12 @@ static float d_theta = 0;
 extern osThreadId CAN_SEND_TASKHandle;
 extern osThreadId GET_CHASSIS_INFHandle;
 /* 底盘定时任务*/
-extern int iii_,ooo_;
+uint32_t ones=0;
 void Chassis_Task(void const *argument)
 {
 //	pid_rotate.p=0;//关闭底盘跟随
+	USART6_Transmit();
 //	Ni_Ming(0xf1, chassis.wheel_spd_fdb[0],chassis.wheel_spd_fdb[1],chassis.wheel_spd_ref[0],chassis.wheel_spd_ref[1]);
-	
 		if(gim.ctrl_mode == GIMBAL_INIT)//chassis dose not follow gimbal when gimbal initializa
 	{
 		chassis.vw = 0;
@@ -114,10 +114,10 @@ void Chassis_Param_Init(void)
 	
 	for(int i =0;i<4;i++)
 	{
-		Kalman_filter_init(&CHASSIS_KF[i],1,1,200);//P-Q-R
+		Kalman_filter_init(&CHASSIS_KF[i],1,1,100);//P-Q-R
 	}
 	for(int i =0;i<2;i++)
 	{
-		Kalman_filter_init(&CHASSIS_REF_KF[i],1,1,200);//P-Q-R
+		Kalman_filter_init(&CHASSIS_REF_KF[i],1,1,100);//P-Q-R
 	}
 }

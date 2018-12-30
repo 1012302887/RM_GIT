@@ -31,6 +31,7 @@ UART_HandleTypeDef huart2;
 UART_HandleTypeDef huart6;
 DMA_HandleTypeDef hdma_usart2_rx;
 DMA_HandleTypeDef hdma_usart6_rx;
+DMA_HandleTypeDef hdma_usart1_tx;
 /** 
   * Enable DMA controller clock
   */
@@ -45,6 +46,9 @@ void MX_DMA_Init(void)
     HAL_NVIC_EnableIRQ(DMA1_Stream5_IRQn);
 		HAL_NVIC_SetPriority(DMA2_Stream5_IRQn, 5, 0);
     HAL_NVIC_EnableIRQ(DMA2_Stream5_IRQn);
+		HAL_NVIC_SetPriority(DMA2_Stream7_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(DMA2_Stream7_IRQn);
+	
 }
 
 /* USART1 init function */
@@ -63,9 +67,17 @@ void MX_USART1_UART_Init(void)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
-
+  __HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE);
+//		SET_BIT(huart1.Instance->CR1, USART_CR1_IDLEIE);//¿ªÆô´®¿Ú¿ÕÏÐÖÐ¶Ï.
+//		__HAL_DMA_ENABLE(huart1.hdmarx);
 }
 
+uint8_t TC=0;
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
+{
+		DMA2->HIFCR = DMA_FLAG_DMEIF0_4 | DMA_FLAG_FEIF0_4 | DMA_FLAG_HTIF0_4 | DMA_FLAG_TCIF0_4 | DMA_FLAG_TEIF0_4;
+		__HAL_DMA_SET_COUNTER(huart1.hdmarx, 21);
+}	
 /* USART2 init function */
 void MX_USART2_UART_Init(void)
 {
@@ -105,7 +117,19 @@ void MX_USART6_UART_Init(void)
 	SET_BIT(huart6.Instance->CR1, USART_CR1_IDLEIE);
 	HAL_UART_Receive_DMA(&huart6, (uint8_t *)Rx_data, RECEIVELEN);	
 }
+void USART1_IRQHandler(void)
+{
+//	if (__HAL_UART_GET_FLAG(&huart1, UART_FLAG_IDLE) && 
+//		__HAL_UART_GET_IT_SOURCE(&huart1, UART_IT_IDLE))
+//	{
+//		CLEAR_BIT(huart1.Instance->SR, USART_SR_IDLE);
+//		__HAL_DMA_DISABLE(huart1.hdmarx);
 
+//		SET_BIT(huart1.Instance->CR1, USART_CR1_IDLEIE);
+//		DMA2->HIFCR = DMA_FLAG_DMEIF0_4 | DMA_FLAG_FEIF0_4 | DMA_FLAG_HTIF0_4 | DMA_FLAG_TCIF0_4 | DMA_FLAG_TEIF0_4;
+//		__HAL_DMA_SET_COUNTER(huart1.hdmarx, 21);
+//	}
+}
 uint16_t	temp;
 void USART2_IRQHandler(void)
 {
@@ -188,9 +212,9 @@ void USART6_IRQHandler(void)
 uint8_t SEND_DATA[7]={0};
 void USART6_Transmit(void)
 {
-SEND_DATA[0]= 0xaa ;SEND_DATA[6]= 0xbb ;SEND_DATA[2]= (int)gim.pid.pit_angle_fdb*100<<8;
-SEND_DATA[1]= (int)gim.pid.pit_angle_fdb*100;SEND_DATA[4]= (int)gim.pid.yaw_angle_fdb*100<<8;
-SEND_DATA[3]= (int)gim.pid.yaw_angle_fdb*100;
+SEND_DATA[0]= 0xaa ;SEND_DATA[6]= 0xbb ;SEND_DATA[1]= (int16_t)gim.pid.pit_angle_fdb>>8;
+SEND_DATA[2]= (int16_t)gim.pid.pit_angle_fdb&0xFF;SEND_DATA[3]=(int16_t)gim.pid.yaw_angle_fdb>>8;
+SEND_DATA[4]= (int16_t)gim.pid.yaw_angle_fdb&0xFF;
 HAL_UART_Transmit(&huart6,SEND_DATA,7,20);
 }
 void Get_Remote_info(RC_Ctl_t *rc, uint8_t *pData)
