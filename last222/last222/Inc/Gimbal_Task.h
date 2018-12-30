@@ -3,7 +3,7 @@
 
 #include "stm32f4xx_hal.h"
 
-#define PIT_PREPARE_TIMS_MS			 200     //
+#define PIT_PREPARE_TIMS_MS			 200   //
 #define YAW_PREPARE_TIMS_MS			 1000    //
 
 typedef enum

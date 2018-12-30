@@ -74,7 +74,7 @@ void keyboard_gimbal_hook(void)
 			
 			/* get remote gimbal info */
 			pc_i++;
-			pc_data.yaw_befoer[pc_i%100] = gim.sensor.yaw_relative_angle; 
+			pc_data.yaw_befoer[pc_i%50] = gim.sensor.yaw_relative_angle; 
 			/* ×ÔÃé²¿·Ö */
 			if(auto_shoot == 1)
 			{	
@@ -176,7 +176,7 @@ void GimbalAngleLimit(void)
 	}
 	else
 	{
-		VAL_LIMIT(gim.pid.pit_angle_ref, -33 ,30);
+		VAL_LIMIT(gim.pid.pit_angle_ref, -28 ,30);
 	}
 	VAL_LIMIT(gim.pid.yaw_angle_ref, gim.sensor.yaw_relative_angle-30, gim.sensor.yaw_relative_angle+30);  
 }
@@ -186,4 +186,5 @@ void send_gimbal_motor_ctrl_message(int16_t gimbal_cur[])
      1: pitch motor current
      2: trigger motor current*/
   send_gimbal_cur(-gimbal_cur[0], -gimbal_cur[1], gimbal_cur[2]);
+//	send_gimbal_cur(0, 0, gimbal_cur[2]);
 }

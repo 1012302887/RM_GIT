@@ -52,11 +52,19 @@ void remote_ctrl_chassis_hook(void)
 		{
 			chassis.vx_offset = RC_CtrlData.rc.ch1 * 30.0f / 660;
 			chassis.vy_offset = RC_CtrlData.rc.ch0 * 30.0f / 660;
+			/*ÂË²¨*/
+			chassis.vx_offset =	Kalman_filter_calc(&CHASSIS_REF_KF[0],chassis.vx_offset);
+			chassis.vy_offset =	Kalman_filter_calc(&CHASSIS_REF_KF[1],chassis.vy_offset);
+			/*ÂË²¨*/
 		}
 		else
 		{
 			chassis.vx_offset = RC_CtrlData.rc.ch1 * CHASSIS_REF_FACT;
 			chassis.vy_offset = RC_CtrlData.rc.ch0 * CHASSIS_REF_FACT;
+			 /*ÂË²¨*/
+			chassis.vx_offset =	Kalman_filter_calc(&CHASSIS_REF_KF[0],chassis.vx_offset);
+			chassis.vy_offset =	Kalman_filter_calc(&CHASSIS_REF_KF[1],chassis.vy_offset);
+				/*ÂË²¨*/
 		}
 	}
 }

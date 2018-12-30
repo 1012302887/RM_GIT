@@ -156,7 +156,9 @@ pid_t pid_pit_spd				= {0};
 pid_t pid_rotate        = {0};
 pid_t pid_pos[4]        = {0};
 pid_t pid_spd[4]        = {0};
-
 /* shoot pid  */
 pid_t pid_trigger       = {0};
 pid_t pid_trigger_spd   = {0};
+/* auto_Shoot pid  */
+pid_t pid_as_yaw = {0};
+pid_t pid_as_pit = {0};

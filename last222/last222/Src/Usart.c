@@ -125,7 +125,7 @@ void USART2_IRQHandler(void)
 		}
 		HAL_UART_Receive_DMA(&huart2, (uint8_t *)rc_RxBuffer, RECEIVELEN);
 		SET_BIT(huart2.Instance->CR1, USART_CR1_IDLEIE);
-		DMA1->HIFCR = DMA_FLAG_DMEIF1_5 | DMA_FLAG_FEIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TCIF1_5 | DMA_FLAG_TEIF1_5;
+		DMA1->HIFCR = DMA_FLAG_DMEIF0_4 | DMA_FLAG_FEIF0_4 | DMA_FLAG_HTIF0_4 | DMA_FLAG_TCIF0_4 | DMA_FLAG_TEIF0_4;
 		__HAL_DMA_SET_COUNTER(huart2.hdmarx, RECEIVELEN);
 		__HAL_DMA_ENABLE(huart2.hdmarx);
 	} 
@@ -155,12 +155,12 @@ void USART6_IRQHandler(void)
 					pc_data.star_shoot = Rx_data[5];   			
 					if(Rx_data[5]==1)
 					{
-						/*滤波*/
+						/*********************滤波*******************************/
 						
-						iii_=Kalman_filter_calc(&zi_miao_kf[0],pc_data.dynamic_yaw);//
-						ooo_=Kalman_filter_calc(&zi_miao_kf[1],pc_data.dynamic_pit);//
-						
-//						printf("%f",pc_data.dynamic_yaw);
+//					pc_data.dynamic_yaw=Kalman_filter_calc(&zi_miao_kf[0],pc_data.dynamic_yaw);//
+//					pc_data.dynamic_pit=Kalman_filter_calc(&zi_miao_kf[1],pc_data.dynamic_pit);//	
+						/*********************滤波*******************************/
+
 					pc_data.last_times = pc_data.now_times;
 					pc_data.now_times = osKernelSysTick(); 
 					pc_data.last_dynamic_pit = pc_data.dynamic_pit;
@@ -169,12 +169,12 @@ void USART6_IRQHandler(void)
 //					pc_data.dynamic_yaw += AUTOSHOOT_X_OFFSET;//偏移量
 						
 //				/*暂时没有用上这部分*/
-//					pc_data.v_last = pc_data.v_now;
-//					pc_data.last_coordinate = pc_data.coordinate;
-//					pc_data.coordinate = pc_data.yaw_befoer[(pc_i+ 1)%100] - pc_data.dynamic_yaw;
-//					/*目标移动速度*/
-//				  pc_data.v_now = (pc_data.coordinate - pc_data.last_coordinate) / (pc_data.now_times - pc_data.last_times);	
-//				/*暂时没有用上这部分*/
+					pc_data.v_last = pc_data.v_now;
+					pc_data.last_coordinate = pc_data.coordinate;
+					pc_data.coordinate = pc_data.yaw_befoer[(pc_i+ 1)%50] - pc_data.dynamic_yaw;
+					/*目标移动速度*/
+				  pc_data.v_now = (pc_data.coordinate - pc_data.last_coordinate) / (pc_data.now_times - pc_data.last_times);	
+				/*暂时没有用上这部分*/
 						
 					}
 				}

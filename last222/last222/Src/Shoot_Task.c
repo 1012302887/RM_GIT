@@ -41,11 +41,7 @@ void shoot_remote_handler(void)
 	if(shoot.fric.switching == ON)
 	{		
 		shoot.trig.delay++;
-		if (fric_swich==0)
-		{
-			send_fri_cur(4400);
-			fric_swich=1;
-		}
+		send_fri_cur(4400*ramp_calc(&fric_ramp));
 			if(shoot.trig.delay > 500)
 		{
 			shoot.trig.spd_ref = -6;
@@ -53,15 +49,12 @@ void shoot_remote_handler(void)
 	}
 	else
 	{	
-		
+
 		shoot.trig.delay = 0;
 		shoot.trig.spd_ref = 0;
-		if(fric_swich==1)
-		{
-			fric_swich=0;
-			send_fri_cur(3000);
-		}
-		}
+		ramp_init(&fric_ramp,FRIC_PREPARE_TIMS_MS);
+		send_fri_cur(3000*ramp_calc(&fric_ramp));
+	}
 }
 
 void shoot_keyboard_handler(void)
@@ -70,28 +63,17 @@ void shoot_keyboard_handler(void)
 	{
 		if(RC_CtrlData.key.v & B_KEY)
 		{
-			if (fric_swich==0)
-			{
-				send_fri_cur(4800);
-				fric_swich=1;
-			}
+				send_fri_cur(4800*ramp_calc(&fric_ramp));
 		}
 		else
 		{
-			if (fric_swich==0)
-			{
-				send_fri_cur(4400);
-				fric_swich=1;
-			}
+				send_fri_cur(4400*ramp_calc(&fric_ramp));
 		}
 	}
 	else
 	{
-			if(fric_swich==1)
-		{
-			fric_swich=0;
-			send_fri_cur(3000);
-		}
+		ramp_init(&fric_ramp,FRIC_PREPARE_TIMS_MS);
+		send_fri_cur(3000*ramp_calc(&fric_ramp));
 	}
 	
 	if(shoot.trig.switching == ON)
@@ -147,6 +129,8 @@ void Shoot_Param_Init(void)
   PID_struct_init(&pid_trigger, POSITION_PID, 30, 2000,
                   0.5, 0, 0);
   PID_struct_init(&pid_trigger_spd, POSITION_PID, 10000, 5000,
-	600, 2, 0);//p:1200
-	ramp_init(&fric_ramp,1);
+	100, 2, 0);//p:1200
+	PID_struct_init(&pid_as_yaw, POSITION_PID, 10000, 5000,
+	100, 2, 0);//
+	ramp_init(&fric_ramp,FRIC_PREPARE_TIMS_MS);
 }

@@ -8,7 +8,7 @@
 #define   OFF							 0
 #define   Lv_3						 3
 #define   Lv_2						 2
-
+#define FRIC_PREPARE_TIMS_MS			 300  //
 typedef __packed struct
 {
   /* trigger motor param */

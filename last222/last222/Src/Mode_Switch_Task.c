@@ -19,7 +19,7 @@ void Mode_Switch_Task(void const * argument)
   osDelay(1500);
 	//启动定时器任务，指定定时时间（毫秒）
 	osTimerStart(chassis_timer_id ,4);
-	osTimerStart(gimbal_timer_id  ,1);
+	osTimerStart(gimbal_timer_id  ,2);
 	osTimerStart(shoot_timer_id  ,2);
 	uint32_t mode_wake_time = osKernelSysTick();
 	for(;;)
@@ -57,7 +57,7 @@ void get_main_ctrl_mode(void)
 	}
 	
 	/*遥控无信号，底盘目标输出为0*/
-	if(mode_switch_times % 400 == 0)
+	if(mode_switch_times % 200 == 0)
 	{
 		if(Reset == last_Reset)
 		{
@@ -68,14 +68,15 @@ void get_main_ctrl_mode(void)
 			gim.stop = 0;
 		}
 	}
-	if((mode_switch_times %200 == 0)  && (mode_switch_times %400 != 0))
+	if((mode_switch_times %100 == 0)  && (mode_switch_times %200 != 0))
 	{
 		last_Reset = Reset;
 	}
 	
 	/*遥控无信号，底盘目标输出为0*/
-//	
-//	if(moto_pit.total_angle + gyro_data.pitch < -10)
+	
+	
+//	if(moto_pit.total_angle + gyro_data.pitch < -6)
 //	{
 //		gim.limit_delay++;
 //		if(gim.limit_delay > 1000)
@@ -83,7 +84,7 @@ void get_main_ctrl_mode(void)
 //			ramp_mode = RAMP_UP;
 //		}
 //	}
-//	else if(moto_pit.total_angle + gyro_data.pitch > 10)
+//	else if(moto_pit.total_angle + gyro_data.pitch > 6)
 //	{
 //		gim.limit_delay++;
 //		if(gim.limit_delay > 1000)

@@ -9,10 +9,13 @@ void ramp_init(ramp_t *ramp, int32_t scale)
 float ramp_calc(ramp_t *ramp)
 {
   if (ramp->scale <= 0)
-    return 0;
-  
+	{
+		return 0;
+  }
   if (ramp->count++ >= ramp->scale)
-    ramp->count = ramp->scale;
+	{
+		ramp->count = ramp->scale;
+	}
   
   ramp->out = ramp->count / ((float)ramp->scale);
   return ramp->out;
