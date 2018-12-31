@@ -760,6 +760,21 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>REG_DMA</GroupName>
+          <Files>
+            <File>
+              <FileName>REG_DMA.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\REG_DMA.c</FilePath>
+            </File>
+            <File>
+              <FileName>REG_DMA.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Inc\REG_DMA.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>::CMSIS</GroupName>
         </Group>
       </Groups>

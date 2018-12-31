@@ -27,5 +27,5 @@ void Kalman_filter_init(Kalman_t* Kalman_filter,float _P_,\
 float Kalman_filter_calc(Kalman_t* Kalman_filter,float Z);
 extern Kalman_t zi_miao_kf[2];
 extern Kalman_t CHASSIS_KF[4];
-extern Kalman_t CHASSIS_REF_KF[2];
+extern Kalman_t CHASSIS_REF_KF[4];
 #endif

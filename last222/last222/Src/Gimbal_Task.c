@@ -77,7 +77,6 @@ void init_mode_handler(void)
 	gim.pid.yaw_angle_ref = 0;
 	if(handler_run_time > 2000)
 	{
-		pid_pit.p=13;
 		gim.ctrl_mode = GIMBAL_NORMAL;
 	}
 }
@@ -110,9 +109,9 @@ void Gimbal_Param_Init(void)
 
   /* yaw axis motor pid parameter */
   PID_struct_init(&pid_yaw, POSITION_PID, 1000, 1000,
-                  10, 0.001, 0); //
+                  8, 0, 0); //
   PID_struct_init(&pid_yaw_spd, POSITION_PID, 6000, 2000,
-                  40, 0.001, 0);
+                  38, 0, 0);
 	Send_Pc_Data[0] = 0xAA;
 	Send_Pc_Data[3] = 0xBB;
 }

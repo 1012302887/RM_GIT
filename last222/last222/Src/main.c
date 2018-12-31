@@ -20,6 +20,7 @@ int main(void)
 	Gimbal_Param_Init();
 	Chassis_Param_Init();
 	Shoot_Param_Init();
+	MYDMA_Config(DMA2_Stream7,4,(uint32_t)&USART1->DR,(uint32_t)send_buf,21);
 	FreeRtos_Init();
 	osKernelStart();
   while (1)

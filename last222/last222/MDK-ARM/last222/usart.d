@@ -68,4 +68,4 @@ last222\usart.o: ../Inc/Shoot_Task.h
 last222\usart.o: ../Inc/Keyboard.h
 last222\usart.o: ../Inc/Car_num.h
 last222\usart.o: ../Inc/Kalman.h
-last222\usart.o: ../Inc/Kalman_2.h
+last222\usart.o: ../Inc/REG_DMA.h

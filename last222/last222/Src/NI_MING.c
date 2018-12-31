@@ -1,7 +1,6 @@
 #include "main.h"
 extern uint8_t TC;
 extern UART_HandleTypeDef huart1;
-extern DMA_HandleTypeDef hdma_usart1_tx;
 uint8_t send_buf[21];
 void Ni_Ming(uint8_t fun,float Pid_ref1,float Pid_ref2,float Pid_ref3,float Pid_ref4)
 {
@@ -33,10 +32,17 @@ void Ni_Ming(uint8_t fun,float Pid_ref1,float Pid_ref2,float Pid_ref3,float Pid_
   send_buf[19]=(unsigned char)(*(p4+0));
 	send_buf[20]=0;
 	for(uint8_t i=0;i<20;i++)send_buf[20]+=send_buf[i];	//计算校验和
-	for(uint8_t i=0;i<21;i++)
-	{
-		while(__HAL_UART_GET_FLAG(&huart1,UART_FLAG_TC)==RESET){}; 
-    USART1->DR=send_buf[i];
-	}
+//	for(uint8_t i=0;i<21;i++)
+//	{
+//		while(__HAL_UART_GET_FLAG(&huart1,UART_FLAG_TC)==RESET){}; 
+//    USART1->DR=send_buf[i];
+//	}
+	USART1->CR3=1<<7;           //使能串口1的DMA发送       
+	MYDMA_Enable(DMA2_Stream7,21);//开始一次DMA传输！	  
+//		    //实际应用中，传输数据期间，可以执行另外的任务
+			if(DMA2->HISR&(1<<27))	//等待DMA2_Steam7传输完成
+			{
+				DMA2->HIFCR|=1<<27;	//清除DMA2_Steam7传输完成标志
+			}
 //	HAL_UART_Transmit_DMA(&huart1,send_buf,21);
 }

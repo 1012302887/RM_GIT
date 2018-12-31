@@ -57,6 +57,7 @@
 "last222\arm_sin_f32.o"
 "last222\arm_common_tables.o"
 "last222\arm_const_structs.o"
+"last222\reg_dma.o"
 --library_type=microlib --strict --scatter "last222\last222.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
