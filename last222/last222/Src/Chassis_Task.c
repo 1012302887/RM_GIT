@@ -15,7 +15,8 @@ void Chassis_Task(void const *argument)
 {
 //	pid_rotate.p=0;//¹Ø±Õµ×ÅÌ¸úËæ
 //	USART6_Transmit();
-//	Ni_Ming(0xf1, chassis.wheel_spd_fdb[0],chassis.wheel_spd_fdb[1],chassis.wheel_spd_ref[0],chassis.wheel_spd_ref[1]);
+	Ni_Ming(0xf1, chassis.wheel_spd_fdb[0],chassis.wheel_spd_fdb[1],chassis.wheel_spd_fdb[2],chassis.wheel_spd_fdb[3]);
+	Ni_Ming(0xf2, chassis.wheel_spd_ref[0],chassis.wheel_spd_ref[1],chassis.wheel_spd_ref[2],chassis.wheel_spd_ref[3]);
 		if(gim.ctrl_mode == GIMBAL_INIT)//chassis dose not follow gimbal when gimbal initializa
 	{
 		chassis.vw = 0;
@@ -112,15 +113,15 @@ void Chassis_Param_Init(void)
 	 for (int k = 0; k < 4; k++)
   {
     PID_struct_init(&pid_spd[k], POSITION_PID, 10000, 0,
-		300, 0, 0); 
+		540, 0, 0); 
 	}
 	
 	for(int i =0;i<4;i++)
 	{
-		Kalman_filter_init(&CHASSIS_KF[i],1,1,100);//P-Q-R
+		Kalman_filter_init(&CHASSIS_KF[i],1,1,50);//P-Q-R
 	}
 	for(int i =0;i<4;i++)
 	{
-		Kalman_filter_init(&CHASSIS_REF_KF[i],1,1,100);//P-Q-R
+		Kalman_filter_init(&CHASSIS_REF_KF[i],1,1,50);//P-Q-R
 	}
 }

@@ -23,7 +23,7 @@ typedef enum
 
 } can_msg_id_e;
 /* can receive motor parameter structure */
-#define FILTER_BUF 6
+#define FILTER_BUF 5
 typedef struct
 {
   uint16_t ecd;                            //编码器不经处理的原始值

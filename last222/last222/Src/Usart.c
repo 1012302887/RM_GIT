@@ -189,7 +189,14 @@ void USART6_Transmit(void)
 	SEND_DATA[0]= 0xaa ;SEND_DATA[6]= 0xbb ;SEND_DATA[1]= (int16_t)(gim.pid.pit_angle_fdb*100)>>8;
 	SEND_DATA[2]= (int16_t)(gim.pid.pit_angle_fdb*100)&0xFF;SEND_DATA[3]=(int16_t)(gim.pid.yaw_angle_fdb*100)>>8;
 	SEND_DATA[4]= (int16_t)(gim.pid.yaw_angle_fdb*100)&0xFF;
-//	T_Transmit(&huart6,SEND_DATA,7,20);
+	USART6->CR3=1<<7;           //使能串口6的DMA发送       
+	MYDMA_Enable(DMA2_Stream6,7);//开始一次DMA传输！	  
+//		    //实际应用中，传输数据期间，可以执行另外的任务
+			if(DMA2->HISR&(1<<21))	//等待DMA2_Steam6传输完成
+			{
+				DMA2->HIFCR|=1<<21;	//清除DMA2_Steam6传输完成标志
+			}
+//	HAL_UART_Transmit(&huart6,SEND_DATA,7,20);
 }
 void Get_Remote_info(RC_Ctl_t *rc, uint8_t *pData)
 {

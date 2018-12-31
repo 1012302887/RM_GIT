@@ -159,7 +159,7 @@
           <Type>0</Type>
           <LineNumber>39</LineNumber>
           <EnabledFlag>0</EnabledFlag>
-          <Address>134227764</Address>
+          <Address>134227752</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -191,7 +191,7 @@
           <Type>0</Type>
           <LineNumber>15</LineNumber>
           <EnabledFlag>0</EnabledFlag>
-          <Address>134219936</Address>
+          <Address>134219940</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -313,6 +313,16 @@
           <count>21</count>
           <WinNumber>1</WinNumber>
           <ItemText>gim,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>22</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>pc_data,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>23</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Rx_data,0x0A</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>
@@ -913,7 +923,7 @@
 
   <Group>
     <GroupName>Can</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -1057,7 +1067,7 @@
 
   <Group>
     <GroupName>NI_MING</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -1225,7 +1235,7 @@
 
   <Group>
     <GroupName>REG_DMA</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

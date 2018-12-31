@@ -86,4 +86,5 @@ void MX_USART2_UART_Init(void);
 void MX_USART6_UART_Init(void);
 void Get_Remote_info(RC_Ctl_t *rc, uint8_t *pData);
 void USART6_Transmit(void);
+extern uint8_t SEND_DATA[7];//´®¿ÚÁù·¢ËÍ
 #endif

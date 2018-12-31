@@ -106,7 +106,6 @@ void keyboard_gimbal_hook(void)
 		else 
 			{
 				pc_data.v_now_i = 0;
-				pid_yaw.p = 10;
 				gim.pid.yaw_angle_ref -= RC_CtrlData.mouse.x * MOUSE_TO_YAW_ANGLE_INC_FACT  ;//+ shoot_buff_data.dynamic_yaw * 0.015f;
 				gim.pid.pit_angle_ref += RC_CtrlData.mouse.y * MOUSE_TO_PITCH_ANGLE_INC_FACT ;//+ shoot_buff_data.dynamic_pit * 0.015f;
 			}
