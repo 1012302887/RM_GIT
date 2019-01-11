@@ -2,6 +2,7 @@
 Kalman_t CHASSIS_KF[4];
 Kalman_t zi_miao_kf[2];
 Kalman_t CHASSIS_REF_KF[4];
+Kalman_t GIMBAL_KF[2];
 void Kalman_filter_init(Kalman_t* Kalman_filter,float _P_,\
 	float _Q_,float _R_)
 {

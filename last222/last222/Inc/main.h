@@ -31,8 +31,8 @@
 #include "Car_num.h"
 #include "Kalman.h"
 #include "REG_DMA.h"
+#include "NI_MING_TASK.h"
 /* USER CODE BEGIN Includes */
-
 /* USER CODE END Includes */
 
 /* Private define ------------------------------------------------------------*/

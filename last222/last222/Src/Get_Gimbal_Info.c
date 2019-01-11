@@ -175,7 +175,7 @@ void GimbalAngleLimit(void)
 	}
 	else
 	{
-		VAL_LIMIT(gim.pid.pit_angle_ref, -28 ,30);
+		VAL_LIMIT(gim.pid.pit_angle_ref, -27 ,28);
 	}
 	VAL_LIMIT(gim.pid.yaw_angle_ref, gim.sensor.yaw_relative_angle-30, gim.sensor.yaw_relative_angle+30);  
 }

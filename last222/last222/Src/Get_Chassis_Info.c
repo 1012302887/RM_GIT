@@ -3,7 +3,7 @@ uint8_t auto_shoot = 0;
 uint32_t turn_time_last = 0;
 extern ramp_t FBSpeedRamp;
 extern ramp_t LRSpeedRamp;
-
+extern float dipan_fdb_KF[4];
 /*left wheel:2   right wheel:1 */
 
 /*left wheel:4   right wheel:3 */
@@ -28,10 +28,11 @@ void Get_Chassis_Info(void const * argument)
 				/* get chassis wheel fdb speed */
 				for (uint8_t i = 0; i < 4; i++)
 				 {
-					 /*ÂË²¨*/
-					moto_chassis[i].filter_rate =	Kalman_filter_calc(&CHASSIS_KF[i],moto_chassis[i].filter_rate);
-					 /*ÂË²¨*/
+
 						chassis.wheel_spd_fdb[i] = moto_chassis[i].filter_rate/19.0;
+//					 /*ÂË²¨*/
+						chassis.wheel_spd_fdb[i] =	Kalman_filter_calc(&CHASSIS_KF[i],chassis.wheel_spd_fdb[i]);
+//					 /*ÂË²¨*/
 				 }
 				/* get remote and keyboard chassis control information */
 				keyboard_chassis_hook();

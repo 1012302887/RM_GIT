@@ -2,6 +2,8 @@
 #include "arm_math.h"
 #define FPU_COS arm_cos_f32
 #define FPU_SIN arm_sin_f32
+float dipan_fdb_KF[4];
+extern float iii_,ooo_;
 /* chassis task global parameter */
 ramp_t FBSpeedRamp = RAMP_GEN_DAFAULT;
 ramp_t LRSpeedRamp = RAMP_GEN_DAFAULT;
@@ -14,10 +16,10 @@ uint32_t ones=0;
 void Chassis_Task(void const *argument)
 {
 //	pid_rotate.p=0;//¹Ø±Õµ×ÅÌ¸úËæ
-//	USART6_Transmit();
-	Ni_Ming(0xf1, chassis.wheel_spd_fdb[0],chassis.wheel_spd_fdb[1],chassis.wheel_spd_fdb[2],chassis.wheel_spd_fdb[3]);
-	Ni_Ming(0xf2, chassis.wheel_spd_ref[0],chassis.wheel_spd_ref[1],chassis.wheel_spd_ref[2],chassis.wheel_spd_ref[3]);
-		if(gim.ctrl_mode == GIMBAL_INIT)//chassis dose not follow gimbal when gimbal initializa
+////	USART6_Transmit();
+//		Ni_Ming(0xf1, pc_data.dynamic_yaw,pc_data.dynamic_pit ,iii_,ooo_);
+//		Ni_Ming(0xf2, chassis.wheel_spd_ref[0],chassis.wheel_spd_ref[1],chassis.wheel_spd_ref[2],chassis.wheel_spd_ref[3]);
+	if(gim.ctrl_mode == GIMBAL_INIT)//chassis dose not follow gimbal when gimbal initializa
 	{
 		chassis.vw = 0;
 	}
@@ -66,11 +68,8 @@ void Chassis_Task(void const *argument)
 	}
 	d_theta /= -57.295;
 	
-	
 	chassis.vx = chassis.vx_offset * FPU_COS(d_theta) - chassis.vy_offset * FPU_SIN(d_theta);
 	chassis.vy = chassis.vx_offset * FPU_SIN(d_theta) + chassis.vy_offset * FPU_COS(d_theta);
-//		chassis.vx = chassis.vx_offset * cos(d_theta) - chassis.vy_offset * sin(d_theta);
-//		chassis.vy = chassis.vx_offset * sin(d_theta) + chassis.vy_offset * cos(d_theta);
 	
 	chassis.wheel_spd_ref[0] = -chassis.vx + chassis.vy + chassis.vw;
 	chassis.wheel_spd_ref[1] =  chassis.vx + chassis.vy + chassis.vw;
@@ -108,7 +107,7 @@ void Chassis_Param_Init(void)
 	
 	/* initializa chassis follow gimbal pid */
 		PID_struct_init(&pid_rotate, POSITION_PID, 40, 0, 
-		1.4, 0, 0);//2.0
+		1.5, 0, 0);//2.0
 	
 	 for (int k = 0; k < 4; k++)
   {
@@ -118,7 +117,7 @@ void Chassis_Param_Init(void)
 	
 	for(int i =0;i<4;i++)
 	{
-		Kalman_filter_init(&CHASSIS_KF[i],1,1,50);//P-Q-R
+		Kalman_filter_init(&CHASSIS_KF[i],1,1,40);//P-Q-R
 	}
 	for(int i =0;i<4;i++)
 	{

@@ -43,8 +43,8 @@ void MX_DMA_Init(void)
   /* DMA1_Stream5_IRQn interrupt configuration */
     HAL_NVIC_SetPriority(DMA1_Stream5_IRQn, 5, 0);
     HAL_NVIC_EnableIRQ(DMA1_Stream5_IRQn);
-		HAL_NVIC_SetPriority(DMA2_Stream5_IRQn, 5, 0);
-    HAL_NVIC_EnableIRQ(DMA2_Stream5_IRQn);	
+//		HAL_NVIC_SetPriority(DMA2_Stream7_IRQn, 5, 0);
+//    HAL_NVIC_EnableIRQ(DMA2_Stream7_IRQn);	
 }
 
 /* USART1 init function */
@@ -129,7 +129,7 @@ void USART2_IRQHandler(void)
 	} 
 }
 extern uint32_t pc_i;
-int iii_,ooo_;
+float iii_,ooo_;
 void USART6_IRQHandler(void)
 {
 	
@@ -157,6 +157,8 @@ void USART6_IRQHandler(void)
 						
 //					pc_data.dynamic_yaw=Kalman_filter_calc(&zi_miao_kf[0],pc_data.dynamic_yaw);//
 //					pc_data.dynamic_pit=Kalman_filter_calc(&zi_miao_kf[1],pc_data.dynamic_pit);//	
+					iii_=Kalman_filter_calc(&zi_miao_kf[0],pc_data.dynamic_yaw);//
+					ooo_=Kalman_filter_calc(&zi_miao_kf[1],pc_data.dynamic_pit);//	
 						/*********************滤波*******************************/
 
 					pc_data.last_times = pc_data.now_times;
@@ -183,19 +185,23 @@ void USART6_IRQHandler(void)
 		}
 }
 /*串口六发送*/
-uint8_t SEND_DATA[7]={0};
+uint8_t SEND_DATA[7]={0};uint8_t USART_FLAG=1;
 void USART6_Transmit(void)
 {
 	SEND_DATA[0]= 0xaa ;SEND_DATA[6]= 0xbb ;SEND_DATA[1]= (int16_t)(gim.pid.pit_angle_fdb*100)>>8;
 	SEND_DATA[2]= (int16_t)(gim.pid.pit_angle_fdb*100)&0xFF;SEND_DATA[3]=(int16_t)(gim.pid.yaw_angle_fdb*100)>>8;
 	SEND_DATA[4]= (int16_t)(gim.pid.yaw_angle_fdb*100)&0xFF;
-	USART6->CR3=1<<7;           //使能串口6的DMA发送       
-	MYDMA_Enable(DMA2_Stream6,7);//开始一次DMA传输！	  
-//		    //实际应用中，传输数据期间，可以执行另外的任务
-			if(DMA2->HISR&(1<<21))	//等待DMA2_Steam6传输完成
-			{
-				DMA2->HIFCR|=1<<21;	//清除DMA2_Steam6传输完成标志
-			}
+		if(USART_FLAG==1)
+		{
+			USART6->CR3=1<<7;           //使能串口6的DMA发送       
+			MYDMA_Enable(DMA2_Stream6,7);//开始一次DMA传输！
+			USART_FLAG=0;
+		}	  
+		if((DMA2->HISR&DMA_HISR_TCIF6)&&(__HAL_UART_GET_FLAG(&huart6,UART_FLAG_TC)==SET))		//等待DMA2_Steam6传输完成
+		{
+			DMA2->HIFCR|=1<<21;	//清除DMA2_Steam6传输完成标志
+			USART_FLAG=1;
+		}
 //	HAL_UART_Transmit(&huart6,SEND_DATA,7,20);
 }
 void Get_Remote_info(RC_Ctl_t *rc, uint8_t *pData)

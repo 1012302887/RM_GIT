@@ -4,7 +4,7 @@
 
 #if   CAR_NUM == 1
   #define				AUTOSHOOT_X_OFFSET  -2
-	#define       MOTO_YAW_OFFSET_ECD  7600
+	#define       MOTO_YAW_OFFSET_ECD  2210
 	#define       MOTO_PIT_OFFSET_ECD  1800
 #elif CAR_NUM == 4
 #endif

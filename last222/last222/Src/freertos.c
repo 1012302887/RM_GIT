@@ -24,6 +24,7 @@ void FreeRtos_Init(void)
 	  osTimerDef(shootTimer, Shoot_Task);
 		shoot_timer_id =  osTimerCreate(osTimer(shootTimer), osTimerPeriodic, NULL);
 	
+	
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
     osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);

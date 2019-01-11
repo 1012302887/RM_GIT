@@ -56,6 +56,7 @@ last222\stm32f4xx_hal_gpio.o: ../Inc/Keyboard.h
 last222\stm32f4xx_hal_gpio.o: ../Inc/Car_num.h
 last222\stm32f4xx_hal_gpio.o: ../Inc/Kalman.h
 last222\stm32f4xx_hal_gpio.o: ../Inc/REG_DMA.h
+last222\stm32f4xx_hal_gpio.o: ../Inc/NI_MING_TASK.h
 last222\stm32f4xx_hal_gpio.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h
 last222\stm32f4xx_hal_gpio.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 last222\stm32f4xx_hal_gpio.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h

@@ -1,6 +1,5 @@
 #include "main.h"
 #include "math.h"
-
 /* gimbal task global parameter */
 gimbal_t gim;
 uint32_t gimbal_time_last;
@@ -39,7 +38,6 @@ void Gimbal_Task(void const * argument)
 	}
 	/* gimbal pit and yaw position pid */
 
-//	
 	pid_calc(&pid_yaw, gim.pid.yaw_angle_fdb, gim.pid.yaw_angle_ref);
 	pid_calc(&pid_pit, gim.pid.pit_angle_fdb, gim.pid.pit_angle_ref);
 	
@@ -50,6 +48,7 @@ void Gimbal_Task(void const * argument)
 // 	gim.pid.yaw_spd_ref = 0;
 //	gim.pid.pit_spd_ref = 0;
 //	Ni_Ming(0xf1, gim.pid.yaw_spd_fdb,gim.pid.yaw_spd_ref,gim.pid.pit_spd_fdb,gim.pid.pit_spd_ref);
+
 	/*************** DEBUG *********************/
 	
 	/* gimbal pid and yaw speed pid */
@@ -94,7 +93,8 @@ void Gimbal_Param_Init(void)
 {
 		for(int i =0;i<2;i++)
 	{
-		Kalman_filter_init(&zi_miao_kf[i],1,1,20);//P-Q-R
+		Kalman_filter_init(&zi_miao_kf[i],1,1,20);//P-Q-R 
+		Kalman_filter_init(&GIMBAL_KF[i],1,1,2);//P-Q-R
 	}
 	memset(&gim, 0, sizeof(gimbal_t));
 	
@@ -106,13 +106,13 @@ void Gimbal_Param_Init(void)
 	ramp_init(&yaw_ramp, YAW_PREPARE_TIMS_MS);
 	/* pitch axis motor pid parameter */
   PID_struct_init(&pid_pit, POSITION_PID, 1000, 1000,
-                  7, 0.006, 0); //30
+                  20, 0, 0); //30
   PID_struct_init(&pid_pit_spd, POSITION_PID, 6000, 2000,
-                 23, 0, 0); //60
+                 22, 0, 0); //60
 
   /* yaw axis motor pid parameter */
   PID_struct_init(&pid_yaw, POSITION_PID, 1000, 1000,
-                  8,0.01, 0); //
+                  9,0, 0); //
   PID_struct_init(&pid_yaw_spd, POSITION_PID, 6000, 2000,
-                  35, 0, 0);
+                  50, 1, 0);
 }
