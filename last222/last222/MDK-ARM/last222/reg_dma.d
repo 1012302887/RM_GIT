@@ -70,4 +70,4 @@ last222\reg_dma.o: ../Inc/Keyboard.h
 last222\reg_dma.o: ../Inc/Car_num.h
 last222\reg_dma.o: ../Inc/Kalman.h
 last222\reg_dma.o: ../Inc/REG_DMA.h
-last222\reg_dma.o: ../Inc/NI_MING_TASK.h
+last222\reg_dma.o: ../Inc/JUDG_INFO.h

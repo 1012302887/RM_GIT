@@ -302,8 +302,8 @@ void encoder_data_handler1(moto_measure_t* ptr, uint8_t Data[])
 	ptr->total_angle = ptr->total_ecd / ENCODER_ANGLE_RATIO + (float)360.0f;
 #else
 	ptr->total_angle = ptr->total_ecd / ENCODER_ANGLE_RATIO;
-//	Ni_Ming(0xf1, ptr->total_ecd, ptr->total_angle,ENCODER_ANGLE_RATIO,0);
-#endif
+
+#endif//	Ni_Ming(0xf1, ptr->total_ecd, ptr->total_angle,ENCODER_ANGLE_RATIO,0);
   
 #ifdef CHASSIS_3510
   int32_t temp_sum = 0;

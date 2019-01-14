@@ -785,6 +785,21 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>JUDGE</GroupName>
+          <Files>
+            <File>
+              <FileName>JUDG_INFO.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\JUDG_INFO.c</FilePath>
+            </File>
+            <File>
+              <FileName>JUDG_INFO.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Inc\JUDG_INFO.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>::CMSIS</GroupName>
         </Group>
       </Groups>

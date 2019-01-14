@@ -28,9 +28,11 @@ pc_data_t pc_data = {0};//
 uint8_t Send_Pc_Data[4]; 
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
+UART_HandleTypeDef huart3;
 UART_HandleTypeDef huart6;
 DMA_HandleTypeDef hdma_usart2_rx;
 DMA_HandleTypeDef hdma_usart6_rx;
+DMA_HandleTypeDef hdma_usart3_rx;
 /** 
   * Enable DMA controller clock
   */
@@ -84,6 +86,22 @@ void MX_USART2_UART_Init(void)
 	SET_BIT(huart2.Instance->CR1, USART_CR1_IDLEIE);//开启串口空闲中断.
 	HAL_UART_Receive_DMA(&huart2, (uint8_t *)rc_RxBuffer, RECEIVELEN);	
 }
+/* USART3 裁判系统 */
+void MX_USART3_UART_Init(void)
+{
+	huart3.Instance = USART3;
+	huart3.Init.BaudRate = 115200;
+  huart3.Init.WordLength = UART_WORDLENGTH_8B;
+  huart3.Init.StopBits = UART_STOPBITS_1;
+  huart3.Init.Parity = UART_PARITY_NONE;
+  huart3.Init.Mode = UART_MODE_TX_RX;
+  huart3.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart3.Init.OverSampling = UART_OVERSAMPLING_16;	
+  HAL_UART_Init(&huart3);
+	
+	SET_BIT(huart3.Instance->CR1, USART_CR1_IDLEIE);
+	HAL_UART_Receive_DMA(&huart3, (uint8_t *)JudgeDataBuffer, 1024);
+}
 
 /* USART6 init function */
 void MX_USART6_UART_Init(void)
@@ -128,6 +146,27 @@ void USART2_IRQHandler(void)
 		__HAL_DMA_ENABLE(huart2.hdmarx);
 	} 
 }
+void USART3_IRQHandler(void)
+{
+	if (__HAL_UART_GET_FLAG(&huart3, UART_FLAG_IDLE) && 
+      __HAL_UART_GET_IT_SOURCE(&huart3, UART_IT_IDLE))
+    {
+			
+      uint16_t tmp = huart3.Instance->DR;
+      tmp = huart3.Instance->SR;
+      tmp--;
+      //CLEAR_BIT(huart2.Instance->SR, USART_SR_IDLE);
+			__HAL_DMA_DISABLE(huart3.hdmarx);
+			
+     	temp = huart3.hdmarx->Instance->NDTR;  
+			if((1024 - temp) >=1 && (1024 - temp) <=222)
+				Judge_Receive(JudgeDataBuffer);
+			}
+      DMA1->LIFCR = DMA_FLAG_DMEIF0_4 | DMA_FLAG_FEIF0_4 | DMA_FLAG_HTIF0_4 | DMA_FLAG_TCIF0_4 | DMA_FLAG_TEIF0_4;
+      __HAL_DMA_SET_COUNTER(huart3.hdmarx, 1024);
+      __HAL_DMA_ENABLE(huart3.hdmarx);
+} 
+
 extern uint32_t pc_i;
 float iii_,ooo_;
 void USART6_IRQHandler(void)

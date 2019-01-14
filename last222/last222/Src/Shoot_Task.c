@@ -42,9 +42,9 @@ void shoot_remote_handler(void)
 	{		
 		shoot.trig.delay++;
 		send_fri_cur(4400*ramp_calc(&fric_ramp));
-			if(shoot.trig.delay > 500)
+			if(shoot.trig.delay > 1000)
 		{
-			shoot.trig.spd_ref = -6;
+			shoot.trig.spd_ref = -12;
 		}
 	}
 	else

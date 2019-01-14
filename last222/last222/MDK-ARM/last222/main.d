@@ -69,4 +69,4 @@ last222\main.o: ../Inc/Keyboard.h
 last222\main.o: ../Inc/Car_num.h
 last222\main.o: ../Inc/Kalman.h
 last222\main.o: ../Inc/REG_DMA.h
-last222\main.o: ../Inc/NI_MING_TASK.h
+last222\main.o: ../Inc/JUDG_INFO.h

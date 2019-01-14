@@ -1,6 +1,7 @@
 #include "stm32f4xx_hal.h"
 extern DMA_HandleTypeDef hdma_usart2_rx;
-extern DMA_HandleTypeDef hdma_usart6_tx;
+extern DMA_HandleTypeDef hdma_usart6_rx;
+extern DMA_HandleTypeDef hdma_usart3_rx;
 extern void _Error_Handler(char *, int);
 /* USER CODE BEGIN 0 */
 
@@ -290,6 +291,38 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
 
     HAL_NVIC_SetPriority(USART2_IRQn, 5, 0);
 		HAL_NVIC_EnableIRQ(USART2_IRQn);				//使能USART2中断通道
+  }
+	//UART3 裁判系统
+  else if(huart->Instance==USART3)
+  {
+    __HAL_RCC_USART3_CLK_ENABLE(); 
+		__HAL_RCC_DMA1_CLK_ENABLE();
+   /* PD8     ------> USART3_TX
+      PD9     ------> USART3_RX */  
+    GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+    GPIO_InitStruct.Alternate = GPIO_AF7_USART3;
+    HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+		
+		//RX
+		hdma_usart3_rx.Instance=DMA1_Stream1;                           
+    hdma_usart3_rx.Init.Channel=DMA_CHANNEL_4;   									
+    hdma_usart3_rx.Init.Direction = DMA_PERIPH_TO_MEMORY;
+    hdma_usart3_rx.Init.PeriphInc = DMA_PINC_DISABLE;
+    hdma_usart3_rx.Init.MemInc = DMA_MINC_ENABLE;
+    hdma_usart3_rx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+    hdma_usart3_rx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+    hdma_usart3_rx.Init.Mode = DMA_CIRCULAR;
+    hdma_usart3_rx.Init.Priority = DMA_PRIORITY_LOW;
+    hdma_usart3_rx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+    HAL_DMA_Init(&hdma_usart3_rx);           
+		
+		__HAL_LINKDMA(huart,hdmarx,hdma_usart3_rx);    
+		
+		HAL_NVIC_SetPriority(USART3_IRQn, 5, 0);
+		HAL_NVIC_EnableIRQ(USART3_IRQn);
   }
 	else if(huart->Instance==USART6)
 	{
