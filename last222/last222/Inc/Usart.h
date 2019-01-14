@@ -69,7 +69,7 @@ typedef struct
 	float v_now_i;
 	
 	float	yaw_befoer[101];
-	
+	float	pit_befoer[101];
 	uint8_t shoot_data;
 } pc_data_t;
 extern pc_data_t pc_data;
@@ -87,4 +87,5 @@ void MX_USART6_UART_Init(void);
 void Get_Remote_info(RC_Ctl_t *rc, uint8_t *pData);
 void USART6_Transmit(void);
 extern uint8_t SEND_DATA[7];//´®¿ÚÁù·¢ËÍ
+extern uint8_t Rx_data[8];
 #endif

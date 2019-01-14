@@ -49,11 +49,13 @@ void shoot_remote_handler(void)
 	}
 	else
 	{	
-
 		shoot.trig.delay = 0;
 		shoot.trig.spd_ref = 0;
-		ramp_init(&fric_ramp,FRIC_PREPARE_TIMS_MS);
 		send_fri_cur(3000*ramp_calc(&fric_ramp));
+		if(fric_ramp.count==fric_ramp.scale)
+		{
+			ramp_init(&fric_ramp,FRIC_PREPARE_TIMS_MS);
+		}
 	}
 }
 
@@ -72,7 +74,10 @@ void shoot_keyboard_handler(void)
 	}
 	else
 	{
-		ramp_init(&fric_ramp,FRIC_PREPARE_TIMS_MS);
+			if(fric_ramp.count==fric_ramp.scale)
+		{
+			ramp_init(&fric_ramp,FRIC_PREPARE_TIMS_MS);
+		}
 		send_fri_cur(3000*ramp_calc(&fric_ramp));
 	}
 	

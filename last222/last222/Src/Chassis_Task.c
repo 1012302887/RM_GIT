@@ -17,7 +17,7 @@ void Chassis_Task(void const *argument)
 {
 //	pid_rotate.p=0;//¹Ø±Õµ×ÅÌ¸úËæ
 ////	USART6_Transmit();
-//		Ni_Ming(0xf1, pc_data.dynamic_yaw,pc_data.dynamic_pit ,iii_,ooo_);
+		Ni_Ming(0xf1, pc_data.dynamic_yaw,pc_data.dynamic_pit ,iii_,ooo_);
 //		Ni_Ming(0xf2, chassis.wheel_spd_ref[0],chassis.wheel_spd_ref[1],chassis.wheel_spd_ref[2],chassis.wheel_spd_ref[3]);
 	if(gim.ctrl_mode == GIMBAL_INIT)//chassis dose not follow gimbal when gimbal initializa
 	{

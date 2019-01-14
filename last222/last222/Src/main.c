@@ -96,7 +96,7 @@ void SystemClock_Config(void)
 */
 static void MX_GPIO_Init(void)
 {
-//	GPIO_InitTypeDef GPIO_InitStruct;
+	GPIO_InitTypeDef GPIO_InitStruct;
   /* GPIO Ports Clock Enable */
 	__HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOE_CLK_ENABLE();
@@ -107,12 +107,12 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pin : PA15 */	
 	//¼¤¹âÒý½Å
-//  GPIO_InitStruct.Pin = GPIO_PIN_15;
-//  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-//  GPIO_InitStruct.Pull = GPIO_PULLUP;
-//  GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
-//  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-//	HAL_GPIO_WritePin(GPIOA,GPIO_PIN_15,GPIO_PIN_SET);	
+  GPIO_InitStruct.Pin = GPIO_PIN_15;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+	HAL_GPIO_WritePin(GPIOA,GPIO_PIN_15,GPIO_PIN_SET);	
 }
 
 /**

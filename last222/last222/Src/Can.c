@@ -167,10 +167,6 @@ void  HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 			{
 				moto_yaw.offset_ecd = MOTO_YAW_OFFSET_ECD ;//电机初始值，需要自行修改。
 				encoder_data_handler1(&moto_yaw, DATA);//用encoder_data_handler1还是encoder_data_handler自己体会，无法言传
-//				printf("-%d-",moto_yaw.ecd);
-				#if (CAR_NUM==1)//不同小车，需要修改
-//				moto_yaw.total_angle += 360;
-				#endif				
 			}break;
 			case CAN_PIT_MOTOR_ID:
 			{

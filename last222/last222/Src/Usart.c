@@ -132,7 +132,6 @@ extern uint32_t pc_i;
 float iii_,ooo_;
 void USART6_IRQHandler(void)
 {
-	
 	if (__HAL_UART_GET_FLAG(&huart6, UART_FLAG_IDLE) && 
       __HAL_UART_GET_IT_SOURCE(&huart6, UART_IT_IDLE))
     {
@@ -147,20 +146,20 @@ void USART6_IRQHandler(void)
 				{
 				  pc_data.raw_pit_angle = Rx_data[2]<<8 | Rx_data[1];  //pit
 					pc_data.raw_yaw_angle = Rx_data[4]<<8 | Rx_data[3];	 //yaw		
-					pc_data.dynamic_pit = (float)pc_data.raw_pit_angle / 100.0f; //pit动态角度
-					pc_data.dynamic_yaw = (float)pc_data.raw_yaw_angle / 100.0f; //yaw
 					pc_data.last_star_shoot = pc_data.star_shoot;
 					pc_data.star_shoot = Rx_data[5];   			
 					if(Rx_data[5]==1)
 					{
-						/*********************滤波*******************************/
+						pc_data.dynamic_pit = (float)pc_data.raw_pit_angle / 100.0f; //pit动态角度
+						pc_data.dynamic_yaw = (float)pc_data.raw_yaw_angle / 100.0f; //yaw
 						
+					/*********************滤波*******************************/
 //					pc_data.dynamic_yaw=Kalman_filter_calc(&zi_miao_kf[0],pc_data.dynamic_yaw);//
 //					pc_data.dynamic_pit=Kalman_filter_calc(&zi_miao_kf[1],pc_data.dynamic_pit);//	
 					iii_=Kalman_filter_calc(&zi_miao_kf[0],pc_data.dynamic_yaw);//
 					ooo_=Kalman_filter_calc(&zi_miao_kf[1],pc_data.dynamic_pit);//	
-						/*********************滤波*******************************/
-
+					/*********************滤波*******************************/
+						
 					pc_data.last_times = pc_data.now_times;
 					pc_data.now_times = osKernelSysTick(); 
 					pc_data.last_dynamic_pit = pc_data.dynamic_pit;
@@ -168,14 +167,11 @@ void USART6_IRQHandler(void)
 						
 //					pc_data.dynamic_yaw += AUTOSHOOT_X_OFFSET;//偏移量
 						
-//				/*暂时没有用上这部分*/
-					pc_data.v_last = pc_data.v_now;
-					pc_data.last_coordinate = pc_data.coordinate;
-					pc_data.coordinate = pc_data.yaw_befoer[(pc_i+ 1)%50] - pc_data.dynamic_yaw;
-					/*目标移动速度*/
-				  pc_data.v_now = (pc_data.coordinate - pc_data.last_coordinate) / (pc_data.now_times - pc_data.last_times);	
-				/*暂时没有用上这部分*/
-						
+					}
+					else
+					{
+						pc_data.dynamic_pit = 0 / 100.0f; //pit动态角度
+						pc_data.dynamic_yaw = 0 / 100.0f; //yaw
 					}
 				}
 			}
