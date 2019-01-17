@@ -1,6 +1,5 @@
 #include "main.h"
 #include "math.h"
-ramp_t fric_ramp 	 = RAMP_GEN_DAFAULT;
 uint8_t fric_swich=0;
 /* shoot task global parameter */
 shoot_t shoot = {0};
@@ -27,11 +26,11 @@ void Shoot_Task(void const * argument)
 				 default:
 					break;
 				}
-				glb_cur.shoot_cur[0] = 0;
-				glb_cur.shoot_cur[1] = 0;
-				glb_cur.shoot_cur[2] = chassis_pid_calc(&pid_trigger_spd, shoot.trig.trig_spd, -shoot.trig.spd_ref);
+//				glb_cur.shoot_cur[0] = 0;
+//				glb_cur.shoot_cur[1] = 0;
+//				glb_cur.shoot_cur[2] = chassis_pid_calc(&pid_trigger_spd, shoot.trig.trig_spd, -shoot.trig.spd_ref);
 				osSignalSet(GET_SHOOT_TASK_HANDEL, SHOOT_GET_SIGNAL);
-				osSignalSet(CAN_SEND_TASKHandle, GIMBAL_MOTOR_MSG_SEND);
+//				osSignalSet(CAN_SEND_TASKHandle, GIMBAL_MOTOR_MSG_SEND);
 //				osSignalSet(CAN_SEND_TASKHandle, SHOOT_MOTOR_MSG_SEND);
 		}
 }
@@ -41,21 +40,17 @@ void shoot_remote_handler(void)
 	if(shoot.fric.switching == ON)
 	{		
 		shoot.trig.delay++;
-		send_fri_cur(4400*ramp_calc(&fric_ramp));
-			if(shoot.trig.delay > 1000)
+		send_fri_cur(4400);
+			if(shoot.trig.delay > 300)
 		{
-			shoot.trig.spd_ref = -12;
+			shoot.trig.spd_ref = -6;
 		}
 	}
 	else
 	{	
 		shoot.trig.delay = 0;
 		shoot.trig.spd_ref = 0;
-		send_fri_cur(3000*ramp_calc(&fric_ramp));
-		if(fric_ramp.count==fric_ramp.scale)
-		{
-			ramp_init(&fric_ramp,FRIC_PREPARE_TIMS_MS);
-		}
+		send_fri_cur(3000);
 	}
 }
 
@@ -65,20 +60,16 @@ void shoot_keyboard_handler(void)
 	{
 		if(RC_CtrlData.key.v & B_KEY)
 		{
-				send_fri_cur(4800*ramp_calc(&fric_ramp));
+				send_fri_cur(4800);
 		}
 		else
 		{
-				send_fri_cur(4400*ramp_calc(&fric_ramp));
+				send_fri_cur(4400);
 		}
 	}
 	else
 	{
-			if(fric_ramp.count==fric_ramp.scale)
-		{
-			ramp_init(&fric_ramp,FRIC_PREPARE_TIMS_MS);
-		}
-		send_fri_cur(3000*ramp_calc(&fric_ramp));
+		send_fri_cur(3000);
 	}
 	
 	if(shoot.trig.switching == ON)
@@ -137,5 +128,4 @@ void Shoot_Param_Init(void)
 	100, 2, 0);//p:1200
 	PID_struct_init(&pid_as_yaw, POSITION_PID, 10000, 5000,
 	100, 2, 0);//
-	ramp_init(&fric_ramp,FRIC_PREPARE_TIMS_MS);
 }

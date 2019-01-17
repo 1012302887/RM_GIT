@@ -143,7 +143,18 @@ void send_shoot_cur(int16_t iq1, int16_t iq2, int16_t iq3)
 	Data[7] = 0;
   HAL_CAN_AddTxMessage(&hcan2,&Tx2Message,Data,(uint32_t*)CAN_TX_MAILBOX0);
 }
-
+void send_Gyro(uint8_t mode ,uint16_t time)//
+{
+	uint8_t Data[8];
+	Tx2Message.StdId   = 100;
+  Tx2Message.IDE     = CAN_ID_STD;
+  Tx2Message.RTR     = CAN_RTR_DATA;
+  Tx2Message.DLC     = 3;
+	Data[0] = mode;
+	Data[1] = time>>8;
+	Data[2] = time;
+	HAL_CAN_AddTxMessage(&hcan2,&Tx2Message,Data,(uint32_t*)CAN_TX_MAILBOX0);
+}
 void  HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 {
 	uint8_t DATA[8];//储存CAN1接收到数据
@@ -193,11 +204,6 @@ void  HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 		HAL_CAN_GetRxMessage(&hcan2,CAN_RX_FIFO0,&Rx2Message,Data);
 		switch (Rx2Message.StdId)
 		{
-			case 100:
-			{
-				gyro_data_receive(&gyro_data,Data);
-			}
-			break;
 			case 101:
 			{
 				zitai_data_receive2(&gyro_data,Data);//用哪个函数，看实际情况修改
@@ -303,7 +309,7 @@ void encoder_data_handler1(moto_measure_t* ptr, uint8_t Data[])
 #else
 	ptr->total_angle = ptr->total_ecd / ENCODER_ANGLE_RATIO;
 
-#endif//	Ni_Ming(0xf1, ptr->total_ecd, ptr->total_angle,ENCODER_ANGLE_RATIO,0);
+#endif  //	Ni_Ming(0xf1, ptr->total_ecd, ptr->total_angle,ENCODER_ANGLE_RATIO,0);
   
 #ifdef CHASSIS_3510
   int32_t temp_sum = 0;
@@ -359,13 +365,20 @@ void encoder_data_handler2(shoot_moto_measure_t* ptr, uint8_t Data[])
 	ptr->last_filter_rate = ptr->filter_rate;
   ptr->filter_rate = (int32_t)(temp_sum/25);
 }
-
 /**
   * @brief     get motor initialize offset value
   * @param     ptr: Pointer to a moto_measure_t structure
   * @retval    None
   * @attention this function should be called after system can init
   */
+void encoder_data_handler3(moto_measure_t* ptr, uint8_t Data[])
+{                                                                                                                                    
+        (ptr)->last_ecd = (ptr)->ecd;                                                          
+        (ptr)->ecd = (uint16_t)((Data[0] << 8 | Data[1]));       
+        (ptr)->speed_rpm = (uint16_t)(Data[2] << 8 | Data[3]);     
+        (ptr)->given_current = (uint16_t)(Data[4] << 8 | Data[5]);                                             
+				(ptr)->filter_rate = 	(ptr)->speed_rpm/2*PI;
+}
 void get_moto_offset(moto_measure_t* ptr, uint8_t Data[])
 {
     ptr->ecd        = (uint16_t)(Data[0] << 8 | Data[1]);
@@ -375,53 +388,59 @@ void get_moto_offset(moto_measure_t* ptr, uint8_t Data[])
 /**	
 	*					get gyro angle
 	*/ 
-void zitai_data_receive(GYRO_DATA* gyro,uint8_t Data[])
-{
-	static int16_t pitch_connt = 0;
-	static int16_t yaw_connt = 0;
-	
-	gyro->raw_pitch = Data[0]<<8 | Data[1];
-	gyro->raw_roll  = Data[2]<<8 | Data[3];
-	gyro->raw_yaw   = Data[4]<<8 | Data[5];
-	
-	gyro->pitch_angle = (float)gyro->raw_pitch/100;
-	gyro->roll  = (float)gyro->raw_roll/100;
-	gyro->yaw_angle  = (float)gyro->raw_yaw/100;
-	
-	if(gyro->pitch_angle < 0)
-	{
-		gyro->pitch_angle = gyro->pitch_angle + 360;
-	}
-	
-	if((gyro->pitch_angle - gyro->last_pitch_angle) > 330)
-		pitch_connt--;
-	else if((gyro->pitch_angle - gyro->last_pitch_angle) < -330)
-		pitch_connt++;
-	
-	gyro->pitch = gyro->pitch_angle + pitch_connt * 360;
-	gyro->last_pitch_angle = gyro->pitch_angle;
-	
-	if((gyro->yaw_angle - gyro->last_yaw_angle) > 330)
-		yaw_connt--;
-	else if((gyro->yaw_angle - gyro->last_yaw_angle) < -330)
-		yaw_connt++;
-	
-	gyro->last_yaw = gyro->yaw;
-	gyro->yaw = gyro->yaw_angle + yaw_connt * 360;
-	gyro->last_yaw_angle = gyro->yaw_angle;
-}
+//void zitai_data_receive(GYRO_DATA* gyro,uint8_t Data[])
+//{
+//	static int16_t pitch_connt = 0;
+//	static int16_t yaw_connt = 0;
+//	
+//	gyro->raw_pitch = Data[0]<<8 | Data[1];
+//	gyro->raw_roll  = Data[2]<<8 | Data[3];
+//	gyro->raw_yaw   = Data[4]<<8 | Data[5];
+//	
+//	gyro->pitch_angle = (float)gyro->raw_pitch/100;
+//	gyro->roll  = (float)gyro->raw_roll/100;
+//	gyro->yaw_angle  = (float)gyro->raw_yaw/100;
+//	
+//	if(gyro->pitch_angle < 0)
+//	{
+//		gyro->pitch_angle = gyro->pitch_angle + 360;
+//	}
+//	
+//	if((gyro->pitch_angle - gyro->last_pitch_angle) > 330)
+//		pitch_connt--;
+//	else if((gyro->pitch_angle - gyro->last_pitch_angle) < -330)
+//		pitch_connt++;
+//	
+//	gyro->pitch = gyro->pitch_angle + pitch_connt * 360;
+//	gyro->last_pitch_angle = gyro->pitch_angle;
+//	
+//	if((gyro->yaw_angle - gyro->last_yaw_angle) > 330)
+//		yaw_connt--;
+//	else if((gyro->yaw_angle - gyro->last_yaw_angle) < -330)
+//		yaw_connt++;
+//	
+//	gyro->last_yaw = gyro->yaw;
+//	gyro->yaw = gyro->yaw_angle + yaw_connt * 360;
+//	gyro->last_yaw_angle = gyro->yaw_angle;
+//}
 
 void zitai_data_receive2 (GYRO_DATA* gyro,uint8_t Data[])//
 {
 	
 	//static int16_t pitch_connt = 0;
 	static int16_t yaw_connt = 0;
-	gyro->raw_pitch = Data[0]<<8 | Data[1];
-	gyro->raw_roll  = Data[2]<<8 | Data[3];
-	gyro->raw_yaw   = Data[4]<<8 | Data[5];
+	
+	gyro->raw_v_x = Data[0]<<8 | Data[1];
+	gyro->raw_v_z = Data[2]<<8 | Data[3];
+
+	gyro->v_x = (float)gyro->raw_v_x * 0.057295f;
+	gyro->v_z = (float)gyro->raw_v_z * 0.057295f;
+	
+	gyro->raw_pitch = Data[4]<<8 | Data[5];
+	gyro->raw_yaw   = Data[6]<<8 | Data[7];
 	
 	gyro->pitch_angle = (float)gyro->raw_pitch/100;
-	gyro->roll  = (float)gyro->raw_roll/100;
+
 	gyro->yaw_angle  = (float)gyro->raw_yaw/100;
 	
 	if(gyro->pitch_angle < 0)
@@ -447,18 +466,4 @@ void zitai_data_receive2 (GYRO_DATA* gyro,uint8_t Data[])//
 	gyro->last_yaw = gyro->yaw;
 	gyro->yaw = gyro->yaw_angle + yaw_connt * 360;
 	gyro->last_yaw_angle = gyro->yaw_angle;
-}
-
-/**
-	*				get Accelerometer acceleration
-	*/
-void gyro_data_receive(GYRO_DATA* gyro,uint8_t Data[])
-{
-	gyro->raw_v_x = Data[0]<<8 | Data[1];
-	gyro->raw_v_y = Data[2]<<8 | Data[3];
-	gyro->raw_v_z = Data[4]<<8 | Data[5];
-
-	gyro->v_x = (float)gyro->raw_v_x * 0.057295f;
-	gyro->v_y = (float)gyro->raw_v_y * 0.057295f;
-	gyro->v_z = (float)gyro->raw_v_z * 0.057295f;
 }

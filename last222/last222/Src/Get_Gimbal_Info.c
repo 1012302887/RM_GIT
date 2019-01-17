@@ -12,6 +12,10 @@ void Get_Gimbal_Info(void const * argument)
 		if(event.value.signals & GIMBAL_INFO_GET_SIGNAL)
 		{   
 			  taskENTER_CRITICAL();
+				gyro_data.v_z = Kalman_filter_calc(&GIMBAL_KF[0],gyro_data.v_z);//////////////////////////
+				gyro_data.yaw = Kalman_filter_calc(&GIMBAL_KF[1],gyro_data.yaw);////////////////////
+				gyro_data.v_x	= Kalman_filter_calc(&GIMBAL_KF[2],gyro_data.v_x);//////////////////////////
+				gyro_data.pitch = Kalman_filter_calc(&GIMBAL_KF[3],gyro_data.pitch);////////////////////
 				get_gimbal_info();
 			  taskEXIT_CRITICAL();
 		}
@@ -184,6 +188,6 @@ void send_gimbal_motor_ctrl_message(int16_t gimbal_cur[])
     /* 0: yaw motor current
      1: pitch motor current
      2: trigger motor current*/
-  send_gimbal_cur(-gimbal_cur[0], -gimbal_cur[1], gimbal_cur[2]);
+  send_gimbal_cur(-gimbal_cur[0], gimbal_cur[1], gimbal_cur[2]);
 //	send_gimbal_cur(0, 0, gimbal_cur[2]);
 }

@@ -20,7 +20,7 @@ void Mode_Switch_Task(void const * argument)
 	//启动定时器任务，指定定时时间（毫秒）
 	osTimerStart(chassis_timer_id ,4);
 	osTimerStart(gimbal_timer_id  ,1);
-	osTimerStart(shoot_timer_id  ,1);
+	osTimerStart(shoot_timer_id  ,3);
 	uint32_t mode_wake_time = osKernelSysTick();
 	for(;;)
 	{ 
@@ -32,7 +32,6 @@ void Mode_Switch_Task(void const * argument)
 		mode_switch_times++;  
 		
 		taskENTER_CRITICAL();
-		
 		get_main_ctrl_mode();
 		
 		taskEXIT_CRITICAL();

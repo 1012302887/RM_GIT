@@ -18,6 +18,7 @@ void Get_Chassis_Info(void const * argument)
 		if(event.value.signals & INFO_GET_SIGNAL)
 	   {	
 			 taskENTER_CRITICAL();
+			 
 					/* get gimbal and chassis relative angle */
 				chassis.follow_gimbal = moto_yaw.total_angle;   
 				/* get chassis wheel fdb positin */
@@ -42,6 +43,7 @@ void Get_Chassis_Info(void const * argument)
 				/* get remote and keyboard chassis control information */
 				keyboard_chassis_hook();
 				remote_ctrl_chassis_hook();
+				
 				 taskEXIT_CRITICAL();
 				 
      }

@@ -11,7 +11,6 @@ ramp_t yaw_ramp    = RAMP_GEN_DAFAULT;
 extern osThreadId GET_GIMBAL_INFOHandle;
 extern osThreadId GET_CHASSIS_INFHandle;
 extern osThreadId CAN_SEND_TASKHandle;
-
 void Gimbal_Task(void const * argument)
 {
 	handler_run_time++;
@@ -37,9 +36,9 @@ void Gimbal_Task(void const * argument)
 		break;
 	}
 	/* gimbal pit and yaw position pid */
-
+	
 	pid_calc(&pid_yaw, gim.pid.yaw_angle_fdb, gim.pid.yaw_angle_ref);
-	pid_calc(&pid_pit, gim.pid.pit_angle_fdb, gim.pid.pit_angle_ref);
+	pid_calc(&pid_pit, gim.pid.pit_angle_fdb, -gim.pid.pit_angle_ref);
 	
 	gim.pid.yaw_spd_ref = pid_yaw.out;
 	gim.pid.pit_spd_ref = pid_pit.out;
@@ -56,13 +55,13 @@ void Gimbal_Task(void const * argument)
 	gim.pid.pit_spd_fdb = gim.sensor.pit_palstance;
 	
 	pid_calc(&pid_yaw_spd, gim.pid.yaw_spd_fdb, gim.pid.yaw_spd_ref);
-	pid_calc(&pid_pit_spd, gim.pid.pit_spd_fdb, gim.pid.pit_spd_ref);
+	pid_calc(&pid_pit_spd, -gim.pid.pit_spd_fdb, gim.pid.pit_spd_ref);
 
 	/* gimbal current out */
 	glb_cur.gimbal_cur[0] = pid_yaw_spd.out;
 	glb_cur.gimbal_cur[1] = pid_pit_spd.out;
 //	glb_cur.gimbal_cur[2] = 0;
-	glb_cur.gimbal_cur[2] = glb_cur.shoot_cur[2];
+	glb_cur.gimbal_cur[2] = chassis_pid_calc(&pid_trigger_spd, shoot.trig.trig_spd, -shoot.trig.spd_ref);;
 	
 	osSignalSet(GET_GIMBAL_INFOHandle, GIMBAL_INFO_GET_SIGNAL);
 	osSignalSet(CAN_SEND_TASKHandle, GIMBAL_MOTOR_MSG_SEND);
@@ -70,13 +69,11 @@ void Gimbal_Task(void const * argument)
 
 void init_mode_handler(void)
 {
-//	pid_yaw.p = 6;
-//	pid_pit.p=30;
-	
 	gim.pid.pit_angle_fdb = gim.sensor.pit_relative_angle;
   gim.pid.yaw_angle_fdb = gim.sensor.yaw_relative_angle;
 	gim.pid.pit_angle_ref = 0;
 	gim.pid.yaw_angle_ref = 0;
+//	send_Gyro(0x30,1000);//Ð£×¼ÍÓÂÝÒÇ
 	if(handler_run_time > 2000)
 	{
 		gim.ctrl_mode = GIMBAL_NORMAL;
@@ -94,7 +91,11 @@ void Gimbal_Param_Init(void)
 		for(int i =0;i<2;i++)
 	{
 		Kalman_filter_init(&zi_miao_kf[i],1,1,20);//P-Q-R 
-		Kalman_filter_init(&GIMBAL_KF[i],1,1,2);//P-Q-R
+		Kalman_filter_init(&GIMBAL_KF[i],1,1,100);//P-Q-R
+	}
+			for(int i =2;i<4;i++)
+	{
+		Kalman_filter_init(&GIMBAL_KF[i],1,1,3);//P-Q-R
 	}
 	memset(&gim, 0, sizeof(gimbal_t));
 	
@@ -105,14 +106,15 @@ void Gimbal_Param_Init(void)
 	ramp_init(&pit_ramp, PIT_PREPARE_TIMS_MS);
 	ramp_init(&yaw_ramp, YAW_PREPARE_TIMS_MS);
 	/* pitch axis motor pid parameter */
+	
   PID_struct_init(&pid_pit, POSITION_PID, 1000, 1000,
-                  20, 0, 0); //30
+                  22, 0, 0); //30
   PID_struct_init(&pid_pit_spd, POSITION_PID, 6000, 2000,
-                 22, 0, 0); //60
-
+                 25, 0, 0); //60
+	
   /* yaw axis motor pid parameter */
   PID_struct_init(&pid_yaw, POSITION_PID, 1000, 1000,
                   9,0, 0); //
   PID_struct_init(&pid_yaw_spd, POSITION_PID, 6000, 2000,
-                  50, 1, 0);
+                  42, 0, 0);
 }

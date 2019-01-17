@@ -1,6 +1,6 @@
 #ifndef Can_H
 #define Can_H
-#include "main.h"
+#include "arm_math.h"
 /* the ratio of motor encoder value translate to degree */
 #define ENCODER_ANGLE_RATIO    (8192.0f/360.0f)
 #define CHASSIS_3510 1
@@ -49,17 +49,14 @@ typedef struct
 typedef struct
 {
 	int16_t raw_pitch;           //未经处理的pit角度
-	int16_t raw_roll;            //未经处理的roll角度
 	int16_t raw_yaw;             //未经处理的yaw角度
 	
 	int16_t raw_v_x;             //未经处理的x轴角速度
-	int16_t raw_v_y;             //未经处理的y轴角速度
 	int16_t raw_v_z;             //未经处理的z轴角速度
 	
 	
 	
 	float pitch;                 //处理后的pit角度
-	float roll;                  //处理后的roll角度
 	float yaw;                   //处理后的yaw角度
 	float	last_yaw;
 	
@@ -70,7 +67,6 @@ typedef struct
 	float last_yaw_angle;        //自己去看代码
 	
 	float v_x;                   //未经处理的x轴角速度
-	float v_y;                   //未经处理的y轴角速度
 	float v_z;                   //未经处理的z轴角速度
 }	GYRO_DATA;
 typedef struct
@@ -101,9 +97,11 @@ void MX_CAN2_Init(void);
 void send_chassis_cur(int16_t a, int16_t b, int16_t c, int16_t d);
 void send_gimbal_cur(int16_t yaw_iq, int16_t pit_iq, int16_t trigger_iq);
 void send_shoot_cur(int16_t iq1, int16_t iq2, int16_t iq3);
+void send_Gyro(uint8_t mode ,uint16_t time);
 void encoder_data_handler(moto_measure_t* ptr, uint8_t Data[]);
 void encoder_data_handler1(moto_measure_t* ptr, uint8_t Data[]);
 void encoder_data_handler2(shoot_moto_measure_t* ptr, uint8_t Data[]);
+void encoder_data_handler3(moto_measure_t* ptr, uint8_t Data[]);
 //void encoder_data_handler2(shoot_moto_measure_t* ptr, uint8_t Data[]);
 void zitai_data_receive(GYRO_DATA* gyro,uint8_t Data[]);
 void zitai_data_receive2 (GYRO_DATA* gyro,uint8_t Data[]);

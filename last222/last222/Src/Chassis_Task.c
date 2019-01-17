@@ -16,10 +16,10 @@ uint32_t ones=0;
 void Chassis_Task(void const *argument)
 {
 //	pid_rotate.p=0;//¹Ø±Õµ×ÅÌ¸úËæ
-	printf("--%f--",InfantryJudge.power);
-////	USART6_Transmit();
-//		Ni_Ming(0xf1, pc_data.dynamic_yaw,pc_data.dynamic_pit ,iii_,ooo_);
-//		Ni_Ming(0xf2, chassis.wheel_spd_ref[0],chassis.wheel_spd_ref[1],chassis.wheel_spd_ref[2],chassis.wheel_spd_ref[3]);
+//		printf("--%f--",InfantryJudge.remainPower);
+//	USART6_Transmit();
+//   Ni_Ming(0xf1,InfantryJudge.remainPower ,InfantryJudge.power,InfantryJudge.RealVoltage,InfantryJudge.RealCurrent);
+//		Ni_Ming(0xf2, chassis.wheel_spd_ref[0],chassis.wheel_spd_ref[1],chassis.wheel_spd_fdb[0],chassis.wheel_spd_fdb[1]);
 	if(gim.ctrl_mode == GIMBAL_INIT)//chassis dose not follow gimbal when gimbal initializa
 	{
 		chassis.vw = 0;
@@ -56,7 +56,8 @@ void Chassis_Task(void const *argument)
 		chassis.vw = pid_calc(&pid_rotate, chassis.writhe_speed_fac * WRITHE_SPEED_LIMIT, 0);
 	}
 	
-//chassis.follow_gimbal = moto_yaw.total_angle;
+//	chassis.follow_gimbal = moto_yaw.total_angle;
+	
 /* run straight line with waist */
 	if(chassis.follow_gimbal < 0){
 		d_theta = chassis.follow_gimbal - 0;
@@ -71,7 +72,7 @@ void Chassis_Task(void const *argument)
 	
 	chassis.vx = chassis.vx_offset * FPU_COS(d_theta) - chassis.vy_offset * FPU_SIN(d_theta);
 	chassis.vy = chassis.vx_offset * FPU_SIN(d_theta) + chassis.vy_offset * FPU_COS(d_theta);
-	
+
 	chassis.wheel_spd_ref[0] = -chassis.vx + chassis.vy + chassis.vw;
 	chassis.wheel_spd_ref[1] =  chassis.vx + chassis.vy + chassis.vw;
 	chassis.wheel_spd_ref[2] = -chassis.vx - chassis.vy + chassis.vw;
@@ -87,7 +88,7 @@ void Chassis_Task(void const *argument)
 	for(int i =0; i < 4; i++)
 	{
 		/*ÂË²¨*/
-		chassis.wheel_spd_ref[i] =	Kalman_filter_calc(&CHASSIS_REF_KF[i],chassis.wheel_spd_ref[i]);
+//		chassis.wheel_spd_ref[i] =	Kalman_filter_calc(&CHASSIS_REF_KF[i],chassis.wheel_spd_ref[i]);
 		/*ÂË²¨*/
 		chassis.current[i] = chassis_pid_calc(&pid_spd[i], chassis.wheel_spd_fdb[i], chassis.wheel_spd_ref[i]);
 	}
@@ -108,14 +109,13 @@ void Chassis_Param_Init(void)
 	
 	/* initializa chassis follow gimbal pid */
 		PID_struct_init(&pid_rotate, POSITION_PID, 40, 0, 
-		1.5, 0, 0);//2.0
+		2.5, 0, 0);//2.0
 	
 	 for (int k = 0; k < 4; k++)
   {
     PID_struct_init(&pid_spd[k], POSITION_PID, 10000, 0,
 		540, 0, 0); 
 	}
-	
 	for(int i =0;i<4;i++)
 	{
 		Kalman_filter_init(&CHASSIS_KF[i],1,1,40);//P-Q-R

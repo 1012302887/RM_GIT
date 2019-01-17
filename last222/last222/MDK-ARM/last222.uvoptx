@@ -188,12 +188,12 @@
         <Ww>
           <count>6</count>
           <WinNumber>1</WinNumber>
-          <ItemText>moto_chassis[0],0x0A</ItemText>
+          <ItemText>moto_trigger,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>7</count>
           <WinNumber>1</WinNumber>
-          <ItemText>pid_spd[0]</ItemText>
+          <ItemText>pid_spd[0],0x0A</ItemText>
         </Ww>
         <Ww>
           <count>8</count>
@@ -209,6 +209,51 @@
           <count>10</count>
           <WinNumber>1</WinNumber>
           <ItemText>pid_spd[3]</ItemText>
+        </Ww>
+        <Ww>
+          <count>11</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>CHASSIS_KF[0]</ItemText>
+        </Ww>
+        <Ww>
+          <count>12</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>CHASSIS_KF[1]</ItemText>
+        </Ww>
+        <Ww>
+          <count>13</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>zi_miao_kf[0]</ItemText>
+        </Ww>
+        <Ww>
+          <count>14</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>zi_miao_kf[1]</ItemText>
+        </Ww>
+        <Ww>
+          <count>15</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>moto_trigger,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>16</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>gim.pid.pit_spd_ref</ItemText>
+        </Ww>
+        <Ww>
+          <count>17</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>GIMBAL_KF[0]</ItemText>
+        </Ww>
+        <Ww>
+          <count>18</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>GIMBAL_KF[1]</ItemText>
+        </Ww>
+        <Ww>
+          <count>19</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>InfantryJudge</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>

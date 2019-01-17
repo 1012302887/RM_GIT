@@ -185,16 +185,14 @@ void USART6_IRQHandler(void)
 				{
 				  pc_data.raw_pit_angle = Rx_data[2]<<8 | Rx_data[1];  //pit
 					pc_data.raw_yaw_angle = Rx_data[4]<<8 | Rx_data[3];	 //yaw		
+					pc_data.dynamic_pit = (float)pc_data.raw_pit_angle / 100.0f; //pit动态角度
+					pc_data.dynamic_yaw = (float)pc_data.raw_yaw_angle / 100.0f; //yaw
 					pc_data.last_star_shoot = pc_data.star_shoot;
 					pc_data.star_shoot = Rx_data[5];   			
-					if(Rx_data[5]==1)
-					{
-						pc_data.dynamic_pit = (float)pc_data.raw_pit_angle / 100.0f; //pit动态角度
-						pc_data.dynamic_yaw = (float)pc_data.raw_yaw_angle / 100.0f; //yaw
 						
 					/*********************滤波*******************************/
-//					pc_data.dynamic_yaw=Kalman_filter_calc(&zi_miao_kf[0],pc_data.dynamic_yaw);//
-//					pc_data.dynamic_pit=Kalman_filter_calc(&zi_miao_kf[1],pc_data.dynamic_pit);//	
+//				pc_data.dynamic_yaw=Kalman_filter_calc(&zi_miao_kf[0],pc_data.dynamic_yaw);//
+//				pc_data.dynamic_pit=Kalman_filter_calc(&zi_miao_kf[1],pc_data.dynamic_pit);//	
 					iii_=Kalman_filter_calc(&zi_miao_kf[0],pc_data.dynamic_yaw);//
 					ooo_=Kalman_filter_calc(&zi_miao_kf[1],pc_data.dynamic_pit);//	
 					/*********************滤波*******************************/
@@ -206,12 +204,6 @@ void USART6_IRQHandler(void)
 						
 //					pc_data.dynamic_yaw += AUTOSHOOT_X_OFFSET;//偏移量
 						
-					}
-					else
-					{
-						pc_data.dynamic_pit = 0 / 100.0f; //pit动态角度
-						pc_data.dynamic_yaw = 0 / 100.0f; //yaw
-					}
 				}
 			}
 			 DMA2->LIFCR = DMA_FLAG_DMEIF1_5 | DMA_FLAG_FEIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TCIF1_5 | DMA_FLAG_TEIF1_5;
@@ -226,18 +218,18 @@ void USART6_Transmit(void)
 	SEND_DATA[0]= 0xaa ;SEND_DATA[6]= 0xbb ;SEND_DATA[1]= (int16_t)(gim.pid.pit_angle_fdb*100)>>8;
 	SEND_DATA[2]= (int16_t)(gim.pid.pit_angle_fdb*100)&0xFF;SEND_DATA[3]=(int16_t)(gim.pid.yaw_angle_fdb*100)>>8;
 	SEND_DATA[4]= (int16_t)(gim.pid.yaw_angle_fdb*100)&0xFF;
-		if(USART_FLAG==1)
-		{
-			USART6->CR3=1<<7;           //使能串口6的DMA发送       
-			MYDMA_Enable(DMA2_Stream6,7);//开始一次DMA传输！
-			USART_FLAG=0;
-		}	  
-		if((DMA2->HISR&DMA_HISR_TCIF6)&&(__HAL_UART_GET_FLAG(&huart6,UART_FLAG_TC)==SET))		//等待DMA2_Steam6传输完成
-		{
-			DMA2->HIFCR|=1<<21;	//清除DMA2_Steam6传输完成标志
-			USART_FLAG=1;
-		}
-//	HAL_UART_Transmit(&huart6,SEND_DATA,7,20);
+//		if(USART_FLAG==1)
+//		{
+//			USART6->CR3=1<<7;           //使能串口6的DMA发送       
+//			MYDMA_Enable(DMA2_Stream6,7);//开始一次DMA传输！
+//			USART_FLAG=0;
+//		}	  
+//		if((DMA2->HISR&DMA_HISR_TCIF6)&&(__HAL_UART_GET_FLAG(&huart6,UART_FLAG_TC)==SET))		//等待DMA2_Steam6传输完成
+//		{
+//			DMA2->HIFCR|=1<<21;	//清除DMA2_Steam6传输完成标志
+//			USART_FLAG=1;
+//		}
+	HAL_UART_Transmit(&huart6,SEND_DATA,7,20);
 }
 void Get_Remote_info(RC_Ctl_t *rc, uint8_t *pData)
 {

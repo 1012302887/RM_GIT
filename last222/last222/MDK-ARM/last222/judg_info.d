@@ -28,10 +28,10 @@ last222\judg_info.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
 last222\judg_info.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
 last222\judg_info.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 last222\judg_info.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
-last222\judg_info.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 last222\judg_info.o: ../Drivers/CMSIS/Include/arm_math.h
 last222\judg_info.o: ../Drivers/CMSIS/Include/core_cm4.h
 last222\judg_info.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+last222\judg_info.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 last222\judg_info.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 last222\judg_info.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 last222\judg_info.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h
