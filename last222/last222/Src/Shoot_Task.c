@@ -28,7 +28,7 @@ void Shoot_Task(void const * argument)
 				}
 //				glb_cur.shoot_cur[0] = 0;
 //				glb_cur.shoot_cur[1] = 0;
-//				glb_cur.shoot_cur[2] = chassis_pid_calc(&pid_trigger_spd, shoot.trig.trig_spd, -shoot.trig.spd_ref);
+				glb_cur.shoot_cur[2] = chassis_pid_calc(&pid_trigger_spd, shoot.trig.trig_spd, -shoot.trig.spd_ref);
 				osSignalSet(GET_SHOOT_TASK_HANDEL, SHOOT_GET_SIGNAL);
 //				osSignalSet(CAN_SEND_TASKHandle, GIMBAL_MOTOR_MSG_SEND);
 //				osSignalSet(CAN_SEND_TASKHandle, SHOOT_MOTOR_MSG_SEND);
@@ -41,9 +41,9 @@ void shoot_remote_handler(void)
 	{		
 		shoot.trig.delay++;
 		send_fri_cur(4400);
-			if(shoot.trig.delay > 300)
+			if(shoot.trig.delay > 800)
 		{
-			shoot.trig.spd_ref = -6;
+			shoot.trig.spd_ref = -12;
 		}
 	}
 	else

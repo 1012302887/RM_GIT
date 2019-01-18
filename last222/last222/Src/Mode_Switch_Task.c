@@ -17,8 +17,10 @@ extern osThreadId GET_GIMBAL_INFOHandle;
 void Mode_Switch_Task(void const * argument)
 {
   osDelay(1500);
+	moto_yaw.offset_ecd = MOTO_YAW_OFFSET_ECD ;//yaw电机初始值，需要自行修改。
+	moto_pit.offset_ecd = MOTO_PIT_OFFSET_ECD ;//pit电机初始值，需要自行修改。
 	//启动定时器任务，指定定时时间（毫秒）
-	osTimerStart(chassis_timer_id ,4);
+	osTimerStart(chassis_timer_id ,2);
 	osTimerStart(gimbal_timer_id  ,1);
 	osTimerStart(shoot_timer_id  ,3);
 	uint32_t mode_wake_time = osKernelSysTick();

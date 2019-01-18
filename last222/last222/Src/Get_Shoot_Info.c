@@ -13,7 +13,6 @@ void Get_Shoot_Info(void const * argument)
 	   {
 				taskENTER_CRITICAL();
 			  shoot.trig.trig_spd 				  = moto_trigger.filter_rate / 36;
-			  shoot.trig.trig_pos        		= moto_trigger.total_angle / 36;
 				/* get remote and keyboard trig and friction wheel control information */
 				remote_ctrl_shoot_hook();
 				keyboard_shoot_hook();

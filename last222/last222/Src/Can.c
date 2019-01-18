@@ -4,16 +4,19 @@ CAN_HandleTypeDef hcan2;
 CAN_FilterTypeDef FILTER1;
 CAN_FilterTypeDef FILTER2;
 
+CAN_TxHeaderTypeDef    Tx1Message;      
+CAN_RxHeaderTypeDef    Rx1Message;  
+CAN_TxHeaderTypeDef    Tx2Message;      
+CAN_RxHeaderTypeDef    Rx2Message;
+
 moto_measure_t moto_pit;//储存pit轴电机信息的结构体
 moto_measure_t moto_yaw;//储存yaw轴电机信息的结构体
 moto_measure_t moto_chassis[4];//储存底盘四个电机信息的结构体
 shoot_moto_measure_t moto_friction[2];//储存拨盘电机信息的结构体
 moto_measure_t moto_trigger;//储存拨盘电机信息的结构体
 GYRO_DATA gyro_data;//储存陀螺仪信息的结构体
-CAN_TxHeaderTypeDef    Tx1Message;      
-CAN_RxHeaderTypeDef    Rx1Message;  
-CAN_TxHeaderTypeDef    Tx2Message;      
-CAN_RxHeaderTypeDef    Rx2Message;   
+uint8_t DATA[8];//储存CAN1接收到数据
+uint8_t Data[8];//储存CAN2接收到数据
 /* CAN1 init function */
 void MX_CAN1_Init(void)
 {
@@ -157,8 +160,6 @@ void send_Gyro(uint8_t mode ,uint16_t time)//
 }
 void  HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 {
-	uint8_t DATA[8];//储存CAN1接收到数据
-	uint8_t Data[8];//储存CAN2接收到数据
 	if (hcan == &hcan1)
 	{ 
 		//CAN1接收
@@ -172,25 +173,24 @@ void  HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 			{
 				static uint8_t i;
 				i = Rx1Message.StdId - CAN_3508_M1_ID;
-				moto_chassis[i].msg_cnt++ <= 50 ? get_moto_offset(&moto_chassis[i], DATA) : encoder_data_handler(&moto_chassis[i],DATA);
+//				moto_chassis[i].msg_cnt++ <= 50 ? get_moto_offset(&moto_chassis[i], DATA) : encoder_data_handler(&moto_chassis[i],DATA);
+				encoder_data_handler3(&moto_chassis[i],DATA);
 			}break;
 			case CAN_YAW_MOTOR_ID:
 			{
-				moto_yaw.offset_ecd = MOTO_YAW_OFFSET_ECD ;//电机初始值，需要自行修改。
 				encoder_data_handler1(&moto_yaw, DATA);//用encoder_data_handler1还是encoder_data_handler自己体会，无法言传
 			}break;
 			case CAN_PIT_MOTOR_ID:
 			{
-				moto_pit.offset_ecd = MOTO_PIT_OFFSET_ECD ;		//电机初始值，需要自行修改。
 				encoder_data_handler(&moto_pit, DATA);
-
 				#if (0)//不同小车，需要修改
 				moto_pit.total_angle += 360;				
 				#endif
 			}break;
 				case CAN_TRIGGER_MOTOR_ID:
 			{
-				moto_trigger.msg_cnt++ <= 50 ? get_moto_offset(&moto_trigger, DATA):encoder_data_handler1(&moto_trigger, DATA);
+//				moto_trigger.msg_cnt++ <= 50 ? get_moto_offset(&moto_trigger, DATA):encoder_data_handler1(&moto_trigger, DATA);
+			encoder_data_handler3(&moto_trigger, DATA);
 			}
 			break;
 			default:
@@ -215,7 +215,6 @@ void  HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 		}
 	}
 }
-
 /**
   * @brief     get motor rpm and calculate motor round_count/total_encoder/total_angle
   * @param     ptr: Pointer to a moto_measure_t structure
@@ -257,9 +256,7 @@ void encoder_data_handler(moto_measure_t* ptr, uint8_t Data[])
   }
 	ptr->last_filter_rate = ptr->filter_rate;
   ptr->filter_rate = (int32_t)(temp_sum/FILTER_BUF);
-	
   ptr->speed_rpm   = (int16_t)(ptr->filter_rate * 7.324f);
-	
 #else
   ptr->speed_rpm     = (int16_t)(Data[2] << 8 | Data[3]);
   ptr->given_current = (int16_t)(Data[4] << 8 | Data[5]);
@@ -376,8 +373,8 @@ void encoder_data_handler3(moto_measure_t* ptr, uint8_t Data[])
         (ptr)->last_ecd = (ptr)->ecd;                                                          
         (ptr)->ecd = (uint16_t)((Data[0] << 8 | Data[1]));       
         (ptr)->speed_rpm = (uint16_t)(Data[2] << 8 | Data[3]);     
-        (ptr)->given_current = (uint16_t)(Data[4] << 8 | Data[5]);                                             
-				(ptr)->filter_rate = 	(ptr)->speed_rpm/2*PI;
+//        (ptr)->given_current = (uint16_t)(Data[4] << 8 | Data[5]);                                             
+				(ptr)->filter_rate = 	(ptr)->speed_rpm*(2*PI)/60.0f;
 }
 void get_moto_offset(moto_measure_t* ptr, uint8_t Data[])
 {

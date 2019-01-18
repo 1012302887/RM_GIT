@@ -18,7 +18,7 @@ void Chassis_Task(void const *argument)
 //	pid_rotate.p=0;//¹Ø±Õµ×ÅÌ¸úËæ
 //		printf("--%f--",InfantryJudge.remainPower);
 //	USART6_Transmit();
-//   Ni_Ming(0xf1,InfantryJudge.remainPower ,InfantryJudge.power,InfantryJudge.RealVoltage,InfantryJudge.RealCurrent);
+//   Ni_Ming(0xf1,gyro_data.v_z,gyro_data.yaw,gyro_data.v_x,gyro_data.pitch);
 //		Ni_Ming(0xf2, chassis.wheel_spd_ref[0],chassis.wheel_spd_ref[1],chassis.wheel_spd_fdb[0],chassis.wheel_spd_fdb[1]);
 	if(gim.ctrl_mode == GIMBAL_INIT)//chassis dose not follow gimbal when gimbal initializa
 	{
@@ -73,6 +73,10 @@ void Chassis_Task(void const *argument)
 	chassis.vx = chassis.vx_offset * FPU_COS(d_theta) - chassis.vy_offset * FPU_SIN(d_theta);
 	chassis.vy = chassis.vx_offset * FPU_SIN(d_theta) + chassis.vy_offset * FPU_COS(d_theta);
 
+//	chassis.wheel_spd_ref[0] = -chassis.vx + chassis.vy + chassis.vw;
+//	chassis.wheel_spd_ref[1] =  chassis.vx + chassis.vy + chassis.vw;
+//	chassis.wheel_spd_ref[2] = -chassis.vx - chassis.vy + chassis.vw*0.8;
+//	chassis.wheel_spd_ref[3] =  chassis.vx - chassis.vy + chassis.vw*0.8;
 	chassis.wheel_spd_ref[0] = -chassis.vx + chassis.vy + chassis.vw;
 	chassis.wheel_spd_ref[1] =  chassis.vx + chassis.vy + chassis.vw;
 	chassis.wheel_spd_ref[2] = -chassis.vx - chassis.vy + chassis.vw;
@@ -90,7 +94,7 @@ void Chassis_Task(void const *argument)
 		/*ÂË²¨*/
 //		chassis.wheel_spd_ref[i] =	Kalman_filter_calc(&CHASSIS_REF_KF[i],chassis.wheel_spd_ref[i]);
 		/*ÂË²¨*/
-		chassis.current[i] = chassis_pid_calc(&pid_spd[i], chassis.wheel_spd_fdb[i], chassis.wheel_spd_ref[i]);
+		chassis.current[i] = chassis_pid_calc(&pid_spd[i], chassis.wheel_spd_fdb[i], chassis.wheel_spd_ref[i]);//
 	}
 	memcpy(glb_cur.chassis_cur, chassis.current, sizeof(chassis.current));
 	osSignalSet(CAN_SEND_TASKHandle, CHASSIS_MOTOR_MSG_SEND);
@@ -108,8 +112,8 @@ void Chassis_Param_Init(void)
 	ramp_init(&FBSpeedRamp, MOUSR_FB_RAMP_TICK_COUNT);
 	
 	/* initializa chassis follow gimbal pid */
-		PID_struct_init(&pid_rotate, POSITION_PID, 40, 0, 
-		2.5, 0, 0);//2.0
+		PID_struct_init(&pid_rotate, POSITION_PID, 32, 0, 
+		2.1, 0, 0);//2.0
 	
 	 for (int k = 0; k < 4; k++)
   {

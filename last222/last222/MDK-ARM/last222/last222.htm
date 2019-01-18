@@ -3,7 +3,7 @@
 <title>Static Call Graph - [last222\last222.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image last222\last222.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Thu Jan 17 18:05:31 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Fri Jan 18 15:20:38 2019
 <BR><P>
 <H3>Maximum Stack Usage =        312 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -556,28 +556,28 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f407xx.o(RESET)
 </UL>
 <P><STRONG><a name="[20]"></a>CAN1_RX0_IRQHandler</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32f4xx_it.o(i.CAN1_RX0_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 76<LI>Call Chain = CAN1_RX0_IRQHandler &rArr; HAL_CAN_IRQHandler &rArr; HAL_CAN_RxFifo0MsgPendingCallback &rArr; HAL_CAN_GetRxMessage
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = CAN1_RX0_IRQHandler &rArr; HAL_CAN_IRQHandler &rArr; HAL_CAN_RxFifo0MsgPendingCallback &rArr; HAL_CAN_GetRxMessage
 </UL>
 <BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_CAN_IRQHandler
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f407xx.o(RESET)
 </UL>
 <P><STRONG><a name="[1f]"></a>CAN1_TX_IRQHandler</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32f4xx_it.o(i.CAN1_TX_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 76<LI>Call Chain = CAN1_TX_IRQHandler &rArr; HAL_CAN_IRQHandler &rArr; HAL_CAN_RxFifo0MsgPendingCallback &rArr; HAL_CAN_GetRxMessage
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = CAN1_TX_IRQHandler &rArr; HAL_CAN_IRQHandler &rArr; HAL_CAN_RxFifo0MsgPendingCallback &rArr; HAL_CAN_GetRxMessage
 </UL>
 <BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_CAN_IRQHandler
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f407xx.o(RESET)
 </UL>
 <P><STRONG><a name="[4c]"></a>CAN2_RX0_IRQHandler</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32f4xx_it.o(i.CAN2_RX0_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 76<LI>Call Chain = CAN2_RX0_IRQHandler &rArr; HAL_CAN_IRQHandler &rArr; HAL_CAN_RxFifo0MsgPendingCallback &rArr; HAL_CAN_GetRxMessage
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = CAN2_RX0_IRQHandler &rArr; HAL_CAN_IRQHandler &rArr; HAL_CAN_RxFifo0MsgPendingCallback &rArr; HAL_CAN_GetRxMessage
 </UL>
 <BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_CAN_IRQHandler
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f407xx.o(RESET)
 </UL>
 <P><STRONG><a name="[4b]"></a>CAN2_TX_IRQHandler</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32f4xx_it.o(i.CAN2_TX_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 76<LI>Call Chain = CAN2_TX_IRQHandler &rArr; HAL_CAN_IRQHandler &rArr; HAL_CAN_RxFifo0MsgPendingCallback &rArr; HAL_CAN_GetRxMessage
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = CAN2_TX_IRQHandler &rArr; HAL_CAN_IRQHandler &rArr; HAL_CAN_RxFifo0MsgPendingCallback &rArr; HAL_CAN_GetRxMessage
 </UL>
 <BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_CAN_IRQHandler
 </UL>
@@ -607,13 +607,13 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = Chassis_Task &rArr; osSignalSet &rArr; xTaskGenericNotifyFromISR &rArr; vPortValidateInterruptPriority
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osSignalSet
+<LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_pid_calc
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_sin_f32
 <LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_cos_f32
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
 <LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
 <LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid_calc
-<LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_pid_calc
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> freertos.o(.constdata)
 </UL>
@@ -677,8 +677,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[32]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART2_IRQHandler
 </UL>
 
-<P><STRONG><a name="[70]"></a>Get_Shoot_Info</STRONG> (Thumb, 98 bytes, Stack size 24 bytes, get_shoot_info.o(i.Get_Shoot_Info))
-<BR><BR>[Stack]<UL><LI>Max Depth = 116<LI>Call Chain = Get_Shoot_Info &rArr; osSignalWait &rArr; xTaskNotifyWait &rArr; prvAddCurrentTaskToDelayedList &rArr; vListInsert
+<P><STRONG><a name="[70]"></a>Get_Shoot_Info</STRONG> (Thumb, 76 bytes, Stack size 16 bytes, get_shoot_info.o(i.Get_Shoot_Info))
+<BR><BR>[Stack]<UL><LI>Max Depth = 108<LI>Call Chain = Get_Shoot_Info &rArr; osSignalWait &rArr; xTaskNotifyWait &rArr; prvAddCurrentTaskToDelayedList &rArr; vListInsert
 </UL>
 <BR>[Calls]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osSignalWait
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;remote_ctrl_shoot_hook
@@ -692,8 +692,8 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_gimbal_info
 </UL>
 
-<P><STRONG><a name="[9d]"></a>Gimbal_Param_Init</STRONG> (Thumb, 254 bytes, Stack size 32 bytes, gimbal_task.o(i.Gimbal_Param_Init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = Gimbal_Param_Init &rArr; PID_struct_init
+<P><STRONG><a name="[9d]"></a>Gimbal_Param_Init</STRONG> (Thumb, 272 bytes, Stack size 24 bytes, gimbal_task.o(i.Gimbal_Param_Init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = Gimbal_Param_Init &rArr; PID_struct_init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PID_struct_init
 <LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Kalman_filter_init
@@ -703,12 +703,11 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[69]"></a>Gimbal_Task</STRONG> (Thumb, 222 bytes, Stack size 8 bytes, gimbal_task.o(i.Gimbal_Task))
+<P><STRONG><a name="[69]"></a>Gimbal_Task</STRONG> (Thumb, 190 bytes, Stack size 8 bytes, gimbal_task.o(i.Gimbal_Task))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = Gimbal_Task &rArr; osSignalSet &rArr; xTaskGenericNotifyFromISR &rArr; vPortValidateInterruptPriority
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osSignalSet
 <LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid_calc
-<LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_pid_calc
 <LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;normal_mode_handler
 <LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;init_mode_handler
 </UL>
@@ -745,7 +744,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[82]"></a>HAL_CAN_IRQHandler</STRONG> (Thumb, 508 bytes, Stack size 40 bytes, stm32f4xx_hal_can.o(i.HAL_CAN_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 76<LI>Call Chain = HAL_CAN_IRQHandler &rArr; HAL_CAN_RxFifo0MsgPendingCallback &rArr; HAL_CAN_GetRxMessage
+<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = HAL_CAN_IRQHandler &rArr; HAL_CAN_RxFifo0MsgPendingCallback &rArr; HAL_CAN_GetRxMessage
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_CAN_WakeUpFromRxMsgCallback
 <LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_CAN_TxMailbox2CompleteCallback
@@ -777,7 +776,7 @@ Global Symbols
 <LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_CAN1_Init
 </UL>
 
-<P><STRONG><a name="[ae]"></a>HAL_CAN_MspInit</STRONG> (Thumb, 200 bytes, Stack size 48 bytes, stm32f4xx_hal_msp.o(i.HAL_CAN_MspInit))
+<P><STRONG><a name="[ae]"></a>HAL_CAN_MspInit</STRONG> (Thumb, 168 bytes, Stack size 48 bytes, stm32f4xx_hal_msp.o(i.HAL_CAN_MspInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = HAL_CAN_MspInit &rArr; HAL_GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_Init
@@ -791,14 +790,14 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_CAN_IRQHandler
 </UL>
 
-<P><STRONG><a name="[a7]"></a>HAL_CAN_RxFifo0MsgPendingCallback</STRONG> (Thumb, 190 bytes, Stack size 24 bytes, can.o(i.HAL_CAN_RxFifo0MsgPendingCallback))
-<BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = HAL_CAN_RxFifo0MsgPendingCallback &rArr; HAL_CAN_GetRxMessage
+<P><STRONG><a name="[a7]"></a>HAL_CAN_RxFifo0MsgPendingCallback</STRONG> (Thumb, 156 bytes, Stack size 8 bytes, can.o(i.HAL_CAN_RxFifo0MsgPendingCallback))
+<BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = HAL_CAN_RxFifo0MsgPendingCallback &rArr; HAL_CAN_GetRxMessage
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_CAN_GetRxMessage
 <LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zitai_data_receive2
-<LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_moto_offset
-<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;encoder_data_handler1
-<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;encoder_data_handler
+<LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;encoder_data_handler3
+<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;encoder_data_handler1
+<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;encoder_data_handler
 </UL>
 <BR>[Called By]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_CAN_IRQHandler
 </UL>
@@ -1170,7 +1169,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f407xx.o(RESET)
 </UL>
-<P><STRONG><a name="[6d]"></a>Mode_Switch_Task</STRONG> (Thumb, 114 bytes, Stack size 8 bytes, mode_switch_task.o(i.Mode_Switch_Task))
+<P><STRONG><a name="[6d]"></a>Mode_Switch_Task</STRONG> (Thumb, 130 bytes, Stack size 8 bytes, mode_switch_task.o(i.Mode_Switch_Task))
 <BR><BR>[Stack]<UL><LI>Max Depth = 184<LI>Call Chain = Mode_Switch_Task &rArr; osTimerStart &rArr; xTimerGenericCommand &rArr; xQueueGenericSend &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osTimerStart
@@ -1205,12 +1204,13 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[6a]"></a>Shoot_Task</STRONG> (Thumb, 52 bytes, Stack size 8 bytes, shoot_task.o(i.Shoot_Task))
+<P><STRONG><a name="[6a]"></a>Shoot_Task</STRONG> (Thumb, 90 bytes, Stack size 8 bytes, shoot_task.o(i.Shoot_Task))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = Shoot_Task &rArr; osSignalSet &rArr; xTaskGenericNotifyFromISR &rArr; vPortValidateInterruptPriority
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osSignalSet
 <LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;shoot_remote_handler
 <LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;shoot_keyboard_handler
+<LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_pid_calc
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> freertos.o(.constdata)
 </UL>
@@ -1306,8 +1306,8 @@ Global Symbols
 <P><STRONG><a name="[151]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
 
 <P><STRONG><a name="[f0]"></a>abs_limit</STRONG> (Thumb, 42 bytes, Stack size 0 bytes, pid.o(i.abs_limit))
-<BR><BR>[Called By]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid_calc
-<LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_pid_calc
+<BR><BR>[Called By]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_pid_calc
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid_calc
 </UL>
 
 <P><STRONG><a name="[8c]"></a>arm_cos_f32</STRONG> (Thumb, 108 bytes, Stack size 0 bytes, arm_cos_f32.o(i.arm_cos_f32))
@@ -1323,20 +1323,24 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abs_limit
 </UL>
-<BR>[Called By]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Gimbal_Task
+<BR>[Called By]<UL><LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Shoot_Task
 <LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Chassis_Task
 </UL>
 
-<P><STRONG><a name="[b4]"></a>encoder_data_handler</STRONG> (Thumb, 180 bytes, Stack size 8 bytes, can.o(i.encoder_data_handler))
+<P><STRONG><a name="[b5]"></a>encoder_data_handler</STRONG> (Thumb, 180 bytes, Stack size 8 bytes, can.o(i.encoder_data_handler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = encoder_data_handler
 </UL>
 <BR>[Called By]<UL><LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_CAN_RxFifo0MsgPendingCallback
 </UL>
 
-<P><STRONG><a name="[b5]"></a>encoder_data_handler1</STRONG> (Thumb, 184 bytes, Stack size 8 bytes, can.o(i.encoder_data_handler1))
+<P><STRONG><a name="[b4]"></a>encoder_data_handler1</STRONG> (Thumb, 184 bytes, Stack size 8 bytes, can.o(i.encoder_data_handler1))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = encoder_data_handler1
 </UL>
 <BR>[Called By]<UL><LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_CAN_RxFifo0MsgPendingCallback
+</UL>
+
+<P><STRONG><a name="[b6]"></a>encoder_data_handler3</STRONG> (Thumb, 52 bytes, Stack size 0 bytes, can.o(i.encoder_data_handler3))
+<BR><BR>[Called By]<UL><LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_CAN_RxFifo0MsgPendingCallback
 </UL>
 
 <P><STRONG><a name="[9a]"></a>get_gimbal_info</STRONG> (Thumb, 182 bytes, Stack size 16 bytes, get_gimbal_info.o(i.get_gimbal_info))
@@ -1356,10 +1360,6 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = get_main_ctrl_mode
 </UL>
 <BR>[Called By]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Mode_Switch_Task
-</UL>
-
-<P><STRONG><a name="[b6]"></a>get_moto_offset</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, can.o(i.get_moto_offset))
-<BR><BR>[Called By]<UL><LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_CAN_RxFifo0MsgPendingCallback
 </UL>
 
 <P><STRONG><a name="[9e]"></a>init_mode_handler</STRONG> (Thumb, 46 bytes, Stack size 0 bytes, gimbal_task.o(i.init_mode_handler))
@@ -1586,7 +1586,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_chassis_motor_ctrl_message
 </UL>
 
-<P><STRONG><a name="[84]"></a>send_chassis_motor_ctrl_message</STRONG> (Thumb, 114 bytes, Stack size 0 bytes, get_chassis_info.o(i.send_chassis_motor_ctrl_message))
+<P><STRONG><a name="[84]"></a>send_chassis_motor_ctrl_message</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, get_chassis_info.o(i.send_chassis_motor_ctrl_message))
 <BR><BR>[Stack]<UL><LI>Max Depth = 44<LI>Call Chain = send_chassis_motor_ctrl_message &rArr; send_chassis_cur &rArr; HAL_CAN_AddTxMessage
 </UL>
 <BR>[Calls]<UL><LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_chassis_cur
