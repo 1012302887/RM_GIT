@@ -17,6 +17,7 @@ moto_measure_t moto_trigger;//储存拨盘电机信息的结构体
 GYRO_DATA gyro_data;//储存陀螺仪信息的结构体
 uint8_t DATA[8];//储存CAN1接收到数据
 uint8_t Data[8];//储存CAN2接收到数据
+static uint8_t i;
 /* CAN1 init function */
 void MX_CAN1_Init(void)
 {
@@ -171,25 +172,22 @@ void  HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 			case CAN_3508_M3_ID:
 			case CAN_3508_M4_ID:
 			{
-				static uint8_t i;
 				i = Rx1Message.StdId - CAN_3508_M1_ID;
-//				moto_chassis[i].msg_cnt++ <= 50 ? get_moto_offset(&moto_chassis[i], DATA) : encoder_data_handler(&moto_chassis[i],DATA);
 				encoder_data_handler3(&moto_chassis[i],DATA);
 			}break;
 			case CAN_YAW_MOTOR_ID:
 			{
-				encoder_data_handler1(&moto_yaw, DATA);//用encoder_data_handler1还是encoder_data_handler自己体会，无法言传
+				encoder_data_handler4(&moto_yaw, DATA);
 			}break;
 			case CAN_PIT_MOTOR_ID:
 			{
-				encoder_data_handler(&moto_pit, DATA);
+				encoder_data_handler4(&moto_pit, DATA);
 				#if (0)//不同小车，需要修改
 				moto_pit.total_angle += 360;				
 				#endif
 			}break;
 				case CAN_TRIGGER_MOTOR_ID:
 			{
-//				moto_trigger.msg_cnt++ <= 50 ? get_moto_offset(&moto_trigger, DATA):encoder_data_handler1(&moto_trigger, DATA);
 			encoder_data_handler3(&moto_trigger, DATA);
 			}
 			break;
@@ -198,6 +196,7 @@ void  HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 			}break;
 		}	
 	}
+		
 	else
 	{
 		//CAN2接收
@@ -215,215 +214,40 @@ void  HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 		}
 	}
 }
-/**
-  * @brief     get motor rpm and calculate motor round_count/total_encoder/total_angle
-  * @param     ptr: Pointer to a moto_measure_t structure
-  * @attention this function should be called after get_moto_offset() function
-  */
-void encoder_data_handler(moto_measure_t* ptr, uint8_t Data[])
-{
-  ptr->last_ecd = ptr->ecd;
-  ptr->ecd      = (uint16_t)(Data[0] << 8 | Data[1]);
-  
-  if (ptr->ecd - ptr->last_ecd > 4096)//4096
-  {
-    ptr->round_cnt--;
-    ptr->ecd_raw_rate = ptr->ecd - ptr->last_ecd - 8192;
-  }
-  else if (ptr->ecd - ptr->last_ecd < -4096)
-  {
-    ptr->round_cnt++;
-    ptr->ecd_raw_rate = ptr->ecd - ptr->last_ecd + 8192;
-  }
-  else
-  {
-    ptr->ecd_raw_rate = ptr->ecd - ptr->last_ecd;
-  }
-
-  ptr->total_ecd = ptr->round_cnt * 8192 + ptr->ecd - ptr->offset_ecd;
-  /* total angle, unit is degree */
-	 ptr->last_total_angle = ptr->total_angle;
-  ptr->total_angle = ptr->total_ecd / ENCODER_ANGLE_RATIO;
-  
-#ifdef CHASSIS_3510
-  int32_t temp_sum = 0;
-  ptr->rate_buf[ptr->buf_cut++] = ptr->ecd_raw_rate;
-  if (ptr->buf_cut >= FILTER_BUF)
-    ptr->buf_cut = 0;
-  for (uint8_t i = 0; i < FILTER_BUF; i++)
-  {
-    temp_sum += ptr->rate_buf[i];
-  }
-	ptr->last_filter_rate = ptr->filter_rate;
-  ptr->filter_rate = (int32_t)(temp_sum/FILTER_BUF);
-  ptr->speed_rpm   = (int16_t)(ptr->filter_rate * 7.324f);
-#else
-  ptr->speed_rpm     = (int16_t)(Data[2] << 8 | Data[3]);
-  ptr->given_current = (int16_t)(Data[4] << 8 | Data[5]);
-#endif
-
-}
-
-/**
-  * @brief     get motor rpm and calculate motor round_count/total_encoder/total_angle
-  * @param     ptr: Pointer to a moto_measure_t structure
-  * @attention this function should be called after get_moto_offset() function
-  */
-void encoder_data_handler1(moto_measure_t* ptr, uint8_t Data[])
-{
-  ptr->last_ecd = ptr->ecd;
-  ptr->ecd      = (uint16_t)(Data[0] << 8 | Data[1]);
-  
-#if CAR_NUM == 5
-  if (ptr->ecd - ptr->last_ecd > 4096)
- #else
-	if (ptr->ecd - ptr->last_ecd > 6500)
-#endif
-	{
-    ptr->round_cnt--;
-    ptr->ecd_raw_rate = ptr->ecd - ptr->last_ecd - 8192;
-  }
-	
-#if CAR_NUM == 5
-  else if (ptr->ecd - ptr->last_ecd < -4096)
- #else
-	else if (ptr->ecd - ptr->last_ecd < -6500)
-#endif
-  {
-    ptr->round_cnt++;
-    ptr->ecd_raw_rate = ptr->ecd - ptr->last_ecd + 8192;
-  }
-  else
-  {
-    ptr->ecd_raw_rate = ptr->ecd - ptr->last_ecd;
-  }
-
-  ptr->total_ecd = ptr->round_cnt * 8192 + ptr->ecd - ptr->offset_ecd;
-  /* total angle, unit is degree */
-	ptr->last_total_angle = ptr->total_angle;
-#if CAR_NUM == 5
-	ptr->total_angle = ptr->total_ecd / ENCODER_ANGLE_RATIO + (float)360.0f;
-#else
-	ptr->total_angle = ptr->total_ecd / ENCODER_ANGLE_RATIO;
-
-#endif  //	Ni_Ming(0xf1, ptr->total_ecd, ptr->total_angle,ENCODER_ANGLE_RATIO,0);
-  
-#ifdef CHASSIS_3510
-  int32_t temp_sum = 0;
-  ptr->rate_buf[ptr->buf_cut++] = ptr->ecd_raw_rate;
-  if (ptr->buf_cut >= FILTER_BUF)
-    ptr->buf_cut = 0;
-  for (uint8_t i = 0; i < FILTER_BUF; i++)
-  {
-    temp_sum += ptr->rate_buf[i];
-  }
-	ptr->last_filter_rate = ptr->filter_rate;
-  ptr->filter_rate = (int32_t)(temp_sum/FILTER_BUF);
-  ptr->speed_rpm   = (int16_t)(ptr->filter_rate * 7.324f);
-#else
-  ptr->speed_rpm     = (int16_t)(Data[2] << 8 | Data[3]);
-  ptr->given_current = (int16_t)(Data[4] << 8 | Data[5]);
-#endif
-}
-
-/**
-  * @brief     get motor rpm and calculate motor round_count/total_encoder/total_angle
-  * @param     ptr: Pointer to a moto_measure_t structure
-  * @attention this function should be called after get_moto_offset() function
-  */
-void encoder_data_handler2(shoot_moto_measure_t* ptr, uint8_t Data[])
-{
-  ptr->last_ecd = ptr->ecd;
-  ptr->ecd      = (uint16_t)(Data[0] << 8 | Data[1]);
-  
-  if (ptr->ecd - ptr->last_ecd > 4096)
-  {
-    ptr->round_cnt--;
-    ptr->ecd_raw_rate = ptr->ecd - ptr->last_ecd - 8192;
-  }
-  else if (ptr->ecd - ptr->last_ecd < -4096)
-  {
-    ptr->round_cnt++;
-    ptr->ecd_raw_rate = ptr->ecd - ptr->last_ecd + 8192;
-  }
-  else
-  {
-    ptr->ecd_raw_rate = ptr->ecd - ptr->last_ecd;
-  }
-
-  int32_t temp_sum = 0;
-  ptr->rate_buf[ptr->buf_cut++] = ptr->ecd_raw_rate;
-  if (ptr->buf_cut >= 25)
-    ptr->buf_cut = 0;
-  for (uint8_t i = 0; i < 25; i++)
-  {
-    temp_sum += ptr->rate_buf[i];
-  }
-	ptr->last_filter_rate = ptr->filter_rate;
-  ptr->filter_rate = (int32_t)(temp_sum/25);
-}
-/**
-  * @brief     get motor initialize offset value
-  * @param     ptr: Pointer to a moto_measure_t structure
-  * @retval    None
-  * @attention this function should be called after system can init
-  */
 void encoder_data_handler3(moto_measure_t* ptr, uint8_t Data[])
 {                                                                                                                                    
         (ptr)->last_ecd = (ptr)->ecd;                                                          
         (ptr)->ecd = (uint16_t)((Data[0] << 8 | Data[1]));       
         (ptr)->speed_rpm = (uint16_t)(Data[2] << 8 | Data[3]);     
-//        (ptr)->given_current = (uint16_t)(Data[4] << 8 | Data[5]);                                             
-				(ptr)->filter_rate = 	(ptr)->speed_rpm*(2*PI)/60.0f;
+//      (ptr)->given_current = (uint16_t)(Data[4] << 8 | Data[5]);                                             
+				(ptr)->filter_rate = 	(ptr)->speed_rpm*0.10472;//W=2*PI*N
 }
-void get_moto_offset(moto_measure_t* ptr, uint8_t Data[])
-{
-    ptr->ecd        = (uint16_t)(Data[0] << 8 | Data[1]);
-    ptr->offset_ecd = ptr->ecd;
+void encoder_data_handler4(moto_measure_t* ptr, uint8_t Data[])//6623
+{                                                                                                                                    
+  ptr->last_ecd = ptr->ecd;
+  ptr->ecd      = (uint16_t)(Data[0] << 8 | Data[1]);
+	if (ptr->ecd - ptr->last_ecd > 6500)
+	{
+    ptr->round_cnt--;
+    ptr->ecd_raw_rate = ptr->ecd - ptr->last_ecd - 8192;
+  }
+	else if (ptr->ecd - ptr->last_ecd < -6500)
+  {
+    ptr->round_cnt++;
+    ptr->ecd_raw_rate = ptr->ecd - ptr->last_ecd + 8192;
+  }
+  else
+  {
+    ptr->ecd_raw_rate = ptr->ecd - ptr->last_ecd;
+  }
+  ptr->total_ecd = ptr->round_cnt * 8192 + ptr->ecd - ptr->offset_ecd;
+  /* total angle, unit is degree */
+	ptr->last_total_angle = ptr->total_angle;
+	ptr->total_angle = ptr->total_ecd / ENCODER_ANGLE_RATIO;
 }
-
-/**	
-	*					get gyro angle
-	*/ 
-//void zitai_data_receive(GYRO_DATA* gyro,uint8_t Data[])
-//{
-//	static int16_t pitch_connt = 0;
-//	static int16_t yaw_connt = 0;
-//	
-//	gyro->raw_pitch = Data[0]<<8 | Data[1];
-//	gyro->raw_roll  = Data[2]<<8 | Data[3];
-//	gyro->raw_yaw   = Data[4]<<8 | Data[5];
-//	
-//	gyro->pitch_angle = (float)gyro->raw_pitch/100;
-//	gyro->roll  = (float)gyro->raw_roll/100;
-//	gyro->yaw_angle  = (float)gyro->raw_yaw/100;
-//	
-//	if(gyro->pitch_angle < 0)
-//	{
-//		gyro->pitch_angle = gyro->pitch_angle + 360;
-//	}
-//	
-//	if((gyro->pitch_angle - gyro->last_pitch_angle) > 330)
-//		pitch_connt--;
-//	else if((gyro->pitch_angle - gyro->last_pitch_angle) < -330)
-//		pitch_connt++;
-//	
-//	gyro->pitch = gyro->pitch_angle + pitch_connt * 360;
-//	gyro->last_pitch_angle = gyro->pitch_angle;
-//	
-//	if((gyro->yaw_angle - gyro->last_yaw_angle) > 330)
-//		yaw_connt--;
-//	else if((gyro->yaw_angle - gyro->last_yaw_angle) < -330)
-//		yaw_connt++;
-//	
-//	gyro->last_yaw = gyro->yaw;
-//	gyro->yaw = gyro->yaw_angle + yaw_connt * 360;
-//	gyro->last_yaw_angle = gyro->yaw_angle;
-//}
 
 void zitai_data_receive2 (GYRO_DATA* gyro,uint8_t Data[])//
 {
-	
 	//static int16_t pitch_connt = 0;
 	static int16_t yaw_connt = 0;
 	

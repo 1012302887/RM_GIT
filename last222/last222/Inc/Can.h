@@ -98,11 +98,8 @@ void send_chassis_cur(int16_t a, int16_t b, int16_t c, int16_t d);
 void send_gimbal_cur(int16_t yaw_iq, int16_t pit_iq, int16_t trigger_iq);
 void send_shoot_cur(int16_t iq1, int16_t iq2, int16_t iq3);
 void send_Gyro(uint8_t mode ,uint16_t time);
-void encoder_data_handler(moto_measure_t* ptr, uint8_t Data[]);
-void encoder_data_handler1(moto_measure_t* ptr, uint8_t Data[]);
-void encoder_data_handler2(shoot_moto_measure_t* ptr, uint8_t Data[]);
 void encoder_data_handler3(moto_measure_t* ptr, uint8_t Data[]);
-//void encoder_data_handler2(shoot_moto_measure_t* ptr, uint8_t Data[]);
+void encoder_data_handler4(moto_measure_t* ptr, uint8_t Data[]);//6623
 void zitai_data_receive(GYRO_DATA* gyro,uint8_t Data[]);
 void zitai_data_receive2 (GYRO_DATA* gyro,uint8_t Data[]);
 void get_moto_offset(moto_measure_t* ptr, uint8_t Data[]);

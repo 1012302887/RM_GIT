@@ -12,17 +12,17 @@ void Get_Gimbal_Info(void const * argument)
 		if(event.value.signals & GIMBAL_INFO_GET_SIGNAL)
 		{   
 			  taskENTER_CRITICAL();
-				gyro_data.v_z = Kalman_filter_calc(&GIMBAL_KF[0],gyro_data.v_z);//////////////////////////
-				gyro_data.yaw = Kalman_filter_calc(&GIMBAL_KF[1],gyro_data.yaw);////////////////////
-				gyro_data.v_x	= Kalman_filter_calc(&GIMBAL_KF[2],gyro_data.v_x);//////////////////////////
-				gyro_data.pitch = Kalman_filter_calc(&GIMBAL_KF[3],gyro_data.pitch);////////////////////
 				get_gimbal_info();
 			  taskEXIT_CRITICAL();
 		}
 	}
 }
 void get_gimbal_info(void)
-{
+{	
+	gyro_data.v_z = Kalman_filter_calc(&GIMBAL_KF[0],gyro_data.v_z);//////////////////////////
+	gyro_data.yaw = Kalman_filter_calc(&GIMBAL_KF[1],gyro_data.yaw);////////////////////
+	gyro_data.v_x	= Kalman_filter_calc(&GIMBAL_KF[2],gyro_data.v_x);//////////////////////////
+	gyro_data.pitch = Kalman_filter_calc(&GIMBAL_KF[3],gyro_data.pitch);////////////////////
 		if(gim.ctrl_mode == GIMBAL_INIT)
 	{
 		/* get gimbal relative angle */
@@ -46,16 +46,11 @@ void get_gimbal_info(void)
 		ramp_init(&yaw_ramp, YAW_PREPARE_TIMS_MS);
 	}
 
-	/* get gimbal relative palstance */
-  //the Z axis(yaw) of gimbal coordinate system corresponds to the IMU Z axis
-  gim.sensor.yaw_palstance = gyro_data.v_z;
-  //the Y axis(pitch) of gimbal coordinate system corresponds to the IMU -X axis
-  gim.sensor.pit_palstance = gyro_data.v_x;
 	/* get remote and keyboard gimbal control information */
   remote_ctrl_gimbal_hook();
 	keyboard_gimbal_hook();
 	GimbalAngleLimit();
-  osDelay(1);
+//  osDelay(1);
 }
 /********************************* GIMBAL REMOTE  HANDLER ***************************************/
 void remote_ctrl_gimbal_hook(void)
@@ -179,7 +174,7 @@ void GimbalAngleLimit(void)
 	}
 	else
 	{
-		VAL_LIMIT(gim.pid.pit_angle_ref, -27 ,28);
+		VAL_LIMIT(gim.pid.pit_angle_ref, -24 ,24);
 	}
 	VAL_LIMIT(gim.pid.yaw_angle_ref, gim.sensor.yaw_relative_angle-30, gim.sensor.yaw_relative_angle+30);  
 }
@@ -189,5 +184,4 @@ void send_gimbal_motor_ctrl_message(int16_t gimbal_cur[])
      1: pitch motor current
      2: trigger motor current*/
   send_gimbal_cur(-gimbal_cur[0], gimbal_cur[1], gimbal_cur[2]);
-//	send_gimbal_cur(0, 0, gimbal_cur[2]);
 }

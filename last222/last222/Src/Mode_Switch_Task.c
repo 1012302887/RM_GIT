@@ -14,11 +14,14 @@ ramp_mode_ee ramp_mode = RAMP_FLAT;
 extern osThreadId GET_CHASSIS_INFHandle;
 extern osThreadId GET_SHOOT_TASK_HANDEL;
 extern osThreadId GET_GIMBAL_INFOHandle;
+static uint32_t last_Reset = 0;
 void Mode_Switch_Task(void const * argument)
 {
   osDelay(1500);
-	moto_yaw.offset_ecd = MOTO_YAW_OFFSET_ECD ;//yaw电机初始值，需要自行修改。
-	moto_pit.offset_ecd = MOTO_PIT_OFFSET_ECD ;//pit电机初始值，需要自行修改。
+#if(1)
+	{moto_yaw.offset_ecd = MOTO_YAW_OFFSET_ECD ;}//yaw电机初始值，需要自行修改。
+   moto_pit.offset_ecd = MOTO_PIT_OFFSET_ECD ;//pit电机初始值，需要自行修改。
+	#endif
 	//启动定时器任务，指定定时时间（毫秒）
 	osTimerStart(chassis_timer_id ,2);
 	osTimerStart(gimbal_timer_id  ,1);
@@ -34,6 +37,7 @@ void Mode_Switch_Task(void const * argument)
 		mode_switch_times++;  
 		
 		taskENTER_CRITICAL();
+		
 		get_main_ctrl_mode();
 		
 		taskEXIT_CRITICAL();
@@ -46,7 +50,6 @@ void Mode_Switch_Task(void const * argument)
 }
 void get_main_ctrl_mode(void)
 {
-	static uint32_t last_Reset = 0;
 	
 	if((RC_CtrlData.rc.s2 == 1) || (RC_CtrlData.rc.s2 == 2))
 	{

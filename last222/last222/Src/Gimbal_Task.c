@@ -9,7 +9,6 @@ ramp_t pit_ramp 	 = RAMP_GEN_DAFAULT;
 ramp_t yaw_ramp    = RAMP_GEN_DAFAULT;
 
 extern osThreadId GET_GIMBAL_INFOHandle;
-extern osThreadId GET_CHASSIS_INFHandle;
 extern osThreadId CAN_SEND_TASKHandle;
 void Gimbal_Task(void const * argument)
 {
@@ -43,16 +42,9 @@ void Gimbal_Task(void const * argument)
 	gim.pid.yaw_spd_ref = pid_yaw.out;
 	gim.pid.pit_spd_ref = pid_pit.out;
 	
-	/*************** DEBUG ***********************/
-// 	gim.pid.yaw_spd_ref = 0;
-//	gim.pid.pit_spd_ref = 0;
-//	Ni_Ming(0xf1, gim.pid.yaw_spd_fdb,gim.pid.yaw_spd_ref,gim.pid.pit_spd_fdb,gim.pid.pit_spd_ref);
-
-	/*************** DEBUG *********************/
-	
 	/* gimbal pid and yaw speed pid */
-	gim.pid.yaw_spd_fdb = gim.sensor.yaw_palstance;
-	gim.pid.pit_spd_fdb = gim.sensor.pit_palstance;
+	gim.pid.yaw_spd_fdb = gyro_data.v_z;
+	gim.pid.pit_spd_fdb = gyro_data.v_x;
 	
 	pid_calc(&pid_yaw_spd, gim.pid.yaw_spd_fdb, gim.pid.yaw_spd_ref);
 	pid_calc(&pid_pit_spd, -gim.pid.pit_spd_fdb, gim.pid.pit_spd_ref);
@@ -73,7 +65,7 @@ void init_mode_handler(void)
   gim.pid.yaw_angle_fdb = gim.sensor.yaw_relative_angle;
 	gim.pid.pit_angle_ref = 0;
 	gim.pid.yaw_angle_ref = 0;
-	if(handler_run_time > 2000)
+	if(handler_run_time > 4000)
 	{
 //		send_Gyro(0x30,1000);//–£◊ºÕ”¬›“«
 		gim.ctrl_mode = GIMBAL_NORMAL;
@@ -94,8 +86,8 @@ void Gimbal_Param_Init(void)
 	}
 	//YAW÷·¬À≤®
 		Kalman_filter_init(&GIMBAL_KF[0],1,1,5);//P-Q-R
-	Kalman_filter_init(&GIMBAL_KF[1],1,1,10);//P-Q-R
-//PIT÷·¬À≤®
+		Kalman_filter_init(&GIMBAL_KF[1],1,1,10);//P-Q-R
+	//PIT÷·¬À≤®
 		Kalman_filter_init(&GIMBAL_KF[2],1,1,5);//P-Q-R
 		Kalman_filter_init(&GIMBAL_KF[3],1,1,3);//P-Q-R
 	
@@ -110,7 +102,7 @@ void Gimbal_Param_Init(void)
 	/* pitch axis motor pid parameter */
 	
   PID_struct_init(&pid_pit, POSITION_PID, 1000, 1000,
-                  22, 0, 0); //30
+                  23, 0, 0); //30
   PID_struct_init(&pid_pit_spd, POSITION_PID, 6000, 2000,
                  25, 0, 0); //60
 	
@@ -118,5 +110,5 @@ void Gimbal_Param_Init(void)
   PID_struct_init(&pid_yaw, POSITION_PID, 1000, 1000,
                   10,0, 0); //
   PID_struct_init(&pid_yaw_spd, POSITION_PID, 6000, 2000,
-                  42, 0, 0);
+                  50, 0, 0);
 }

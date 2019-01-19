@@ -18,7 +18,7 @@ void Chassis_Task(void const *argument)
 //	pid_rotate.p=0;//¹Ø±Õµ×ÅÌ¸úËæ
 //		printf("--%f--",InfantryJudge.remainPower);
 //	USART6_Transmit();
-//   Ni_Ming(0xf1,gyro_data.v_z,gyro_data.yaw,gyro_data.v_x,gyro_data.pitch);
+	Ni_Ming(0xf1,chassis.follow_gimbal ,chassis.wheel_spd_fdb[0],chassis.wheel_spd_ref[0],pid_spd[0].out);
 //		Ni_Ming(0xf2, chassis.wheel_spd_ref[0],chassis.wheel_spd_ref[1],chassis.wheel_spd_fdb[0],chassis.wheel_spd_fdb[1]);
 	if(gim.ctrl_mode == GIMBAL_INIT)//chassis dose not follow gimbal when gimbal initializa
 	{
@@ -91,9 +91,9 @@ void Chassis_Task(void const *argument)
 	
 	for(int i =0; i < 4; i++)
 	{
-		/*ÂË²¨*/
+//		/*ÂË²¨*/
 //		chassis.wheel_spd_ref[i] =	Kalman_filter_calc(&CHASSIS_REF_KF[i],chassis.wheel_spd_ref[i]);
-		/*ÂË²¨*/
+//		/*ÂË²¨*/
 		chassis.current[i] = chassis_pid_calc(&pid_spd[i], chassis.wheel_spd_fdb[i], chassis.wheel_spd_ref[i]);//
 	}
 	memcpy(glb_cur.chassis_cur, chassis.current, sizeof(chassis.current));
@@ -112,13 +112,13 @@ void Chassis_Param_Init(void)
 	ramp_init(&FBSpeedRamp, MOUSR_FB_RAMP_TICK_COUNT);
 	
 	/* initializa chassis follow gimbal pid */
-		PID_struct_init(&pid_rotate, POSITION_PID, 32, 0, 
-		2.1, 0, 0);//2.0
+		PID_struct_init(&pid_rotate, POSITION_PID, 33, 0, 
+	 2.2, 0.02, 0);//2.0
 	
 	 for (int k = 0; k < 4; k++)
   {
     PID_struct_init(&pid_spd[k], POSITION_PID, 10000, 0,
-		540, 0, 0); 
+		600, 0, 0); 
 	}
 	for(int i =0;i<4;i++)
 	{
@@ -126,6 +126,6 @@ void Chassis_Param_Init(void)
 	}
 	for(int i =0;i<4;i++)
 	{
-		Kalman_filter_init(&CHASSIS_REF_KF[i],1,1,50);//P-Q-R
+		Kalman_filter_init(&CHASSIS_REF_KF[i],1,1,10);//P-Q-R
 	}
 }
