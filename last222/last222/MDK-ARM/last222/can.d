@@ -70,3 +70,4 @@ last222\can.o: ../Inc/Car_num.h
 last222\can.o: ../Inc/Kalman.h
 last222\can.o: ../Inc/REG_DMA.h
 last222\can.o: ../Inc/JUDG_INFO.h
+last222\can.o: ../Inc/first_order_filter.h

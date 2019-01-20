@@ -57,6 +57,7 @@ last222\stm32f4xx_hal_dma.o: ../Inc/Car_num.h
 last222\stm32f4xx_hal_dma.o: ../Inc/Kalman.h
 last222\stm32f4xx_hal_dma.o: ../Inc/REG_DMA.h
 last222\stm32f4xx_hal_dma.o: ../Inc/JUDG_INFO.h
+last222\stm32f4xx_hal_dma.o: ../Inc/first_order_filter.h
 last222\stm32f4xx_hal_dma.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h
 last222\stm32f4xx_hal_dma.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 last222\stm32f4xx_hal_dma.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h

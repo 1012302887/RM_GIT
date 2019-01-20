@@ -61,6 +61,7 @@
 "last222\arm_fir_f32.o"
 "last222\reg_dma.o"
 "last222\judg_info.o"
+"last222\first_order_filter.o"
 --library_type=microlib --strict --scatter "last222\last222.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

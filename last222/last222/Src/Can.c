@@ -214,13 +214,58 @@ void  HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 		}
 	}
 }
+
+void encoder_data_handler(moto_measure_t* ptr, uint8_t Data[])
+{
+  ptr->last_ecd = ptr->ecd;
+  ptr->ecd      = (uint16_t)(Data[0] << 8 | Data[1]);
+  
+  if (ptr->ecd - ptr->last_ecd > 4096)//4096
+  {
+    ptr->round_cnt--;
+    ptr->ecd_raw_rate = ptr->ecd - ptr->last_ecd - 8192;
+  }
+  else if (ptr->ecd - ptr->last_ecd < -4096)
+  {
+    ptr->round_cnt++;
+    ptr->ecd_raw_rate = ptr->ecd - ptr->last_ecd + 8192;
+  }
+  else
+  {
+    ptr->ecd_raw_rate = ptr->ecd - ptr->last_ecd;
+  }
+
+  ptr->total_ecd = ptr->round_cnt * 8192 + ptr->ecd - ptr->offset_ecd;
+  /* total angle, unit is degree */
+	 ptr->last_total_angle = ptr->total_angle;
+  ptr->total_angle = ptr->total_ecd / ENCODER_ANGLE_RATIO;
+  
+#ifdef CHASSIS_3510
+  int32_t temp_sum = 0;
+  ptr->rate_buf[ptr->buf_cut++] = ptr->ecd_raw_rate;
+  if (ptr->buf_cut >= FILTER_BUF)
+    ptr->buf_cut = 0;
+  for (uint8_t i = 0; i < FILTER_BUF; i++)
+  {
+    temp_sum += ptr->rate_buf[i];
+  }
+	ptr->last_filter_rate = ptr->filter_rate;
+  ptr->filter_rate = (int32_t)(temp_sum/FILTER_BUF);
+  ptr->speed_rpm   = (int16_t)(ptr->filter_rate * 7.324f);
+#else
+  ptr->speed_rpm     = (int16_t)(Data[2] << 8 | Data[3]);
+  ptr->given_current = (int16_t)(Data[4] << 8 | Data[5]);
+#endif
+
+}
+
 void encoder_data_handler3(moto_measure_t* ptr, uint8_t Data[])
-{                                                                                                                                    
-        (ptr)->last_ecd = (ptr)->ecd;                                                          
-        (ptr)->ecd = (uint16_t)((Data[0] << 8 | Data[1]));       
-        (ptr)->speed_rpm = (uint16_t)(Data[2] << 8 | Data[3]);     
-//      (ptr)->given_current = (uint16_t)(Data[4] << 8 | Data[5]);                                             
-				(ptr)->filter_rate = 	(ptr)->speed_rpm*0.10472;//W=2*PI*N
+{                
+//        (ptr)->last_ecd = (ptr)->ecd;                                                          
+//        (ptr)->ecd = (uint16_t)((Data[0] << 8 | Data[1]));       
+					(ptr)->speed_rpm = (uint16_t)(Data[2] << 8 | Data[3]);     
+//      	(ptr)->given_current = (uint16_t)(Data[4] << 8 | Data[5]);                                             
+//				(ptr)->filter_rate = 	(ptr)->speed_rpm*0.10472;//W=2*PI*N
 }
 void encoder_data_handler4(moto_measure_t* ptr, uint8_t Data[])//6623
 {                                                                                                                                    

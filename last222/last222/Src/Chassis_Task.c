@@ -11,6 +11,7 @@ chassis_t chassis = {0};//储存底盘处理各项信息的结构体
 static float d_theta = 0;
 extern osThreadId CAN_SEND_TASKHandle;
 extern osThreadId GET_CHASSIS_INFHandle;
+first_order_filter_type_t chassis_ref_first[4];
 /* 底盘定时任务*/
 uint32_t ones=0;
 void Chassis_Task(void const *argument)
@@ -18,7 +19,7 @@ void Chassis_Task(void const *argument)
 //	pid_rotate.p=0;//关闭底盘跟随
 //		printf("--%f--",InfantryJudge.remainPower);
 //	USART6_Transmit();
-	Ni_Ming(0xf1,chassis.follow_gimbal ,chassis.wheel_spd_fdb[0],chassis.wheel_spd_ref[0],pid_spd[0].out);
+//	Ni_Ming(0xf1,chassis_ref_first[0].out,chassis_ref_first[0].input,chassis.wheel_spd_ref[0],0);
 //		Ni_Ming(0xf2, chassis.wheel_spd_ref[0],chassis.wheel_spd_ref[1],chassis.wheel_spd_fdb[0],chassis.wheel_spd_fdb[1]);
 	if(gim.ctrl_mode == GIMBAL_INIT)//chassis dose not follow gimbal when gimbal initializa
 	{
@@ -92,7 +93,8 @@ void Chassis_Task(void const *argument)
 	for(int i =0; i < 4; i++)
 	{
 //		/*滤波*/
-//		chassis.wheel_spd_ref[i] =	Kalman_filter_calc(&CHASSIS_REF_KF[i],chassis.wheel_spd_ref[i]);
+		first_order_filter_cali(&chassis_ref_first[i],chassis.wheel_spd_ref[i]);
+		chassis.wheel_spd_ref[i] = chassis_ref_first[i].out;
 //		/*滤波*/
 		chassis.current[i] = chassis_pid_calc(&pid_spd[i], chassis.wheel_spd_fdb[i], chassis.wheel_spd_ref[i]);//
 	}
@@ -126,6 +128,6 @@ void Chassis_Param_Init(void)
 	}
 	for(int i =0;i<4;i++)
 	{
-		Kalman_filter_init(&CHASSIS_REF_KF[i],1,1,10);//P-Q-R
+		first_order_filter_init(&chassis_ref_first[i],0.002,0.1f);//0.3333333333f
 	}
 }

@@ -12,7 +12,7 @@ void Get_Shoot_Info(void const * argument)
 			if(event.value.signals & SHOOT_GET_SIGNAL)
 	   {
 				taskENTER_CRITICAL();
-			  shoot.trig.trig_spd 				  = moto_trigger.filter_rate / 36;
+			  shoot.trig.trig_spd 				  = moto_trigger.speed_rpm * 0.10472/ 36;//W=2*PI*N
 				/* get remote and keyboard trig and friction wheel control information */
 				remote_ctrl_shoot_hook();
 				keyboard_shoot_hook();

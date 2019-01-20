@@ -70,3 +70,4 @@ last222\freertos.o: ../Inc/Car_num.h
 last222\freertos.o: ../Inc/Kalman.h
 last222\freertos.o: ../Inc/REG_DMA.h
 last222\freertos.o: ../Inc/JUDG_INFO.h
+last222\freertos.o: ../Inc/first_order_filter.h

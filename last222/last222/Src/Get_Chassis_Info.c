@@ -21,16 +21,10 @@ void Get_Chassis_Info(void const * argument)
 			 
 					/* get gimbal and chassis relative angle */
 				chassis.follow_gimbal = moto_yaw.total_angle;   
-				/* get chassis wheel fdb positin */
-				for (uint8_t i = 0; i < 4; i++)
-				 {
-					chassis.wheel_pos_fdb[i] = moto_chassis[i].total_angle/19.0f;
-				 }
 				/* get chassis wheel fdb speed */
 				for (uint8_t i = 0; i < 4; i++)
 				 {
-
-						chassis.wheel_spd_fdb[i] = moto_chassis[i].filter_rate/19.0;
+						chassis.wheel_spd_fdb[i] = moto_chassis[i].speed_rpm*0.10472/19.0;//W=2*PI*N
 //					 /*ÂË²¨*/
 						chassis.wheel_spd_fdb[i] =	Kalman_filter_calc(&CHASSIS_KF[i],chassis.wheel_spd_fdb[i]);
 //					 /*ÂË²¨*/

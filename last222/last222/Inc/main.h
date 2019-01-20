@@ -32,6 +32,7 @@
 #include "Kalman.h"
 #include "REG_DMA.h"
 #include "JUDG_INFO.h"
+#include "first_order_filter.h"
 /* USER CODE BEGIN Includes */
 /* USER CODE END Includes */
 
