@@ -65,6 +65,7 @@ void init_mode_handler(void)
   gim.pid.yaw_angle_fdb = gim.sensor.yaw_relative_angle;
 	gim.pid.pit_angle_ref = 0;
 	gim.pid.yaw_angle_ref = 0;
+//	send_Gyro(0x30,1000);//Ð£×¼ÍÓÂÝÒÇ
 	if(handler_run_time > 4000)
 	{
 //		send_Gyro(0x30,1000);//Ð£×¼ÍÓÂÝÒÇ
@@ -86,7 +87,7 @@ void Gimbal_Param_Init(void)
 	}
 	//YAWÖáÂË²¨
 		Kalman_filter_init(&GIMBAL_KF[0],1,1,5);//P-Q-R
-		Kalman_filter_init(&GIMBAL_KF[1],1,1,10);//P-Q-R
+		Kalman_filter_init(&GIMBAL_KF[1],1,1,5);//P-Q-R
 	//PITÖáÂË²¨
 		Kalman_filter_init(&GIMBAL_KF[2],1,1,5);//P-Q-R
 		Kalman_filter_init(&GIMBAL_KF[3],1,1,3);//P-Q-R

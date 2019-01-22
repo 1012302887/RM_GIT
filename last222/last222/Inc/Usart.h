@@ -27,6 +27,7 @@ typedef __packed struct
 typedef	__packed struct
 {
 	uint16_t v;
+	int16_t bogan;
 }Key;
 
 typedef __packed struct

@@ -20,7 +20,7 @@ void Chassis_Task(void const *argument)
 //		printf("--%f--",InfantryJudge.remainPower);
 //	USART6_Transmit();
 //	Ni_Ming(0xf1,chassis_ref_first[0].out,chassis_ref_first[0].input,chassis.wheel_spd_ref[0],0);
-//		Ni_Ming(0xf2, chassis.wheel_spd_ref[0],chassis.wheel_spd_ref[1],chassis.wheel_spd_fdb[0],chassis.wheel_spd_fdb[1]);
+//	Ni_Ming(0xf2, chassis.wheel_spd_ref[0],chassis.wheel_spd_ref[1],chassis.wheel_spd_fdb[0],chassis.wheel_spd_fdb[1]);
 	if(gim.ctrl_mode == GIMBAL_INIT)//chassis dose not follow gimbal when gimbal initializa
 	{
 		chassis.vw = 0;
@@ -93,8 +93,7 @@ void Chassis_Task(void const *argument)
 	for(int i =0; i < 4; i++)
 	{
 //		/*ÂË²¨*/
-		first_order_filter_cali(&chassis_ref_first[i],chassis.wheel_spd_ref[i]);
-		chassis.wheel_spd_ref[i] = chassis_ref_first[i].out;
+		chassis.wheel_spd_fdb[i] =	Kalman_filter_calc(&CHASSIS_KF[i],chassis.wheel_spd_fdb[i]);
 //		/*ÂË²¨*/
 		chassis.current[i] = chassis_pid_calc(&pid_spd[i], chassis.wheel_spd_fdb[i], chassis.wheel_spd_ref[i]);//
 	}
@@ -115,7 +114,7 @@ void Chassis_Param_Init(void)
 	
 	/* initializa chassis follow gimbal pid */
 		PID_struct_init(&pid_rotate, POSITION_PID, 33, 0, 
-	 2.2, 0.02, 0);//2.0
+	 2.20, 0, 0);//2.0
 	
 	 for (int k = 0; k < 4; k++)
   {
@@ -125,9 +124,5 @@ void Chassis_Param_Init(void)
 	for(int i =0;i<4;i++)
 	{
 		Kalman_filter_init(&CHASSIS_KF[i],1,1,40);//P-Q-R
-	}
-	for(int i =0;i<4;i++)
-	{
-		first_order_filter_init(&chassis_ref_first[i],0.002,0.1f);//0.3333333333f
 	}
 }

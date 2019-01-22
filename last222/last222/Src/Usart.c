@@ -218,17 +218,6 @@ void USART6_Transmit(void)
 	SEND_DATA[0]= 0xaa ;SEND_DATA[6]= 0xbb ;SEND_DATA[1]= (int16_t)(gim.pid.pit_angle_fdb*100)>>8;
 	SEND_DATA[2]= (int16_t)(gim.pid.pit_angle_fdb*100)&0xFF;SEND_DATA[3]=(int16_t)(gim.pid.yaw_angle_fdb*100)>>8;
 	SEND_DATA[4]= (int16_t)(gim.pid.yaw_angle_fdb*100)&0xFF;
-//		if(USART_FLAG==1)
-//		{
-//			USART6->CR3=1<<7;           //使能串口6的DMA发送       
-//			MYDMA_Enable(DMA2_Stream6,7);//开始一次DMA传输！
-//			USART_FLAG=0;
-//		}	  
-//		if((DMA2->HISR&DMA_HISR_TCIF6)&&(__HAL_UART_GET_FLAG(&huart6,UART_FLAG_TC)==SET))		//等待DMA2_Steam6传输完成
-//		{
-//			DMA2->HIFCR|=1<<21;	//清除DMA2_Steam6传输完成标志
-//			USART_FLAG=1;
-//		}
 	HAL_UART_Transmit(&huart6,SEND_DATA,7,20);
 }
 void Get_Remote_info(RC_Ctl_t *rc, uint8_t *pData)
@@ -264,4 +253,7 @@ void Get_Remote_info(RC_Ctl_t *rc, uint8_t *pData)
  rc->mouse.press_r = pData[13];
 
  rc->key.v = ((int16_t)pData[14]) | ((int16_t)pData[15] << 8);
+
+ rc->key.bogan=((int16_t)pData[16]) | ((int16_t)pData[17] << 8);
+ rc->key.bogan-=1024;
 }
