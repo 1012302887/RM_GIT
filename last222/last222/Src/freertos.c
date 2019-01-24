@@ -35,7 +35,7 @@ void FreeRtos_Init(void)
     CAN_SEND_TASKHandle = osThreadCreate(osThread(CAN_SEND_TASK), NULL);
 
   /* definition and creation of MODE_SWITCH_TAS */
-    osThreadDef(MODE_SWITCH_TAS, Mode_Switch_Task, osPriorityHigh, 0, 256);
+    osThreadDef(MODE_SWITCH_TAS, Mode_Switch_Task, osPriorityAboveNormal, 0, 256);
     MODE_SWITCH_TASKHandle = osThreadCreate(osThread(MODE_SWITCH_TAS), NULL);
 
   /* definition and creation of GET_GIMBAL_INFO */

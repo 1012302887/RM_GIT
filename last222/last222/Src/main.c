@@ -23,6 +23,7 @@ int main(void)
 	Shoot_Param_Init();
 	MYDMA_Config(DMA2_Stream7,4,(uint32_t)&USART1->DR,(uint32_t)send_buf,21);
 //	MYDMA_Config(DMA2_Stream6,5,(uint32_t)&USART6->DR,(uint32_t)SEND_DATA,7);
+	vTraceEnable(TRC_START);
 	FreeRtos_Init();
 	osKernelStart();
   while (1)

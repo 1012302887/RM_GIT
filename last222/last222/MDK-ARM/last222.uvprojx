@@ -323,7 +323,7 @@
             <Rwpi>0</Rwpi>
             <wLevel>2</wLevel>
             <uThumb>0</uThumb>
-            <uSurpInc>0</uSurpInc>
+            <uSurpInc>1</uSurpInc>
             <uC99>1</uC99>
             <uGnu>0</uGnu>
             <useXO>0</useXO>
@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F407xx,ARM_MATH_CM4, __CC_ARM,__FPU_PRESENT</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Drivers/CMSIS/Include</IncludePath>
+              <IncludePath>../Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Drivers/CMSIS/Include;..\Jlink_RTT;..\Jlink_RTT\include;..\..\last222</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -811,6 +811,116 @@
               <FileName>first_order_filter.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Inc\first_order_filter.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Tracealyzer</GroupName>
+          <Files>
+            <File>
+              <FileName>trcKernelPort.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\trcKernelPort.c</FilePath>
+            </File>
+            <File>
+              <FileName>trcSnapshotRecorder.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\trcSnapshotRecorder.c</FilePath>
+            </File>
+            <File>
+              <FileName>trcStreamingRecorder.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\trcStreamingRecorder.c</FilePath>
+            </File>
+            <File>
+              <FileName>aws_secure_sockets.tzext.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Inc\aws_secure_sockets.tzext.h</FilePath>
+            </File>
+            <File>
+              <FileName>aws_wifi.tzext.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Inc\aws_wifi.tzext.h</FilePath>
+            </File>
+            <File>
+              <FileName>tmwtypes.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Inc\tmwtypes.h</FilePath>
+            </File>
+            <File>
+              <FileName>trcConfig.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Inc\trcConfig.h</FilePath>
+            </File>
+            <File>
+              <FileName>trcExtensions.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Inc\trcExtensions.h</FilePath>
+            </File>
+            <File>
+              <FileName>trcHardwarePort.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Inc\trcHardwarePort.h</FilePath>
+            </File>
+            <File>
+              <FileName>trcKernelPort.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Inc\trcKernelPort.h</FilePath>
+            </File>
+            <File>
+              <FileName>trcPortDefines.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Inc\trcPortDefines.h</FilePath>
+            </File>
+            <File>
+              <FileName>trcRecorder.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Inc\trcRecorder.h</FilePath>
+            </File>
+            <File>
+              <FileName>trcSnapshotConfig.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Inc\trcSnapshotConfig.h</FilePath>
+            </File>
+            <File>
+              <FileName>trcStreamingConfig.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Inc\trcStreamingConfig.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Jlink_RTT</GroupName>
+          <Files>
+            <File>
+              <FileName>Readme-Streamport.txt</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Jlink_RTT\Readme-Streamport.txt</FilePath>
+            </File>
+            <File>
+              <FileName>SEGGER_RTT.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Jlink_RTT\SEGGER_RTT.c</FilePath>
+            </File>
+            <File>
+              <FileName>trcStreamingPort.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Jlink_RTT\trcStreamingPort.c</FilePath>
+            </File>
+            <File>
+              <FileName>SEGGER_RTT.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Jlink_RTT\include\SEGGER_RTT.h</FilePath>
+            </File>
+            <File>
+              <FileName>SEGGER_RTT_Conf.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Jlink_RTT\include\SEGGER_RTT_Conf.h</FilePath>
+            </File>
+            <File>
+              <FileName>trcStreamingPort.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Jlink_RTT\include\trcStreamingPort.h</FilePath>
             </File>
           </Files>
         </Group>

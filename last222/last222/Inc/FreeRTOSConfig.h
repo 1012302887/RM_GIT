@@ -179,4 +179,9 @@ standard names. */
 /* Section where parameter definitions can be added (for instance, to override default ones in FreeRTOS.h) */
 /* USER CODE END Defines */ 
 
+		/*Integrates the Tracealyzer recoder with FreeRTOS*/
+				#if(configUSE_TRACE_FACILITY==1)
+				#include "trcRecorder.h"
+				#endif
+
 #endif /* FREERTOS_CONFIG_H */
