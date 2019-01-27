@@ -37,6 +37,16 @@ last222\reg_dma.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_o
 last222\reg_dma.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 last222\reg_dma.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 last222\reg_dma.o: ../Inc/FreeRTOSConfig.h
+last222\reg_dma.o: ../Inc/trcRecorder.h
+last222\reg_dma.o: ../Inc/trcConfig.h
+last222\reg_dma.o: ../Inc/trcPortDefines.h
+last222\reg_dma.o: ../Inc/trcStreamingConfig.h
+last222\reg_dma.o: ../Inc/trcHardwarePort.h
+last222\reg_dma.o: ..\Jlink_RTT\include\trcStreamingPort.h
+last222\reg_dma.o: ..\Jlink_RTT\include\SEGGER_RTT_Conf.h
+last222\reg_dma.o: ..\Jlink_RTT\include\SEGGER_RTT.h
+last222\reg_dma.o: ../Inc/trcKernelPort.h
+last222\reg_dma.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 last222\reg_dma.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
 last222\reg_dma.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
 last222\reg_dma.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h

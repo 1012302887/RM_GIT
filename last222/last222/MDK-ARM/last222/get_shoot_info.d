@@ -36,6 +36,16 @@ last222\get_shoot_info.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/
 last222\get_shoot_info.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 last222\get_shoot_info.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 last222\get_shoot_info.o: ../Inc/FreeRTOSConfig.h
+last222\get_shoot_info.o: ../Inc/trcRecorder.h
+last222\get_shoot_info.o: ../Inc/trcConfig.h
+last222\get_shoot_info.o: ../Inc/trcPortDefines.h
+last222\get_shoot_info.o: ../Inc/trcStreamingConfig.h
+last222\get_shoot_info.o: ../Inc/trcHardwarePort.h
+last222\get_shoot_info.o: ..\Jlink_RTT\include\trcStreamingPort.h
+last222\get_shoot_info.o: ..\Jlink_RTT\include\SEGGER_RTT_Conf.h
+last222\get_shoot_info.o: ..\Jlink_RTT\include\SEGGER_RTT.h
+last222\get_shoot_info.o: ../Inc/trcKernelPort.h
+last222\get_shoot_info.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 last222\get_shoot_info.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
 last222\get_shoot_info.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
 last222\get_shoot_info.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
