@@ -25,9 +25,6 @@ void Get_Chassis_Info(void const * argument)
 				for (uint8_t i = 0; i < 4; i++)
 				 {
 						chassis.wheel_spd_fdb[i] = moto_chassis[i].speed_rpm*0.10472/19.0;//W=2*PI*N
-//					 /*ÂË²¨*/
-						chassis.wheel_spd_fdb[i] =	Kalman_filter_calc(&CHASSIS_KF[i],chassis.wheel_spd_fdb[i]);
-//					 /*ÂË²¨*/
 				 }
 				 
 				 if((InfantryJudge.remainPower > 60) || (InfantryJudge.remainPower < 0))

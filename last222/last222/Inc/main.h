@@ -33,6 +33,7 @@
 #include "REG_DMA.h"
 #include "JUDG_INFO.h"
 #include "first_order_filter.h"
+#include "trcConfig.h"
 /* USER CODE BEGIN Includes */
 /* USER CODE END Includes */
 

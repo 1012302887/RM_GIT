@@ -15,6 +15,16 @@ last222\stm32f4xx_hal_flash_ramfunc.o: ../Middlewares/Third_Party/FreeRTOS/Sourc
 last222\stm32f4xx_hal_flash_ramfunc.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 last222\stm32f4xx_hal_flash_ramfunc.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 last222\stm32f4xx_hal_flash_ramfunc.o: ../Inc/FreeRTOSConfig.h
+last222\stm32f4xx_hal_flash_ramfunc.o: ../Inc/trcRecorder.h
+last222\stm32f4xx_hal_flash_ramfunc.o: ../Inc/trcConfig.h
+last222\stm32f4xx_hal_flash_ramfunc.o: ../Inc/trcPortDefines.h
+last222\stm32f4xx_hal_flash_ramfunc.o: ../Inc/trcStreamingConfig.h
+last222\stm32f4xx_hal_flash_ramfunc.o: ../Inc/trcHardwarePort.h
+last222\stm32f4xx_hal_flash_ramfunc.o: ..\Jlink_RTT\include\trcStreamingPort.h
+last222\stm32f4xx_hal_flash_ramfunc.o: ..\Jlink_RTT\include\SEGGER_RTT_Conf.h
+last222\stm32f4xx_hal_flash_ramfunc.o: ..\Jlink_RTT\include\SEGGER_RTT.h
+last222\stm32f4xx_hal_flash_ramfunc.o: ../Inc/trcKernelPort.h
+last222\stm32f4xx_hal_flash_ramfunc.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 last222\stm32f4xx_hal_flash_ramfunc.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
 last222\stm32f4xx_hal_flash_ramfunc.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
 last222\stm32f4xx_hal_flash_ramfunc.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h

@@ -36,6 +36,16 @@ last222\shoot_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsi
 last222\shoot_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 last222\shoot_task.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 last222\shoot_task.o: ../Inc/FreeRTOSConfig.h
+last222\shoot_task.o: ../Inc/trcRecorder.h
+last222\shoot_task.o: ../Inc/trcConfig.h
+last222\shoot_task.o: ../Inc/trcPortDefines.h
+last222\shoot_task.o: ../Inc/trcStreamingConfig.h
+last222\shoot_task.o: ../Inc/trcHardwarePort.h
+last222\shoot_task.o: ..\Jlink_RTT\include\trcStreamingPort.h
+last222\shoot_task.o: ..\Jlink_RTT\include\SEGGER_RTT_Conf.h
+last222\shoot_task.o: ..\Jlink_RTT\include\SEGGER_RTT.h
+last222\shoot_task.o: ../Inc/trcKernelPort.h
+last222\shoot_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 last222\shoot_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
 last222\shoot_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
 last222\shoot_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h

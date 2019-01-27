@@ -3,6 +3,7 @@ extern ramp_t pit_ramp;
 extern ramp_t yaw_ramp;
 extern uint8_t auto_shoot;
 extern uint32_t turn_time_last;
+int32_t v_z,v_x,yaw,pitch,v_z1,v_x1,yaw1,pitch1;
 void Get_Gimbal_Info(void const * argument)
 {
 	osEvent event;
@@ -23,6 +24,14 @@ void get_gimbal_info(void)
 	gyro_data.yaw = Kalman_filter_calc(&GIMBAL_KF[1],gyro_data.yaw);////////////////////
 	gyro_data.v_x	= Kalman_filter_calc(&GIMBAL_KF[2],gyro_data.v_x);//////////////////////////
 	gyro_data.pitch = Kalman_filter_calc(&GIMBAL_KF[3],gyro_data.pitch);////////////////////
+//	v_z=Kalman_filter_calc(&GIMBAL_KF[0],gyro_data.v_z)*100;//////////////////////////
+//	yaw=Kalman_filter_calc(&GIMBAL_KF[1],gyro_data.yaw)*100;////////////////////
+//	v_x=Kalman_filter_calc(&GIMBAL_KF[2],gyro_data.v_x)*100;//////////////////////////
+//	pitch=Kalman_filter_calc(&GIMBAL_KF[3],gyro_data.pitch)*100;////////////////////
+//	v_z1=gyro_data.v_z*100;//////////////////////////
+//	yaw1=gyro_data.yaw*100;////////////////////
+//	v_x1=gyro_data.v_x*100;//////////////////////////
+//	pitch1=gyro_data.pitch*100;////////////////////
 		if(gim.ctrl_mode == GIMBAL_INIT)
 	{
 		/* get gimbal relative angle */
