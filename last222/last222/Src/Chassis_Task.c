@@ -13,7 +13,7 @@ extern osThreadId CAN_SEND_TASKHandle;
 extern osThreadId GET_CHASSIS_INFHandle;
 first_order_filter_type_t chassis_ref_first[4];
 /* 底盘定时任务*/
-uint32_t ones=0;
+int32_t ref1=0,ref2=0,ref3=0,ref4=0,fdb1=0,fdb2=0,fdb3=0,fdb4=0;
 void Chassis_Task(void const *argument)
 {
 //	pid_rotate.p=0;//关闭底盘跟随
@@ -82,6 +82,7 @@ void Chassis_Task(void const *argument)
 	chassis.wheel_spd_ref[1] =  chassis.vx + chassis.vy + chassis.vw;
 	chassis.wheel_spd_ref[2] = -chassis.vx - chassis.vy + chassis.vw;
 	chassis.wheel_spd_ref[3] =  chassis.vx - chassis.vy + chassis.vw;
+	
 	if(gim.stop == 1)
 	{
 			for(int i =0; i < 4; i++)
@@ -97,6 +98,11 @@ void Chassis_Task(void const *argument)
 //		/*滤波*/
 		chassis.current[i] = chassis_pid_calc(&pid_spd[i], chassis.wheel_spd_fdb[i], chassis.wheel_spd_ref[i]);//
 	}
+//	ref1 = chassis.wheel_spd_ref[0]*100;ref2 = chassis.wheel_spd_ref[1]*100;
+//	ref3 = chassis.wheel_spd_ref[2]*100;ref4 = chassis.wheel_spd_ref[3]*100;
+//	fdb1 = chassis.wheel_spd_fdb[0]*100;fdb2= chassis.wheel_spd_fdb[1]*100;
+//	fdb3 = chassis.wheel_spd_fdb[2]*100;fdb4 = chassis.wheel_spd_fdb[3]*100;
+	
 	memcpy(glb_cur.chassis_cur, chassis.current, sizeof(chassis.current));
 	osSignalSet(CAN_SEND_TASKHandle, CHASSIS_MOTOR_MSG_SEND);
 	osSignalSet(GET_CHASSIS_INFHandle, INFO_GET_SIGNAL);
