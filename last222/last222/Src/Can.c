@@ -181,7 +181,7 @@ void  HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 			}break;
 			case CAN_PIT_MOTOR_ID:
 			{
-				encoder_data_handler4(&moto_pit, DATA);
+//				encoder_data_handler4(&moto_pit, DATA);
 				#if (0)//不同小车，需要修改
 				moto_pit.total_angle += 360;				
 				#endif

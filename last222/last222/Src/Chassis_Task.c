@@ -120,7 +120,7 @@ void Chassis_Param_Init(void)
 	
 	/* initializa chassis follow gimbal pid */
 		PID_struct_init(&pid_rotate, POSITION_PID, 33, 0, 
-	 2.20, 0, 0);//2.0
+	 2.3, 0, 0);//2.0
 	
 	 for (int k = 0; k < 4; k++)
   {

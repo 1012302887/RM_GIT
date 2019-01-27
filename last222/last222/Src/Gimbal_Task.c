@@ -86,11 +86,11 @@ void Gimbal_Param_Init(void)
 		Kalman_filter_init(&zi_miao_kf[i],1,1,20);//P-Q-R 
 	}
 	//YAW÷·¬À≤®
-		Kalman_filter_init(&GIMBAL_KF[0],1,1,5);//P-Q-R
-		Kalman_filter_init(&GIMBAL_KF[1],1,1,5);//P-Q-R
+		Kalman_filter_init(&GIMBAL_KF[0],1,1,4);//P-Q-R
+		Kalman_filter_init(&GIMBAL_KF[1],1,1,4);//P-Q-R
 	//PIT÷·¬À≤®
-		Kalman_filter_init(&GIMBAL_KF[2],1,1,5);//P-Q-R
-		Kalman_filter_init(&GIMBAL_KF[3],1,1,3);//P-Q-R
+		Kalman_filter_init(&GIMBAL_KF[2],1,1,4);//P-Q-R
+		Kalman_filter_init(&GIMBAL_KF[3],1,1,2);//P-Q-R
 	
 	memset(&gim, 0, sizeof(gimbal_t));
 	
@@ -105,11 +105,11 @@ void Gimbal_Param_Init(void)
   PID_struct_init(&pid_pit, POSITION_PID, 1000, 1000,
                   23, 0, 0); //30
   PID_struct_init(&pid_pit_spd, POSITION_PID, 6000, 2000,
-                 25, 0, 0); //60
+                 24, 0, 0); //60
 	
   /* yaw axis motor pid parameter */
   PID_struct_init(&pid_yaw, POSITION_PID, 1000, 1000,
                   10,0, 0); //
   PID_struct_init(&pid_yaw_spd, POSITION_PID, 6000, 2000,
-                  50, 0, 0);
+                  48, 0, 0);
 }
