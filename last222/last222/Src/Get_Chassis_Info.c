@@ -169,9 +169,9 @@ void keyboard_chassis_hook(void)
 
 void send_chassis_motor_ctrl_message(int16_t chassis_cur[])
 {
-//	   send_chassis_cur(chassis_cur[0] * chassis.power_surplus, chassis_cur[1] *chassis.power_surplus, 
-//		 chassis_cur[2] * chassis.power_surplus, chassis_cur[3] *chassis.power_surplus);
-	send_chassis_cur(chassis_cur[0] , chassis_cur[1] , 
-										chassis_cur[2] , chassis_cur[3]);
+	   send_chassis_cur(chassis_cur[0] * chassis.power_surplus, chassis_cur[1] *chassis.power_surplus, 
+		 chassis_cur[2] * chassis.power_surplus, chassis_cur[3] *chassis.power_surplus);
+//	send_chassis_cur(chassis_cur[0] , chassis_cur[1] , 
+//										chassis_cur[2] , chassis_cur[3]);
 }
 

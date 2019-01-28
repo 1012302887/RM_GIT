@@ -119,13 +119,13 @@ void Chassis_Param_Init(void)
 	ramp_init(&FBSpeedRamp, MOUSR_FB_RAMP_TICK_COUNT);
 	
 	/* initializa chassis follow gimbal pid */
-		PID_struct_init(&pid_rotate, POSITION_PID, 33, 0, 
-	 2.3, 0, 0);//2.0
+		PID_struct_init(&pid_rotate, POSITION_PID, 34, 0, 
+	 2.2, 0, 0);//2.0
 	
 	 for (int k = 0; k < 4; k++)
   {
     PID_struct_init(&pid_spd[k], POSITION_PID, 10000, 0,
-		600, 0, 0); 
+		580, 0, 0); 
 	}
 	for(int i =0;i<4;i++)
 	{

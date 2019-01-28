@@ -103,7 +103,7 @@ void Gimbal_Param_Init(void)
 	/* pitch axis motor pid parameter */
 	
   PID_struct_init(&pid_pit, POSITION_PID, 1000, 1000,
-                  23, 0, 0); //30
+                  22, 0, 0); //30
   PID_struct_init(&pid_pit_spd, POSITION_PID, 6000, 2000,
                  24, 0, 0); //60
 	
