@@ -35,7 +35,8 @@ typedef struct
 	
   int16_t         current[4];
 	float         	power_surplus;
-  
+  uint8_t   stop;
+	float vleg;
 } chassis_t;
 
 void Chassis_Task(void const * argument);

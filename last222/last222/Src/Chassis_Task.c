@@ -3,14 +3,11 @@
 #define FPU_COS arm_cos_f32
 #define FPU_SIN arm_sin_f32
 float dipan_fdb_KF[4];
-extern float iii_,ooo_;
 /* chassis task global parameter */
 ramp_t FBSpeedRamp = RAMP_GEN_DAFAULT;
 ramp_t LRSpeedRamp = RAMP_GEN_DAFAULT;
 chassis_t chassis = {0};//储存底盘处理各项信息的结构体
 static float d_theta = 0;
-extern osThreadId CAN_SEND_TASKHandle;
-extern osThreadId GET_CHASSIS_INFHandle;
 first_order_filter_type_t chassis_ref_first[4];
 /* 底盘定时任务*/
 int32_t ref1=0,ref2=0,ref3=0,ref4=0,fdb1=0,fdb2=0,fdb3=0,fdb4=0;
@@ -21,41 +18,41 @@ void Chassis_Task(void const *argument)
 //	USART6_Transmit();
 //	Ni_Ming(0xf1,chassis_ref_first[0].out,chassis_ref_first[0].input,chassis.wheel_spd_ref[0],0);
 //	Ni_Ming(0xf2, chassis.wheel_spd_ref[0],chassis.wheel_spd_ref[1],chassis.wheel_spd_fdb[0],chassis.wheel_spd_fdb[1]);
-	if(gim.ctrl_mode == GIMBAL_INIT)//chassis dose not follow gimbal when gimbal initializa
-	{
-		chassis.vw = 0;
-	}
-	else if(gim.ctrl_mode == GIMBAL_NORMAL)
-	{
-		chassis.vw = pid_calc(&pid_rotate, chassis.follow_gimbal, 0); //chassis.follow_gimbal = moto_yaw.total_angle
-	}
-	
-	else if(gim.ctrl_mode == GIMBAL_WRITHE)
-	{
-		if((chassis.vx_offset == 0) && (chassis.vy_offset == 0))
-		{
-			if(chassis.follow_gimbal > STATIC_WRITHE_ANGLE_LIMIT)
-			{
-				chassis.writhe_speed_fac =  1;
-			}
-			else if(chassis.follow_gimbal < -STATIC_WRITHE_ANGLE_LIMIT)
-			{
-				chassis.writhe_speed_fac =  -1;
-			}
-		}
-		else
-		{
-			if(chassis.follow_gimbal > RUN_WRITHE_ANGLE_LIMIT)
-			{
-				chassis.writhe_speed_fac =  1;
-			}
-			else if(chassis.follow_gimbal < -RUN_WRITHE_ANGLE_LIMIT)
-			{
-				chassis.writhe_speed_fac =  -1;
-			}
-		}	
-		chassis.vw = pid_calc(&pid_rotate, chassis.writhe_speed_fac * WRITHE_SPEED_LIMIT, 0);
-	}
+//	if(gim.ctrl_mode == GIMBAL_INIT)//chassis dose not follow gimbal when gimbal initializa
+//	{
+//		chassis.vw = 0;
+//	}
+//	else if(gim.ctrl_mode == GIMBAL_NORMAL)
+//	{
+//		chassis.vw = pid_calc(&pid_rotate, chassis.follow_gimbal, 0); //chassis.follow_gimbal = moto_yaw.total_angle
+//	}
+//	
+//	else if(gim.ctrl_mode == GIMBAL_WRITHE)
+//	{
+//		if((chassis.vx_offset == 0) && (chassis.vy_offset == 0))
+//		{
+//			if(chassis.follow_gimbal > STATIC_WRITHE_ANGLE_LIMIT)
+//			{
+//				chassis.writhe_speed_fac =  1;
+//			}
+//			else if(chassis.follow_gimbal < -STATIC_WRITHE_ANGLE_LIMIT)
+//			{
+//				chassis.writhe_speed_fac =  -1;
+//			}
+//		}
+//		else
+//		{
+//			if(chassis.follow_gimbal > RUN_WRITHE_ANGLE_LIMIT)
+//			{
+//				chassis.writhe_speed_fac =  1;
+//			}
+//			else if(chassis.follow_gimbal < -RUN_WRITHE_ANGLE_LIMIT)
+//			{
+//				chassis.writhe_speed_fac =  -1;
+//			}
+//		}	
+//		chassis.vw = pid_calc(&pid_rotate, chassis.writhe_speed_fac * WRITHE_SPEED_LIMIT, 0);
+//	}
 	
 //	chassis.follow_gimbal = moto_yaw.total_angle;
 	
@@ -78,12 +75,13 @@ void Chassis_Task(void const *argument)
 //	chassis.wheel_spd_ref[1] =  chassis.vx + chassis.vy + chassis.vw;
 //	chassis.wheel_spd_ref[2] = -chassis.vx - chassis.vy + chassis.vw*0.8;
 //	chassis.wheel_spd_ref[3] =  chassis.vx - chassis.vy + chassis.vw*0.8;
-	chassis.wheel_spd_ref[0] = -chassis.vx + chassis.vy + chassis.vw;
-	chassis.wheel_spd_ref[1] =  chassis.vx + chassis.vy + chassis.vw;
-	chassis.wheel_spd_ref[2] = -chassis.vx - chassis.vy + chassis.vw;
-	chassis.wheel_spd_ref[3] =  chassis.vx - chassis.vy + chassis.vw;
 	
-	if(gim.stop == 1)
+	chassis.wheel_spd_ref[0] = chassis.vx - chassis.vy + chassis.vw;
+	chassis.wheel_spd_ref[1] =  -chassis.vx - chassis.vy + chassis.vw;
+	chassis.wheel_spd_ref[2] = -chassis.vx + chassis.vy + chassis.vw;
+	chassis.wheel_spd_ref[3] =  chassis.vx + chassis.vy + chassis.vw;
+	
+	if(chassis.stop == 1||leg_mode == leg_init_mode)
 	{
 			for(int i =0; i < 4; i++)
 		{
@@ -97,7 +95,7 @@ void Chassis_Task(void const *argument)
 		chassis.wheel_spd_fdb[i] =	Kalman_filter_calc(&CHASSIS_KF[i],chassis.wheel_spd_fdb[i]);
 //		/*滤波*/
 		chassis.current[i] = chassis_pid_calc(&pid_spd[i], chassis.wheel_spd_fdb[i], chassis.wheel_spd_ref[i]);//
-	}
+	} 
 //	ref1 = chassis.wheel_spd_ref[0]*100;ref2 = chassis.wheel_spd_ref[1]*100;
 //	ref3 = chassis.wheel_spd_ref[2]*100;ref4 = chassis.wheel_spd_ref[3]*100;
 //	fdb1 = chassis.wheel_spd_fdb[0]*100;fdb2= chassis.wheel_spd_fdb[1]*100;
@@ -117,15 +115,16 @@ void Chassis_Param_Init(void)
 	/* initializa chassis speed ramp */
 	ramp_init(&LRSpeedRamp, MOUSR_LR_RAMP_TICK_COUNT);
 	ramp_init(&FBSpeedRamp, MOUSR_FB_RAMP_TICK_COUNT);
-	
 	/* initializa chassis follow gimbal pid */
 		PID_struct_init(&pid_rotate, POSITION_PID, 33, 0, 
 	 2.3, 0, 0);//2.0
 	
 	 for (int k = 0; k < 4; k++)
   {
-    PID_struct_init(&pid_spd[k], POSITION_PID, 10000, 0,
-		600, 0, 0); 
+    PID_struct_init(&pid_spd[k], POSITION_PID, 3000, 0,
+		0, 0, 0); 
+		PID_struct_init(&pid_leg_spd[k], POSITION_PID, 8000, 0,
+		250, 0, 0); 
 	}
 	for(int i =0;i<4;i++)
 	{

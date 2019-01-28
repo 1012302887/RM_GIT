@@ -4,7 +4,6 @@ extern osTimerId gimbal_timer_id;
 extern void FreeRtos_Init(void);
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
-int32_t buf[1024];
 int main(void)
 {
   HAL_Init();
@@ -19,9 +18,8 @@ int main(void)
 	MX_USART3_UART_Init();
 	MX_USART6_UART_Init();
   //MX_TIM9_Init();
-	Gimbal_Param_Init();
 	Chassis_Param_Init();
-	Shoot_Param_Init();
+	Leg_Param_Init();
 	MYDMA_Config(DMA2_Stream7,4,(uint32_t)&USART1->DR,(uint32_t)send_buf,21);
 //	SEGGER_RTT_ConfigUpBuffer(1,"JScope_t4",buf,2048,SEGGER_RTT_MODE_NO_BLOCK_SKIP);
 //	MYDMA_Config(DMA2_Stream6,5,(uint32_t)&USART6->DR,(uint32_t)SEND_DATA,7);

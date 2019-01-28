@@ -9,11 +9,7 @@ CAN_RxHeaderTypeDef    Rx1Message;
 CAN_TxHeaderTypeDef    Tx2Message;      
 CAN_RxHeaderTypeDef    Rx2Message;
 
-moto_measure_t moto_pit;//储存pit轴电机信息的结构体
-moto_measure_t moto_yaw;//储存yaw轴电机信息的结构体
-moto_measure_t moto_chassis[4];//储存底盘四个电机信息的结构体
-shoot_moto_measure_t moto_friction[2];//储存拨盘电机信息的结构体
-moto_measure_t moto_trigger;//储存拨盘电机信息的结构体
+moto_measure_t moto_chassis[8];//储存底盘四个电机信息的结构体
 GYRO_DATA gyro_data;//储存陀螺仪信息的结构体
 uint8_t DATA[8];//储存CAN1接收到数据
 uint8_t Data[8];//储存CAN2接收到数据
@@ -87,7 +83,7 @@ void MX_CAN2_Init(void)
 	HAL_CAN_Start(&hcan2);
 	HAL_CAN_ActivateNotification(&hcan2,CAN_IT_RX_FIFO0_MSG_PENDING);
 }
-void send_chassis_cur(int16_t a, int16_t b, int16_t c, int16_t d)
+void send_leg_cur(int16_t a, int16_t b, int16_t c, int16_t d)
 { 
 	uint8_t i[8];
 	Tx1Message.RTR = CAN_RTR_DATA;
@@ -99,18 +95,17 @@ void send_chassis_cur(int16_t a, int16_t b, int16_t c, int16_t d)
 	i[4]= c >> 8;i[5]= c;i[6]= d >> 8;i[7]= d;
 	HAL_CAN_AddTxMessage(&hcan1,&Tx1Message,i,(uint32_t*)CAN_TX_MAILBOX0);
 }
-
-void send_fri_cur(int16_t a)//速度3000到6000
-{ 
-	uint8_t i[2];
+void send_chassis_cur(int16_t a, int16_t b, int16_t c, int16_t d)
+{
+	uint8_t i[8];
 	Tx1Message.RTR = CAN_RTR_DATA;
 	Tx1Message.IDE = CAN_ID_STD;
-	Tx1Message.DLC = 0x08;
-	Tx1Message.StdId = 0x149;
-	i[0]= a >> 8;i[1]= a;
+	Tx1Message.StdId = 0x1ff;
+  Tx1Message.DLC = 0x08;
+	i[0]= a >> 8;i[1]= a;i[2]= b >> 8;i[3]= b;
+	i[4]= c >> 8;i[5]= c;i[6]= d >> 8;i[7]= d;
 	HAL_CAN_AddTxMessage(&hcan1,&Tx1Message,i,(uint32_t*)CAN_TX_MAILBOX0);
 }
-
 void send_gimbal_cur(int16_t yaw_iq, int16_t pit_iq, int16_t trigger_iq)
 {
 	uint8_t Data[8];
@@ -171,26 +166,14 @@ void  HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 			case CAN_3508_M2_ID:
 			case CAN_3508_M3_ID:
 			case CAN_3508_M4_ID:
+			case CAN_3508_M5_ID:
+			case CAN_3508_M6_ID:
+			case CAN_3508_M7_ID:
+			case CAN_3508_M8_ID:
 			{
 				i = Rx1Message.StdId - CAN_3508_M1_ID;
-				encoder_data_handler3(&moto_chassis[i],DATA);
+				moto_chassis[i].msg_cnt++<=50?get_offset_ecd(&moto_chassis[i],DATA):encoder_data_handler3(&moto_chassis[i],DATA);
 			}break;
-			case CAN_YAW_MOTOR_ID:
-			{
-				encoder_data_handler4(&moto_yaw, DATA);
-			}break;
-			case CAN_PIT_MOTOR_ID:
-			{
-//				encoder_data_handler4(&moto_pit, DATA);
-				#if (0)//不同小车，需要修改
-				moto_pit.total_angle += 360;				
-				#endif
-			}break;
-				case CAN_TRIGGER_MOTOR_ID:
-			{
-			encoder_data_handler3(&moto_trigger, DATA);
-			}
-			break;
 			default:
 			{
 			}break;
@@ -261,11 +244,35 @@ void encoder_data_handler(moto_measure_t* ptr, uint8_t Data[])
 
 void encoder_data_handler3(moto_measure_t* ptr, uint8_t Data[])
 {                
-//        (ptr)->last_ecd = (ptr)->ecd;                                                          
+////        (ptr)->last_ecd = (ptr)->ecd;                                                          
 //        (ptr)->ecd = (uint16_t)((Data[0] << 8 | Data[1]));       
-					(ptr)->speed_rpm = (uint16_t)(Data[2] << 8 | Data[3]);     
-//      	(ptr)->given_current = (uint16_t)(Data[4] << 8 | Data[5]);                                             
-//				(ptr)->filter_rate = 	(ptr)->speed_rpm*0.10472;//W=2*PI*N
+				(ptr)->speed_rpm = (uint16_t)(Data[2] << 8 | Data[3]); 
+//				(ptr)->total_angle +=(((ptr)->ecd-(ptr)->offset_ecd)*0.0439f)/27;
+////      	(ptr)->given_current = (uint16_t)(Data[4] << 8 | Data[5]);                                             
+////				(ptr)->filter_rate = 	(ptr)->speed_rpm*0.10472;//W=2*PI*N
+	ptr->last_ecd = ptr->ecd;
+  ptr->ecd      = (uint16_t)(Data[0] << 8 | Data[1]);
+	if (ptr->ecd - ptr->last_ecd > 6500)
+	{
+    ptr->round_cnt--;
+    ptr->ecd_raw_rate = ptr->ecd - ptr->last_ecd - 8192;
+  }
+	else if (ptr->ecd - ptr->last_ecd < -6500)
+  {
+    ptr->round_cnt++;
+    ptr->ecd_raw_rate = ptr->ecd - ptr->last_ecd + 8192;
+  }
+  else
+  {
+    ptr->ecd_raw_rate = ptr->ecd - ptr->last_ecd;
+  }
+  ptr->total_ecd = ptr->round_cnt * 8192 + ptr->ecd - ptr->offset_ecd;
+  /* total angle, unit is degree */
+	ptr->total_angle = ptr->total_ecd / ENCODER_ANGLE_RATIO;
+}
+void get_offset_ecd(moto_measure_t* ptr, uint8_t Data[])
+{
+	(ptr)->offset_ecd = (uint16_t)((Data[0] << 8 | Data[1]));
 }
 void encoder_data_handler4(moto_measure_t* ptr, uint8_t Data[])//6623
 {                                                                                                                                    

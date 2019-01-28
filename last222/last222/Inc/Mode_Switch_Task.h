@@ -17,4 +17,5 @@ void get_main_ctrl_mode(void);
 extern ramp_mode_ee ramp_mode;
 extern uint8_t ctrl_mode;
 extern uint32_t Reset;
+extern uint32_t mode_switch_times;
 #endif

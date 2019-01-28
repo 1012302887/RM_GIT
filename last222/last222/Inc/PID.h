@@ -53,18 +53,14 @@ void PID_struct_init(
 
 float pid_calc(pid_t *pid, float fdb, float ref);
 float chassis_pid_calc(pid_t *pid, float fdb, float ref);
-extern pid_t pid_auto_yaw;
-extern pid_t pid_auto_pit;
 extern pid_t pid_pit;
 extern pid_t pid_yaw;
 extern pid_t pid_pit_spd;
 extern pid_t pid_yaw_spd;
-extern pid_t pid_trigger;
-extern pid_t pid_trigger_spd;
 
 extern pid_t pid_rotate;
 extern pid_t pid_pos[4];
 extern pid_t pid_spd[4];
-extern pid_t pid_as_yaw;
-extern pid_t pid_as_pit;
+extern pid_t pid_leg_pos[4];
+extern pid_t pid_leg_spd[4];
 #endif

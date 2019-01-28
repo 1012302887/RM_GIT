@@ -9,18 +9,16 @@ typedef enum
 {
 	CAN_3510_M1_ID       = 0x201,
   CAN_3510_M2_ID       = 0x202,
-	CAN_TRIGGER_MOTOR_ID = 0x207,
 	
   CAN_3508_M1_ID       = 0x201,
   CAN_3508_M2_ID       = 0x202,
   CAN_3508_M3_ID       = 0x203,
   CAN_3508_M4_ID       = 0x204,
-  CAN_YAW_MOTOR_ID     = 0x205,
-  CAN_PIT_MOTOR_ID     = 0x206, 
-  
+  CAN_3508_M5_ID       = 0x205,
+  CAN_3508_M6_ID       = 0x206,
+  CAN_3508_M7_ID       = 0x207,
+	CAN_3508_M8_ID       = 0x208,
   CAN_CHASSIS_ALL_ID   = 0x200,
-  CAN_GIMBAL_ALL_ID    = 0x1ff,
-
 } can_msg_id_e;
 /* can receive motor parameter structure */
 #define FILTER_BUF 5
@@ -34,8 +32,8 @@ typedef struct
 
   int32_t  round_cnt;                      //电机圈数
   int32_t  total_ecd;                      //经过处理后连续的编码器值
-  float  total_angle;                      //电机角度(0~360度)
-	float  last_total_angle;								 //电机上次角度(0~360度)
+  float  total_angle;                      //电机累计角度
+	float  last_total_angle;								 //电机上次累计角度
   
   uint16_t offset_ecd;										//初始编码器值
   uint32_t msg_cnt;                       //计数用
@@ -95,8 +93,8 @@ typedef struct
 void MX_CAN1_Init(void);
 void MX_CAN2_Init(void);
 void send_chassis_cur(int16_t a, int16_t b, int16_t c, int16_t d);
-void send_gimbal_cur(int16_t yaw_iq, int16_t pit_iq, int16_t trigger_iq);
-void send_shoot_cur(int16_t iq1, int16_t iq2, int16_t iq3);
+void send_leg_cur(int16_t a, int16_t b, int16_t c, int16_t d);
+void get_offset_ecd(moto_measure_t* ptr, uint8_t Data[]);
 void send_Gyro(uint8_t mode ,uint16_t time);
 void encoder_data_handler(moto_measure_t* ptr, uint8_t Data[]);
 void encoder_data_handler3(moto_measure_t* ptr, uint8_t Data[]);

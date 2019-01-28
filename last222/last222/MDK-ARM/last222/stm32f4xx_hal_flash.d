@@ -68,6 +68,8 @@ last222\stm32f4xx_hal_flash.o: ../Inc/Kalman.h
 last222\stm32f4xx_hal_flash.o: ../Inc/REG_DMA.h
 last222\stm32f4xx_hal_flash.o: ../Inc/JUDG_INFO.h
 last222\stm32f4xx_hal_flash.o: ../Inc/first_order_filter.h
+last222\stm32f4xx_hal_flash.o: ../Inc/Leg_Ctrl_Task.h
+last222\stm32f4xx_hal_flash.o: ../Inc/Get_leg_Info.h
 last222\stm32f4xx_hal_flash.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h
 last222\stm32f4xx_hal_flash.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 last222\stm32f4xx_hal_flash.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h

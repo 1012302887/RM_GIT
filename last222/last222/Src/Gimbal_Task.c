@@ -5,10 +5,6 @@ gimbal_t gim;
 uint32_t gimbal_time_last;
 int gimbal_time_ms;
 uint32_t handler_run_time = 0;
-ramp_t pit_ramp 	 = RAMP_GEN_DAFAULT;
-ramp_t yaw_ramp    = RAMP_GEN_DAFAULT;
-
-extern osThreadId GET_GIMBAL_INFOHandle;
 extern osThreadId CAN_SEND_TASKHandle;
 void Gimbal_Task(void const * argument)
 {

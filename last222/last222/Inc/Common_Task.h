@@ -3,8 +3,8 @@
 
 #include "main.h"
 
-#define GIMBAL_INFO_GET_SIGNAL ( 1 << 3 )
-#define SHOOT_MOTOR_MSG_SEND   ( 1 << 4 )
+#define LEG_INFO_GET_SIGNAL ( 1 << 3 )
+#define LEG_MOTOR_MSG_SEND   ( 1 << 4 )
 #define GIMBAL_MOTOR_MSG_GET   ( 1 << 5 )
 #define GIMBAL_MOTOR_MSG_SEND  ( 1 << 6 )
 #define CHASSIS_MOTOR_MSG_SEND ( 1 << 7 )

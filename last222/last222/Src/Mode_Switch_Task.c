@@ -5,29 +5,16 @@
 * @retval None
 */
 
-extern osTimerId chassis_timer_id;
-extern osTimerId gimbal_timer_id;
-extern osTimerId shoot_timer_id;
 uint8_t ctrl_mode = 0;
 uint32_t mode_switch_times, Reset= 0;
 ramp_mode_ee ramp_mode = RAMP_FLAT;
-extern osThreadId GET_CHASSIS_INFHandle;
-extern osThreadId GET_SHOOT_TASK_HANDEL;
-extern osThreadId GET_GIMBAL_INFOHandle;
 static uint32_t last_Reset = 0;
 void Mode_Switch_Task(void const * argument)
 {
   osDelay(1500);
-#if(1)
-	{
-	 moto_yaw.offset_ecd = MOTO_YAW_OFFSET_ECD ;//yaw电机初始值，需要自行修改。
-   moto_pit.offset_ecd = MOTO_PIT_OFFSET_ECD ;
-	}//pit电机初始值，需要自行修改。
-	#endif
 	//启动定时器任务，指定定时时间（毫秒）
 	osTimerStart(chassis_timer_id ,2);
-	osTimerStart(gimbal_timer_id  ,1);
-	osTimerStart(shoot_timer_id  ,3);
+	osTimerStart(leg_timer_id ,2);
 	uint32_t mode_wake_time = osKernelSysTick();
 	for(;;)
 	{ 
@@ -45,8 +32,6 @@ void Mode_Switch_Task(void const * argument)
 		taskEXIT_CRITICAL();
 		
 		osSignalSet(GET_CHASSIS_INFHandle, INFO_GET_SIGNAL);
-		osSignalSet(GET_SHOOT_TASK_HANDEL, SHOOT_GET_SIGNAL);
-		osSignalSet(GET_GIMBAL_INFOHandle, GIMBAL_INFO_GET_SIGNAL);
 		osDelayUntil(&mode_wake_time, 5);
 	}
 }
@@ -67,11 +52,11 @@ void get_main_ctrl_mode(void)
 	{
 		if(Reset == last_Reset)
 		{
-			gim.stop = 1;
+			chassis.stop = 1;
 		}
 		else
 		{
-			gim.stop = 0;
+			chassis.stop = 0;
 		}
 	}
 	if((mode_switch_times %100 == 0)  && (mode_switch_times %200 != 0))

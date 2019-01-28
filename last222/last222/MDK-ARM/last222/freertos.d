@@ -81,3 +81,5 @@ last222\freertos.o: ../Inc/Kalman.h
 last222\freertos.o: ../Inc/REG_DMA.h
 last222\freertos.o: ../Inc/JUDG_INFO.h
 last222\freertos.o: ../Inc/first_order_filter.h
+last222\freertos.o: ../Inc/Leg_Ctrl_Task.h
+last222\freertos.o: ../Inc/Get_leg_Info.h
