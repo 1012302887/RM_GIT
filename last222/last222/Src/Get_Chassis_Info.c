@@ -21,7 +21,7 @@ void Get_Chassis_Info(void const * argument)
 			 taskENTER_CRITICAL();
 			 
 					/* get gimbal and chassis relative angle */
-				chassis.follow_gimbal =0;  	 
+//				chassis.follow_gimbal =gyro_data.yaw_angle;  	 
 				/* get chassis wheel fdb speed */
 				for (uint8_t i = 0; i < 4; i++)
 				 {
@@ -57,7 +57,7 @@ void remote_ctrl_chassis_hook(void)
 		{
 			chassis.vx_offset = RC_CtrlData.rc.ch1 * CHASSIS_REF_FACT;
 			chassis.vy_offset = RC_CtrlData.rc.ch0 * CHASSIS_REF_FACT;
-			chassis.vw = RC_CtrlData.rc.ch2 * CHASSIS_REF_FACT;
+			chassis.vw_offset -= RC_CtrlData.rc.ch2 * 0.0004f;
 		}
 	}
 }

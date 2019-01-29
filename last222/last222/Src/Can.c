@@ -249,7 +249,7 @@ void encoder_data_handler3(moto_measure_t* ptr, uint8_t Data[])
 				(ptr)->speed_rpm = (uint16_t)(Data[2] << 8 | Data[3]); 
 //				(ptr)->total_angle +=(((ptr)->ecd-(ptr)->offset_ecd)*0.0439f)/27;
 ////      	(ptr)->given_current = (uint16_t)(Data[4] << 8 | Data[5]);                                             
-////				(ptr)->filter_rate = 	(ptr)->speed_rpm*0.10472;//W=2*PI*N
+				(ptr)->filter_rate = 	(ptr)->speed_rpm*0.10472;//W=2*PI*N
 	ptr->last_ecd = ptr->ecd;
   ptr->ecd      = (uint16_t)(Data[0] << 8 | Data[1]);
 	if (ptr->ecd - ptr->last_ecd > 6500)

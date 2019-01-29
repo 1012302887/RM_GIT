@@ -2,7 +2,7 @@
 #include "arm_math.h"
 #define FPU_COS arm_cos_f32
 #define FPU_SIN arm_sin_f32
-float dipan_fdb_KF[4];
+float line_angle;
 /* chassis task global parameter */
 ramp_t FBSpeedRamp = RAMP_GEN_DAFAULT;
 ramp_t LRSpeedRamp = RAMP_GEN_DAFAULT;
@@ -13,80 +13,26 @@ first_order_filter_type_t chassis_ref_first[4];
 int32_t ref1=0,ref2=0,ref3=0,ref4=0,fdb1=0,fdb2=0,fdb3=0,fdb4=0;
 void Chassis_Task(void const *argument)
 {
-//	pid_rotate.p=0;//¹Ø±Õµ×ÅÌ¸úËæ
 //		printf("--%f--",InfantryJudge.remainPower);
-//	USART6_Transmit();
-//	Ni_Ming(0xf1,chassis_ref_first[0].out,chassis_ref_first[0].input,chassis.wheel_spd_ref[0],0);
+//	Ni_Ming(0xf1,gyro_data.yaw,gyro_data.yaw_angle,chassis.vw_offset,chassis.vw);
 //	Ni_Ming(0xf2, chassis.wheel_spd_ref[0],chassis.wheel_spd_ref[1],chassis.wheel_spd_fdb[0],chassis.wheel_spd_fdb[1]);
-//	if(gim.ctrl_mode == GIMBAL_INIT)//chassis dose not follow gimbal when gimbal initializa
-//	{
-//		chassis.vw = 0;
-//	}
-//	else if(gim.ctrl_mode == GIMBAL_NORMAL)
-//	{
-//		chassis.vw = pid_calc(&pid_rotate, chassis.follow_gimbal, 0); //chassis.follow_gimbal = moto_yaw.total_angle
-//	}
-//	
-//	else if(gim.ctrl_mode == GIMBAL_WRITHE)
-//	{
-//		if((chassis.vx_offset == 0) && (chassis.vy_offset == 0))
-//		{
-//			if(chassis.follow_gimbal > STATIC_WRITHE_ANGLE_LIMIT)
-//			{
-//				chassis.writhe_speed_fac =  1;
-//			}
-//			else if(chassis.follow_gimbal < -STATIC_WRITHE_ANGLE_LIMIT)
-//			{
-//				chassis.writhe_speed_fac =  -1;
-//			}
-//		}
-//		else
-//		{
-//			if(chassis.follow_gimbal > RUN_WRITHE_ANGLE_LIMIT)
-//			{
-//				chassis.writhe_speed_fac =  1;
-//			}
-//			else if(chassis.follow_gimbal < -RUN_WRITHE_ANGLE_LIMIT)
-//			{
-//				chassis.writhe_speed_fac =  -1;
-//			}
-//		}	
-//		chassis.vw = pid_calc(&pid_rotate, chassis.writhe_speed_fac * WRITHE_SPEED_LIMIT, 0);
-//	}
-	
-//	chassis.follow_gimbal = moto_yaw.total_angle;
-	
-/* run straight line with waist */
-	if(chassis.follow_gimbal < 0){
-		d_theta = chassis.follow_gimbal - 0;
-	}
-	else if(chassis.follow_gimbal <= 0+ 180 ){
-		d_theta = chassis.follow_gimbal - 0;
-	}
-	else if(chassis.follow_gimbal <= 360){
-		d_theta = 360 - chassis.follow_gimbal + 0;
-	}
-	d_theta /= -57.295;
-	
-	chassis.vx = chassis.vx_offset * FPU_COS(d_theta) - chassis.vy_offset * FPU_SIN(d_theta);
-	chassis.vy = chassis.vx_offset * FPU_SIN(d_theta) + chassis.vy_offset * FPU_COS(d_theta);
 
-//	chassis.wheel_spd_ref[0] = -chassis.vx + chassis.vy + chassis.vw;
-//	chassis.wheel_spd_ref[1] =  chassis.vx + chassis.vy + chassis.vw;
-//	chassis.wheel_spd_ref[2] = -chassis.vx - chassis.vy + chassis.vw*0.8;
-//	chassis.wheel_spd_ref[3] =  chassis.vx - chassis.vy + chassis.vw*0.8;
-	
-	chassis.wheel_spd_ref[0] = chassis.vx - chassis.vy + chassis.vw;
-	chassis.wheel_spd_ref[1] =  -chassis.vx - chassis.vy + chassis.vw;
-	chassis.wheel_spd_ref[2] = -chassis.vx + chassis.vy + chassis.vw;
-	chassis.wheel_spd_ref[3] =  chassis.vx + chassis.vy + chassis.vw;
+	chassis.vw =  chassis_pid_calc (&pid_rotate,gyro_data.yaw,chassis.vw_offset);
+
+	chassis.wheel_spd_ref[0] =  chassis.vx_offset - chassis.vy_offset +chassis.vw;
+	chassis.wheel_spd_ref[1] =  -chassis.vx_offset - chassis.vy_offset + chassis.vw;
+	chassis.wheel_spd_ref[2] =  -chassis.vx_offset + chassis.vy_offset + chassis.vw;
+	chassis.wheel_spd_ref[3] =  chassis.vx_offset + chassis.vy_offset + chassis.vw;
 	
 	if(chassis.stop == 1||leg_mode == leg_init_mode)
 	{
-			for(int i =0; i < 4; i++)
+						for(int i =0; i < 4; i++)
 		{
 			chassis.wheel_spd_ref[i] = 0;
+			chassis_leg.wheel_spd_ref[i]=0;
 		}
+		HAL_GPIO_WritePin(GPIOD,GPIO_PIN_7,GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_RESET);
 	}
 	
 	for(int i =0; i < 4; i++)
@@ -116,13 +62,13 @@ void Chassis_Param_Init(void)
 	ramp_init(&LRSpeedRamp, MOUSR_LR_RAMP_TICK_COUNT);
 	ramp_init(&FBSpeedRamp, MOUSR_FB_RAMP_TICK_COUNT);
 	/* initializa chassis follow gimbal pid */
-		PID_struct_init(&pid_rotate, POSITION_PID, 33, 0, 
-	 2.3, 0, 0);//2.0
+		PID_struct_init(&pid_rotate, POSITION_PID, 27, 0, 
+	 1.9, 0, 0);//2.0
 	
 	 for (int k = 0; k < 4; k++)
   {
-    PID_struct_init(&pid_spd[k], POSITION_PID, 3000, 0,
-		0, 0, 0); 
+    PID_struct_init(&pid_spd[k], POSITION_PID, 10000, 0,
+		300, 0, 0); 
 		PID_struct_init(&pid_leg_spd[k], POSITION_PID, 8000, 0,
 		250, 0, 0); 
 	}

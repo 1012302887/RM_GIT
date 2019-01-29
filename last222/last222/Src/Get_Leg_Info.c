@@ -31,20 +31,8 @@ void remote_ctrl_leg_hook(void)
 {
 	if(ctrl_mode == REMOTE_CTRL&&leg_mode == leg_normal_mode)
 	{
-			if (RC_CtrlData.rc.s1==1&&RC_CtrlData.rc.s2==1)
-				{
-
-				}
-			else if(RC_CtrlData.rc.s1==2&&RC_CtrlData.rc.s2==1)
-				{
-
-				}
-			else
-				{
-					
-				}
 			chassis_leg.vx =  RC_CtrlData.rc.ch3 * CHASSIS_REF_FACT;
-			chassis_leg.vy =  RC_CtrlData.rc.ch2 * CHASSIS_REF_FACT;
+			chassis_leg.vy =  RC_CtrlData.key.bogan * CHASSIS_REF_FACT;
 	}
 }
 void keyboard_leg_hook(void)

@@ -14,14 +14,6 @@ void Leg_Ctrl_Task(void const *argument)
 		{
 		Leg_task_normal();
 		}
-	if(chassis.stop == 1)
-	{
-			for(int i =0; i < 4; i++)
-		{
-			chassis.wheel_spd_ref[i] = 0;
-			chassis_leg.wheel_spd_ref[i]=0;
-		}
-	}
 	for(int i =0; i < 4; i++)
 	{
 		chassis_leg.current[i]=chassis_pid_calc(&pid_leg_spd[i], chassis_leg.wheel_spd_fdb[i], chassis_leg.wheel_spd_ref[i]);//
@@ -31,12 +23,12 @@ void Leg_Ctrl_Task(void const *argument)
 }
 void Leg_task_init(void)
 {
-	if(leg_ctrl_time<=3000)
+	if(leg_ctrl_time<=2000)
 	{
-		chassis_leg.wheel_spd_ref[0] =  -14*ramp_calc(&LegSpeedRamp);
-		chassis_leg.wheel_spd_ref[1] =  -14*ramp_calc(&LegSpeedRamp);
-		chassis_leg.wheel_spd_ref[2] =  -14*ramp_calc(&LegSpeedRamp);
-		chassis_leg.wheel_spd_ref[3] =  -14*ramp_calc(&LegSpeedRamp);
+		chassis_leg.wheel_spd_ref[0] =  -18*ramp_calc(&LegSpeedRamp);
+		chassis_leg.wheel_spd_ref[1] =  -18*ramp_calc(&LegSpeedRamp);
+		chassis_leg.wheel_spd_ref[2] =  -18*ramp_calc(&LegSpeedRamp);
+		chassis_leg.wheel_spd_ref[3] =  -18*ramp_calc(&LegSpeedRamp);
 	}
 	else
 	{
@@ -44,7 +36,7 @@ void Leg_task_init(void)
 	}
 	if(flag1==0&&flag==1)
 	{
-			for(int i =0; i < 4; i++)
+		for(int i =0; i < 4; i++)
 		{
 			memset(&moto_chassis[i], 0, sizeof(moto_chassis[i]));
 		}
@@ -58,39 +50,32 @@ void Leg_task_init(void)
 			chassis_leg.wheel_spd_ref[i]=0;
 		}
 	}
-	if(flag!=0&&RC_CtrlData.rc.s2!=3)
+	if(flag!=0)
 	{
-		chassis_leg.wheel_spd_ref[0] =  30*ramp_calc(&LegSpeedRamp);
-		chassis_leg.wheel_spd_ref[1] =  30*ramp_calc(&LegSpeedRamp);
-		chassis_leg.wheel_spd_ref[2] =  30*ramp_calc(&LegSpeedRamp);
-		chassis_leg.wheel_spd_ref[3] =  30*ramp_calc(&LegSpeedRamp);
-	}
+		chassis_leg.wheel_spd_ref[0] =  28*ramp_calc(&LegSpeedRamp);
+		chassis_leg.wheel_spd_ref[1] =  28*ramp_calc(&LegSpeedRamp);
+		chassis_leg.wheel_spd_ref[2] =  28*ramp_calc(&LegSpeedRamp);
+		chassis_leg.wheel_spd_ref[3] =  28*ramp_calc(&LegSpeedRamp);
 	if(moto_chassis[0].total_angle>=30000||moto_chassis[1].total_angle>=30000||moto_chassis[2].total_angle>=30000||\
-		moto_chassis[3].total_angle>=30000)
-	{
-	chassis_leg.wheel_spd_ref[0] =  0;
-	chassis_leg.wheel_spd_ref[1] =  0;
-	chassis_leg.wheel_spd_ref[2] =  0;
-	chassis_leg.wheel_spd_ref[3] =  0;
-	leg_mode = leg_normal_mode;
-	ramp_init(&LegSpeedRamp,1500);
+			moto_chassis[3].total_angle>=30000)
+		{
+			chassis_leg.wheel_spd_ref[0] =  0;
+			chassis_leg.wheel_spd_ref[1] =  0;
+			chassis_leg.wheel_spd_ref[2] =  0;
+			chassis_leg.wheel_spd_ref[3] =  0;
+			leg_mode = leg_normal_mode;
+			ramp_init(&LegSpeedRamp,1500);
+		}
 	}
 }
 void Leg_task_normal(void)
 {
-	if(chassis_leg.vy>10)
+	if(chassis_leg.vy>10||chassis_leg.vy<-10)
 	{
-		chassis_leg.wheel_spd_ref[0] =  0.8*chassis_leg.vx ;
-		chassis_leg.wheel_spd_ref[1] =  0.8*chassis_leg.vx ;
-		chassis_leg.wheel_spd_ref[2] =  0.8*chassis_leg.vx + chassis_leg.vy ;
-		chassis_leg.wheel_spd_ref[3] =  0.8*chassis_leg.vx + chassis_leg.vy ;
-	}
-	if(chassis_leg.vy<-10)
-	{
-		chassis_leg.wheel_spd_ref[0] =  0.8*chassis_leg.vx - chassis_leg.vy  ;
-		chassis_leg.wheel_spd_ref[1] =  0.8*chassis_leg.vx - chassis_leg.vy ;
-		chassis_leg.wheel_spd_ref[2] =  0.8*chassis_leg.vx ;
-		chassis_leg.wheel_spd_ref[3] =  0.8*chassis_leg.vx ;
+		chassis_leg.wheel_spd_ref[0] =  0.8f*chassis_leg.vx - chassis_leg.vy  ;
+		chassis_leg.wheel_spd_ref[1] =  0.8f*chassis_leg.vx - chassis_leg.vy ;
+		chassis_leg.wheel_spd_ref[2] =  0.8f*chassis_leg.vx + chassis_leg.vy ; ;
+		chassis_leg.wheel_spd_ref[3] =  0.8f*chassis_leg.vx + chassis_leg.vy;
 	}
 	else
 	{
@@ -98,6 +83,23 @@ void Leg_task_normal(void)
 		chassis_leg.wheel_spd_ref[1] =  chassis_leg.vx ;
 		chassis_leg.wheel_spd_ref[2] =  chassis_leg.vx ;
 		chassis_leg.wheel_spd_ref[3] =  chassis_leg.vx ;
+	}
+
+	switch (RC_CtrlData.rc.s1)
+	{
+		case 1:
+			{
+				HAL_GPIO_WritePin(GPIOD,GPIO_PIN_7,GPIO_PIN_SET);
+			}break;
+		case 2:
+			{
+				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_SET);
+			}break;
+		case 3:
+			{		
+				HAL_GPIO_WritePin(GPIOD,GPIO_PIN_7,GPIO_PIN_RESET);
+				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_RESET);
+			}	break;
 	}
 }
 /* 四腿参数初始化函数*/
@@ -108,7 +110,7 @@ void Leg_Param_Init(void)
 	memset(&chassis_leg, 0, sizeof(chassis_t));
 	 for (int k = 0; k < 4; k++)
   {
-		PID_struct_init(&pid_leg_spd[k], POSITION_PID, 8000, 0,
-		250, 0, 0); 
+		PID_struct_init(&pid_leg_spd[k], POSITION_PID, 10000, 0,
+		350, 0, 0); 
 	}
 }

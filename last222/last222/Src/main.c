@@ -21,6 +21,7 @@ int main(void)
 	Chassis_Param_Init();
 	Leg_Param_Init();
 	MYDMA_Config(DMA2_Stream7,4,(uint32_t)&USART1->DR,(uint32_t)send_buf,21);
+//	send_Gyro(0x30,1000);
 //	SEGGER_RTT_ConfigUpBuffer(1,"JScope_t4",buf,2048,SEGGER_RTT_MODE_NO_BLOCK_SKIP);
 //	MYDMA_Config(DMA2_Stream6,5,(uint32_t)&USART6->DR,(uint32_t)SEND_DATA,7);
 //	vTraceEnable(TRC_START);
@@ -116,6 +117,22 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 	HAL_GPIO_WritePin(GPIOA,GPIO_PIN_15,GPIO_PIN_SET);	
+	 /*Configure GPIO pin : PD7 */	
+	//¸¨ÖúÂÖ¼ÌµçÆ÷
+  GPIO_InitStruct.Pin = GPIO_PIN_7;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
+  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+	 /*Configure GPIO pin : PB7 */	
+	//¸¨ÖúÂÖ¼ÌµçÆ÷
+  GPIO_InitStruct.Pin = GPIO_PIN_7;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+	HAL_GPIO_WritePin(GPIOD,GPIO_PIN_7,GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_RESET);
 }
 
 /**

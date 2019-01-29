@@ -55,13 +55,13 @@ typedef struct
 	
 	
 	float pitch;                 //处理后的pit角度
-	float yaw;                   //处理后的yaw角度
+	float yaw;                   //处理后的yaw角度-累加
 	float	last_yaw;
 	
 	float pitch_angle;           //自己去看代码
 	float last_pitch_angle;      //自己去看代码
 	
-	float yaw_angle;             //自己去看代码
+	float yaw_angle;             //自己去看代码-不累加
 	float last_yaw_angle;        //自己去看代码
 	
 	float v_x;                   //未经处理的x轴角速度
