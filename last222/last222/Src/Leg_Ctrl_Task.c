@@ -70,12 +70,19 @@ void Leg_task_init(void)
 }
 void Leg_task_normal(void)
 {
-	if(chassis_leg.vy>10||chassis_leg.vy<-10)
+	if(chassis_leg.vy>=8)
 	{
-		chassis_leg.wheel_spd_ref[0] =  0.8f*chassis_leg.vx - chassis_leg.vy  ;
-		chassis_leg.wheel_spd_ref[1] =  0.8f*chassis_leg.vx - chassis_leg.vy ;
-		chassis_leg.wheel_spd_ref[2] =  0.8f*chassis_leg.vx + chassis_leg.vy ; ;
-		chassis_leg.wheel_spd_ref[3] =  0.8f*chassis_leg.vx + chassis_leg.vy;
+		chassis_leg.wheel_spd_ref[0] =  0.8f*chassis_leg.vx ;
+		chassis_leg.wheel_spd_ref[1] =  0.8f*chassis_leg.vx ;
+		chassis_leg.wheel_spd_ref[2] =  0.8f*chassis_leg.vx - chassis_leg.vy ; ;
+		chassis_leg.wheel_spd_ref[3] =  0.8f*chassis_leg.vx - chassis_leg.vy;
+	}
+	else if(chassis_leg.vy<=-8)
+	{
+			chassis_leg.wheel_spd_ref[0] =  0.8f*chassis_leg.vx + chassis_leg.vy;
+			chassis_leg.wheel_spd_ref[1] =  0.8f*chassis_leg.vx + chassis_leg.vy;
+			chassis_leg.wheel_spd_ref[2] =  0.8f*chassis_leg.vx ;
+			chassis_leg.wheel_spd_ref[3] =  0.8f*chassis_leg.vx;
 	}
 	else
 	{
@@ -90,11 +97,12 @@ void Leg_task_normal(void)
 		case 1:
 			{
 				HAL_GPIO_WritePin(GPIOD,GPIO_PIN_7,GPIO_PIN_SET);
-			}break;
-		case 2:
-			{
 				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_SET);
 			}break;
+//		case 2:
+//			{
+//				HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_SET);
+//			}break;
 		case 3:
 			{		
 				HAL_GPIO_WritePin(GPIOD,GPIO_PIN_7,GPIO_PIN_RESET);
