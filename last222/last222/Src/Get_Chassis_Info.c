@@ -1,10 +1,9 @@
 #include "main.h"
-uint8_t auto_shoot = 0;
 uint32_t turn_time_last = 0;
 extern ramp_t FBSpeedRamp;
 extern ramp_t LRSpeedRamp;
-
 extern float dipan_fdb_KF[4];
+static float forward_back_speed = 0;static float left_right_speed = 0;
 /*left wheel:2   right wheel:1 */
 
 /*left wheel:4   right wheel:3 */
@@ -36,8 +35,7 @@ void Get_Chassis_Info(void const * argument)
 				/* get remote and keyboard chassis control information */
 				keyboard_chassis_hook();
 				remote_ctrl_chassis_hook();
-				taskEXIT_CRITICAL();
-				 
+				taskEXIT_CRITICAL(); 
      }
 		 }
 }
@@ -45,127 +43,83 @@ void Get_Chassis_Info(void const * argument)
 
 void remote_ctrl_chassis_hook(void)
 {
-	if(1 && (ctrl_mode == REMOTE_CTRL))
+	if(ctrl_mode == REMOTE_CTRL)
 	{
 		/* get chassis wheel ref speed */
-		if(ramp_mode == RAMP_UP)
-		{
-			chassis.vx_offset = RC_CtrlData.rc.ch1 * 30.0f / 660;
-			chassis.vy_offset = RC_CtrlData.rc.ch0 * 30.0f / 660;
-		}
-		else
-		{
 			chassis.vx_offset = RC_CtrlData.rc.ch1 * CHASSIS_REF_FACT;
 			chassis.vy_offset = RC_CtrlData.rc.ch0 * CHASSIS_REF_FACT;
 			chassis.vw_offset -= RC_CtrlData.rc.ch2 * 0.0004f;
-		}
 	}
 }
 
 void keyboard_chassis_hook(void)
 {
-//	static float forward_back_speed = 0;
-//	static float left_right_speed 	 = 0;
-//	if((gim.ctrl_mode != GIMBAL_INIT) && (ctrl_mode == KEYBOR_CTRL))
-//	{
-//		/*********** speed mode: normal speed/high speed ***********/                   
-//		if(ramp_mode == RAMP_UP)
-//		{
-//			forward_back_speed = 30.0f;
-//			left_right_speed   = 30.0f;
-//		}
-//		else if(RC_CtrlData.key.v & SHIFT_KEY)																	
-//		{
-//			forward_back_speed = HIGH_FORWARD_BACK_SPEED;
-//			left_right_speed 	 = HIGH_LEFT_RIGHT_SPEED;
-//		}
-//		else if(gim.ctrl_mode == GIMBAL_WRITHE)
-//		{
-//			forward_back_speed = 40.0f;
-//			left_right_speed 	 = 30.0f;
-//		}
-//		else
-//		{
-//			forward_back_speed = NORMAL_FORWARD_BACK_SPEED;
-//			left_right_speed   = NORMAL_LEFT_RIGHT_SPEED;
-//		}
-//		
-//		/*********** get forward chassis wheel ref speed ***********/
-//		if(RC_CtrlData.key.v & W_KEY)
-//		{
-//			chassis.vx_offset =  forward_back_speed * ramp_calc(&FBSpeedRamp);
-//		}
-//		else if(RC_CtrlData.key.v & S_KEY)
-//		{
-//			chassis.vx_offset = -forward_back_speed * ramp_calc(&FBSpeedRamp);
-//		}
-//		else
-//		{
-//			chassis.vx_offset = 0;
-//			ramp_init(&FBSpeedRamp, MOUSR_FB_RAMP_TICK_COUNT);
-//		}
-//		
-//		/*********** get rightward chassis wheel ref speed ***********/
-//		if(RC_CtrlData.key.v & A_KEY)
-//		{
-//			chassis.vy_offset = -left_right_speed * ramp_calc(&LRSpeedRamp);
-//		}
-//		else if(RC_CtrlData.key.v & D_KEY)
-//		{
-//			chassis.vy_offset = left_right_speed * ramp_calc(&LRSpeedRamp);
-//		}
-//		else
-//		{
-//			chassis.vy_offset = 0;
-//			ramp_init(&LRSpeedRamp, MOUSR_LR_RAMP_TICK_COUNT);
-//		}
-//		
-//		/*********** get chassis rotate ref ***********/
-//		if(RC_CtrlData.key.v & Q_KEY && auto_shoot != 1)
-//		{
-//			if(gim.ctrl_mode == GIMBAL_SUPPLY)
-//			{
-//				chassis.vw_offset = -30.0f ;//* ramp_calc(&LRSpeedRamp);;
-//			}
-//			else
-//			{
-//				gim.pid.yaw_angle_ref += 
-//				CHASSIS_ROTATE_FACT;
-//			}
-//		}
-//		else if(RC_CtrlData.key.v & E_KEY && auto_shoot != 1)
-//		{
-//			if(gim.ctrl_mode == GIMBAL_SUPPLY)
-//			{
-//				chassis.vw_offset = 30.0f ;
-//			}
-//			else
-//			{
-//					gim.pid.yaw_angle_ref -= CHASSIS_ROTATE_FACT;
-//			}
-//		}
-//		else
-//		{
-//			chassis.vw_offset = 0;
-//		}
-//		
-//		/*********** chassis mode is waist ***********/
-//		if((RC_CtrlData.key.v & CTRL_KEY) && (handler_run_time -turn_time_last>350)) // Gimbal_Task "handler_run_time++"													
-//		{
-//			turn_time_last = handler_run_time;
-//			
-//			if(gim.ctrl_mode == GIMBAL_NORMAL)
-//			{	
-//				gim.ctrl_mode = GIMBAL_WRITHE;
-//			}
-//			else
-//			{
-//				gim.ctrl_mode = GIMBAL_NORMAL;
-//			}
-//		}
-//		
-//	}
-//	
+	VAL_LIMIT(RC_CtrlData.mouse.x, -128, 128); 
+	VAL_LIMIT(RC_CtrlData.mouse.y, -18, 32); 
+	if(ctrl_mode == KEYBOR_CTRL)
+	{
+		/*********** speed mode: normal speed/high speed ***********/                   
+		if(RC_CtrlData.key.v & SHIFT_KEY)																	
+		{
+			forward_back_speed = HIGH_FORWARD_BACK_SPEED;
+			left_right_speed 	 = HIGH_LEFT_RIGHT_SPEED;
+		}
+		else
+		{
+			forward_back_speed = NORMAL_FORWARD_BACK_SPEED;
+			left_right_speed   = NORMAL_LEFT_RIGHT_SPEED;
+		}
+		
+		/*********** get forward chassis wheel ref speed ***********/
+		if(RC_CtrlData.key.v & W_KEY)
+		{
+			chassis.vx_offset =  forward_back_speed * ramp_calc(&FBSpeedRamp);
+		}
+		else if(RC_CtrlData.key.v & S_KEY)
+		{
+			chassis.vx_offset = -forward_back_speed * ramp_calc(&FBSpeedRamp);
+		}
+		else
+		{
+			chassis.vx_offset = 0;
+			ramp_init(&FBSpeedRamp, MOUSR_FB_RAMP_TICK_COUNT);
+		}
+		
+		/*********** get rightward chassis wheel ref speed ***********/
+		if(RC_CtrlData.key.v & A_KEY)
+		{
+			chassis.vy_offset = -left_right_speed * ramp_calc(&LRSpeedRamp);
+		}
+		else if(RC_CtrlData.key.v & D_KEY)
+		{
+			chassis.vy_offset = left_right_speed * ramp_calc(&LRSpeedRamp);
+		}
+		else
+		{
+			chassis.vy_offset = 0;
+			ramp_init(&LRSpeedRamp, MOUSR_LR_RAMP_TICK_COUNT);
+		}
+			//¿ØÖÆµ×ÅÌ×ªÍä
+		if(RC_CtrlData.key.v & Z_KEY)
+		{
+				chassis.vw_offset -= RC_CtrlData.mouse.x * MOUSE_TO_YAW_ANGLE_INC_FACT  ;
+				chassis.vw_offset += RC_CtrlData.mouse.y * MOUSE_TO_PITCH_ANGLE_INC_FACT ;
+		}
+			//¼ÌµçÆ÷¿ØÖÆµç³Ø·§
+		if(RC_CtrlData.key.v & V_KEY)
+		{
+			HAL_GPIO_WritePin(GPIOD,GPIO_PIN_12,GPIO_PIN_SET);
+		}
+		else if(RC_CtrlData.key.v & B_KEY)
+		{
+			HAL_GPIO_WritePin(GPIOD,GPIO_PIN_13,GPIO_PIN_SET);
+		}
+		else
+		{
+			HAL_GPIO_WritePin(GPIOD,GPIO_PIN_12,GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOD,GPIO_PIN_13,GPIO_PIN_RESET);
+		}
+	}	
 }
 
 

@@ -12,6 +12,8 @@ void keyboard_chassis_hook(void);
 #define NORMAL_LEFT_RIGHT_SPEED   			30.0f							 //normal rightward speed
 #define HIGH_FORWARD_BACK_SPEED 			  60.0f							 //faster forward   speed								
 #define HIGH_LEFT_RIGHT_SPEED   				40.0f							 //faster rightward speed
+#define MOUSE_TO_PITCH_ANGLE_INC_FACT   0.01f
+#define MOUSE_TO_YAW_ANGLE_INC_FACT     0.01f 
 /* limit handler */
 #define VAL_LIMIT(val, min, max)\
 if(val<=min)\

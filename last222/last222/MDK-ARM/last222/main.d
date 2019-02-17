@@ -81,5 +81,3 @@ last222\main.o: ../Inc/Kalman.h
 last222\main.o: ../Inc/REG_DMA.h
 last222\main.o: ../Inc/JUDG_INFO.h
 last222\main.o: ../Inc/first_order_filter.h
-last222\main.o: ../Inc/Leg_Ctrl_Task.h
-last222\main.o: ../Inc/Get_leg_Info.h

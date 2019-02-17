@@ -582,16 +582,6 @@
               <FileType>1</FileType>
               <FilePath>..\Src\Chassis_Task.c</FilePath>
             </File>
-            <File>
-              <FileName>Leg_Ctrl_Task.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\Leg_Ctrl_Task.c</FilePath>
-            </File>
-            <File>
-              <FileName>Get_Leg_Info.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\Get_Leg_Info.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>

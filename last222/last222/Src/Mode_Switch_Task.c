@@ -14,7 +14,6 @@ void Mode_Switch_Task(void const * argument)
   osDelay(1500);
 	//启动定时器任务，指定定时时间（毫秒）
 	osTimerStart(chassis_timer_id ,2);
-	osTimerStart(leg_timer_id ,2);
 	uint32_t mode_wake_time = osKernelSysTick();
 	for(;;)
 	{ 
@@ -37,7 +36,6 @@ void Mode_Switch_Task(void const * argument)
 }
 void get_main_ctrl_mode(void)
 {
-	
 	if((RC_CtrlData.rc.s2 == 1) || (RC_CtrlData.rc.s2 == 2))
 	{
 		ctrl_mode = REMOTE_CTRL;

@@ -100,7 +100,7 @@ void send_chassis_cur(int16_t a, int16_t b, int16_t c, int16_t d)
 	uint8_t i[8];
 	Tx1Message.RTR = CAN_RTR_DATA;
 	Tx1Message.IDE = CAN_ID_STD;
-	Tx1Message.StdId = 0x1ff;
+	Tx1Message.StdId = 0x200;
   Tx1Message.DLC = 0x08;
 	i[0]= a >> 8;i[1]= a;i[2]= b >> 8;i[3]= b;
 	i[4]= c >> 8;i[5]= c;i[6]= d >> 8;i[7]= d;

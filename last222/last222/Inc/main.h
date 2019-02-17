@@ -34,16 +34,12 @@
 #include "JUDG_INFO.h"
 #include "first_order_filter.h"
 #include "trcConfig.h"
-#include "Leg_Ctrl_Task.h"
-#include "Get_leg_Info.h"
 /* USER CODE BEGIN Includes */
-extern osThreadId GET_LEG_INFHandle;
 extern osThreadId CAN_SEND_TASKHandle;
 extern osThreadId CAN_SEND_TASKHandle;
 extern osThreadId GET_CHASSIS_INFHandle;
 extern osThreadId MODE_SWITCH_TASKHandle;
 extern osTimerId chassis_timer_id;
-extern osTimerId leg_timer_id;
 /* USER CODE END Includes */
 
 /* Private define ------------------------------------------------------------*/

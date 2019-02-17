@@ -61,6 +61,4 @@ extern pid_t pid_yaw_spd;
 extern pid_t pid_rotate;
 extern pid_t pid_pos[4];
 extern pid_t pid_spd[4];
-extern pid_t pid_leg_pos[4];
-extern pid_t pid_leg_spd[4];
 #endif

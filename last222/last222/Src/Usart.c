@@ -103,25 +103,6 @@ void MX_USART3_UART_Init(void)
 	HAL_UART_Receive_DMA(&huart3, (uint8_t *)JudgeDataBuffer, 1024);
 }
 
-/* USART6 init function */
-void MX_USART6_UART_Init(void)
-{
-
-	huart6.Instance = USART6;
-  huart6.Init.BaudRate = 115200;
-  huart6.Init.WordLength = UART_WORDLENGTH_8B;
-  huart6.Init.StopBits = UART_STOPBITS_1;
-  huart6.Init.Parity = UART_PARITY_NONE;
-  huart6.Init.Mode = UART_MODE_TX_RX;
-  huart6.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart6.Init.OverSampling = UART_OVERSAMPLING_16;
-  if (HAL_UART_Init(&huart6) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
-	SET_BIT(huart6.Instance->CR1, USART_CR1_IDLEIE);
-	HAL_UART_Receive_DMA(&huart6, (uint8_t *)Rx_data, RECEIVELEN);	
-}
 uint16_t	temp;
 void USART2_IRQHandler(void)
 {
@@ -151,7 +132,6 @@ void USART3_IRQHandler(void)
 	if (__HAL_UART_GET_FLAG(&huart3, UART_FLAG_IDLE) && 
       __HAL_UART_GET_IT_SOURCE(&huart3, UART_IT_IDLE))
     {
-			
       uint16_t tmp = huart3.Instance->DR;
       tmp = huart3.Instance->SR;
       tmp--;
@@ -167,59 +147,6 @@ void USART3_IRQHandler(void)
       __HAL_DMA_ENABLE(huart3.hdmarx);
 } 
 
-extern uint32_t pc_i;
-float iii_,ooo_;
-void USART6_IRQHandler(void)
-{
-	if (__HAL_UART_GET_FLAG(&huart6, UART_FLAG_IDLE) && 
-      __HAL_UART_GET_IT_SOURCE(&huart6, UART_IT_IDLE))
-    {
-      uint16_t tmp = huart6.Instance->DR;
-      tmp = huart6.Instance->SR;
-      tmp--;
-			__HAL_DMA_DISABLE(huart6.hdmarx);
-     	temp = huart6.hdmarx->Instance->NDTR; 
-			if((RECEIVELEN - temp) == 7)
-			{
-				if(Rx_data[0]==0xaa && Rx_data[6]==0xbb)
-				{
-				  pc_data.raw_pit_angle = Rx_data[2]<<8 | Rx_data[1];  //pit
-					pc_data.raw_yaw_angle = Rx_data[4]<<8 | Rx_data[3];	 //yaw		
-					pc_data.dynamic_pit = (float)pc_data.raw_pit_angle / 100.0f; //pit¶¯Ì¬½Ç¶È
-					pc_data.dynamic_yaw = (float)pc_data.raw_yaw_angle / 100.0f; //yaw
-					pc_data.last_star_shoot = pc_data.star_shoot;
-					pc_data.star_shoot = Rx_data[5];   			
-						
-					/*********************ÂË²¨*******************************/
-//				pc_data.dynamic_yaw=Kalman_filter_calc(&zi_miao_kf[0],pc_data.dynamic_yaw);//
-//				pc_data.dynamic_pit=Kalman_filter_calc(&zi_miao_kf[1],pc_data.dynamic_pit);//	
-					iii_=Kalman_filter_calc(&zi_miao_kf[0],pc_data.dynamic_yaw);//
-					ooo_=Kalman_filter_calc(&zi_miao_kf[1],pc_data.dynamic_pit);//	
-					/*********************ÂË²¨*******************************/
-						
-					pc_data.last_times = pc_data.now_times;
-					pc_data.now_times = osKernelSysTick(); 
-					pc_data.last_dynamic_pit = pc_data.dynamic_pit;
-					pc_data.last_dynamic_yaw = pc_data.dynamic_yaw;
-						
-//					pc_data.dynamic_yaw += AUTOSHOOT_X_OFFSET;//Æ«ÒÆÁ¿
-						
-				}
-			}
-			 DMA2->LIFCR = DMA_FLAG_DMEIF1_5 | DMA_FLAG_FEIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TCIF1_5 | DMA_FLAG_TEIF1_5;
-      __HAL_DMA_SET_COUNTER(huart6.hdmarx, RECEIVELEN);
-      __HAL_DMA_ENABLE(huart6.hdmarx);
-		}
-}
-/*´®¿ÚÁù·¢ËÍ*/
-uint8_t SEND_DATA[7]={0};uint8_t USART_FLAG=1;
-void USART6_Transmit(void)
-{
-//	SEND_DATA[0]= 0xaa ;SEND_DATA[6]= 0xbb ;SEND_DATA[1]= (int16_t)(gim.pid.pit_angle_fdb*100)>>8;
-//	SEND_DATA[2]= (int16_t)(gim.pid.pit_angle_fdb*100)&0xFF;SEND_DATA[3]=(int16_t)(gim.pid.yaw_angle_fdb*100)>>8;
-//	SEND_DATA[4]= (int16_t)(gim.pid.yaw_angle_fdb*100)&0xFF;
-//	HAL_UART_Transmit(&huart6,SEND_DATA,7,20);
-}
 void Get_Remote_info(RC_Ctl_t *rc, uint8_t *pData)
 {
 	Reset ++;
