@@ -8,8 +8,8 @@
 #define WRITHE_SPEED_LIMIT					      30.0f/1.3f
 
 /* chassis speed ramp */
-#define MOUSR_LR_RAMP_TICK_COUNT		100
-#define MOUSR_FB_RAMP_TICK_COUNT		100
+#define MOUSR_LR_RAMP_TICK_COUNT		500
+#define MOUSR_FB_RAMP_TICK_COUNT		500
 
 
 typedef struct

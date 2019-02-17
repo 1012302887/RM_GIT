@@ -215,9 +215,9 @@ void USART6_IRQHandler(void)
 uint8_t SEND_DATA[7]={0};uint8_t USART_FLAG=1;
 void USART6_Transmit(void)
 {
-	SEND_DATA[0]= 0xaa ;SEND_DATA[6]= 0xbb ;SEND_DATA[1]= (int16_t)(gim.pid.pit_angle_fdb*100)>>8;
-	SEND_DATA[2]= (int16_t)(gim.pid.pit_angle_fdb*100)&0xFF;SEND_DATA[3]=(int16_t)(gim.pid.yaw_angle_fdb*100)>>8;
-	SEND_DATA[4]= (int16_t)(gim.pid.yaw_angle_fdb*100)&0xFF;
+	SEND_DATA[0]= 0xaa ;SEND_DATA[6]= 0xbb ;SEND_DATA[1]= (int16_t)(gyro_data.pitch*100)>>8;
+	SEND_DATA[2]= (int16_t)(gyro_data.pitch*100)&0xFF;SEND_DATA[3]=(int16_t)(gyro_data.yaw*100)>>8;
+	SEND_DATA[4]= (int16_t)(gyro_data.yaw*100)&0xFF;
 	HAL_UART_Transmit(&huart6,SEND_DATA,7,20);
 }
 void Get_Remote_info(RC_Ctl_t *rc, uint8_t *pData)

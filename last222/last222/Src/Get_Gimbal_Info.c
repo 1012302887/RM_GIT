@@ -3,7 +3,6 @@ extern ramp_t pit_ramp;
 extern ramp_t yaw_ramp;
 extern uint8_t auto_shoot;
 extern uint32_t turn_time_last;
-int32_t v_z,v_x,yaw,pitch,v_z1,v_x1,yaw1,pitch1;
 void Get_Gimbal_Info(void const * argument)
 {
 	osEvent event;
@@ -24,21 +23,13 @@ void get_gimbal_info(void)
 	gyro_data.yaw = Kalman_filter_calc(&GIMBAL_KF[1],gyro_data.yaw);////////////////////
 	gyro_data.v_x	= Kalman_filter_calc(&GIMBAL_KF[2],gyro_data.v_x);//////////////////////////
 	gyro_data.pitch = Kalman_filter_calc(&GIMBAL_KF[3],gyro_data.pitch);////////////////////
-//	v_z=Kalman_filter_calc(&GIMBAL_KF[0],gyro_data.v_z)*100;//////////////////////////
-//	yaw=Kalman_filter_calc(&GIMBAL_KF[1],gyro_data.yaw)*100;////////////////////
-//	v_x=Kalman_filter_calc(&GIMBAL_KF[2],gyro_data.v_x)*100;//////////////////////////
-//	pitch=Kalman_filter_calc(&GIMBAL_KF[3],gyro_data.pitch)*100;////////////////////
-//	v_z1=gyro_data.v_z*100;//////////////////////////
-//	yaw1=gyro_data.yaw*100;////////////////////
-//	v_x1=gyro_data.v_x*100;//////////////////////////
-//	pitch1=gyro_data.pitch*100;////////////////////
 		if(gim.ctrl_mode == GIMBAL_INIT)
 	{
 		/* get gimbal relative angle */
 		#if (CAR_NUM==1)//不同小车，需要修改
 			if(moto_yaw.total_angle>250)
 				{
-				moto_yaw.total_angle = moto_yaw.total_angle-360;
+					moto_yaw.total_angle = moto_yaw.total_angle-360;
 				}
 		#endif				
 		gim.sensor.yaw_relative_angle = moto_yaw.total_angle * ramp_calc(&yaw_ramp);
@@ -49,7 +40,7 @@ void get_gimbal_info(void)
 	else if((gim.ctrl_mode == GIMBAL_NORMAL) || (gim.ctrl_mode == GIMBAL_WRITHE))
 	{
 		gim.sensor.yaw_relative_angle = gyro_data.yaw   - gim.sensor.yaw_offset_angle;
-		gim.sensor.pit_relative_angle = gyro_data.pitch - gim.sensor.pit_offset_angle;//gim.sensor.pit_offset_angle暂时为0
+		gim.sensor.pit_relative_angle = gyro_data.pitch;
 		
 		ramp_init(&pit_ramp, PIT_PREPARE_TIMS_MS);
 		ramp_init(&yaw_ramp, YAW_PREPARE_TIMS_MS);
@@ -87,17 +78,16 @@ void keyboard_gimbal_hook(void)
 			/* 自瞄部分 */
 			if(auto_shoot == 1&&Rx_data[5]==1)
 			{	
-//				pid_yaw.p = 10;
+				pid_yaw.p = 15;
 				if(RC_CtrlData.key.v & Q_KEY)      {add_angle += 0.01f;}
 				else if(RC_CtrlData.key.v & E_KEY ) {add_angle -= 0.01f;}
 				else {add_angle = 0;}
 //				gim.pid.yaw_angle_ref  = pc_data.dynamic_yaw-RC_CtrlData.mouse.x*0.2f+add_angle;	
-					gim.pid.pit_angle_ref =  gim.sensor.pit_relative_angle + pc_data.dynamic_pit;
+					gim.pid.pit_angle_ref = -( gim.sensor.pit_relative_angle + pc_data.dynamic_pit);
 					gim.pid.yaw_angle_ref = gim.sensor.yaw_relative_angle + pc_data.dynamic_yaw+add_angle;
 //				gim.pid.yaw_angle_ref = pc_data.yaw_befoer[(pc_i+1)%50] + pc_data.dynamic_yaw;
 			}
 			/* 自瞄部分 */
-		
 			else if(gim.ctrl_mode == GIMBAL_SUPPLY)
 			{
 				gim.pid.yaw_angle_ref	 = 0;
@@ -113,6 +103,7 @@ void keyboard_gimbal_hook(void)
 		/* 正常模式 */
 		else 
 			{
+				pid_yaw.p = 25;
 				pc_data.v_now_i = 0;
 				gim.pid.yaw_angle_ref -= RC_CtrlData.mouse.x * MOUSE_TO_YAW_ANGLE_INC_FACT  ;//+ shoot_buff_data.dynamic_yaw * 0.015f;
 				gim.pid.pit_angle_ref += RC_CtrlData.mouse.y * MOUSE_TO_PITCH_ANGLE_INC_FACT ;//+ shoot_buff_data.dynamic_pit * 0.015f;
@@ -190,7 +181,7 @@ void GimbalAngleLimit(void)
 void send_gimbal_motor_ctrl_message(int16_t gimbal_cur[])
 {
     /* 0: yaw motor current
-     1: pitch motor current
+			1: pitch motor current
      2: trigger motor current*/
   send_gimbal_cur(-gimbal_cur[0], gimbal_cur[1], gimbal_cur[2]);
 }

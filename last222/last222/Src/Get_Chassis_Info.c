@@ -20,25 +20,24 @@ void Get_Chassis_Info(void const * argument)
 			 taskENTER_CRITICAL();
 			 
 					/* get gimbal and chassis relative angle */
-				chassis.follow_gimbal = moto_yaw.total_angle;   
-				/* get chassis wheel fdb speed */
-				for (uint8_t i = 0; i < 4; i++)
-				 {
-						chassis.wheel_spd_fdb[i] = moto_chassis[i].speed_rpm*0.10472/19.0;//W=2*PI*N
-				 }
-				 
-				 if((InfantryJudge.remainPower > 60) || (InfantryJudge.remainPower < 0))
-				 {InfantryJudge.remainPower = 0;}
-				chassis.power_surplus = InfantryJudge.remainPower / 60;
-				 
-				/* get remote and keyboard chassis control information */
-				keyboard_chassis_hook();
-				remote_ctrl_chassis_hook();
+					chassis.follow_gimbal = moto_yaw.total_angle;   
+					/* get chassis wheel fdb speed */
+					for (uint8_t i = 0; i < 4; i++)
+					 {
+							chassis.wheel_spd_fdb[i] = moto_chassis[i].speed_rpm*0.10472/19.0;//W=2*PI*N
+					 }
+					 
+					 if((InfantryJudge.remainPower > 60) || (InfantryJudge.remainPower < 0))
+					 {InfantryJudge.remainPower = 0;}
+					chassis.power_surplus = InfantryJudge.remainPower / 60;
+					 
+					/* get remote and keyboard chassis control information */
+					keyboard_chassis_hook();
+					remote_ctrl_chassis_hook();
 				
-				 taskEXIT_CRITICAL();
-				 
+			taskEXIT_CRITICAL();
      }
-		 }
+		}
 }
 /******************************** CHASSIS REMOTE  HANDLER ***************************************/
 
@@ -169,9 +168,9 @@ void keyboard_chassis_hook(void)
 
 void send_chassis_motor_ctrl_message(int16_t chassis_cur[])
 {
-	   send_chassis_cur(chassis_cur[0] * chassis.power_surplus, chassis_cur[1] *chassis.power_surplus, 
-		 chassis_cur[2] * chassis.power_surplus, chassis_cur[3] *chassis.power_surplus);
-//	send_chassis_cur(chassis_cur[0] , chassis_cur[1] , 
-//										chassis_cur[2] , chassis_cur[3]);
+//	   send_chassis_cur(chassis_cur[0] * chassis.power_surplus, chassis_cur[1] *chassis.power_surplus, 
+//		 chassis_cur[2] * chassis.power_surplus, chassis_cur[3] *chassis.power_surplus);
+	send_chassis_cur(chassis_cur[0] , chassis_cur[1] , 
+										chassis_cur[2] , chassis_cur[3]);
 }
 

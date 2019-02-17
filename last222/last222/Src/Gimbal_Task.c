@@ -66,7 +66,7 @@ void init_mode_handler(void)
 	gim.pid.pit_angle_ref = 0;
 	gim.pid.yaw_angle_ref = 0;
 //	send_Gyro(0x30,1000);//校准陀螺仪
-	if(handler_run_time > 4000)
+		if(handler_run_time > 4000)
 	{
 //		send_Gyro(0x30,1000);//校准陀螺仪
 		gim.ctrl_mode = GIMBAL_NORMAL;
@@ -103,13 +103,13 @@ void Gimbal_Param_Init(void)
 	/* pitch axis motor pid parameter */
 	
   PID_struct_init(&pid_pit, POSITION_PID, 1000, 1000,
-                  25, 0, 0); //30
+                  24, 0, 0); //30
   PID_struct_init(&pid_pit_spd, POSITION_PID, 6000, 2000,
-                 28, 0, 0); //60
+                 26, 0, 0); //60
 	
   /* yaw axis motor pid parameter */
   PID_struct_init(&pid_yaw, POSITION_PID, 1000, 1000,
-                  10,0, 0); //
+                  25,0, 0); //
   PID_struct_init(&pid_yaw_spd, POSITION_PID, 6000, 2000,
-                  46, 0, 0);
+                  50, 0, 0);
 }
