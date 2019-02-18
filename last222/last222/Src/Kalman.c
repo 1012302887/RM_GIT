@@ -1,5 +1,4 @@
 #include "main.h"
-Kalman_t CHASSIS_KF[4];
 Kalman_t zi_miao_kf[2];
 Kalman_t GIMBAL_KF[4];
 void Kalman_filter_init(Kalman_t* Kalman_filter,float _P_,\

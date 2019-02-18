@@ -3,9 +3,9 @@
 
 #include "main.h"
 
-#define RUN_WRITHE_ANGLE_LIMIT					  25
-#define STATIC_WRITHE_ANGLE_LIMIT					50
-#define WRITHE_SPEED_LIMIT					      30.0f/1.3f
+#define RUN_WRITHE_ANGLE_LIMIT					  15
+#define STATIC_WRITHE_ANGLE_LIMIT					20
+#define WRITHE_SPEED_LIMIT					      30/1.3f
 
 /* chassis speed ramp */
 #define MOUSR_LR_RAMP_TICK_COUNT		500
@@ -21,8 +21,8 @@ typedef struct
   float        		vy_offset; 
 	float           vw_offset;
 	
-	float         	follow_gimbal;
-	float					writhe_speed_fac;
+	int16_t        	follow_gimbal;
+	int16_t					writhe_speed_fac;
   
 //  chassis_mode_e  ctrl_mode;
 //  chassis_mode_e  last_ctrl_mode;

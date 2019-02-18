@@ -78,7 +78,7 @@ void keyboard_gimbal_hook(void)
 			/* 自瞄部分 */
 			if(auto_shoot == 1&&Rx_data[5]==1)
 			{	
-				pid_yaw.p = 15;
+//				pid_yaw.p = 15;
 				if(RC_CtrlData.key.v & Q_KEY)      {add_angle += 0.01f;}
 				else if(RC_CtrlData.key.v & E_KEY ) {add_angle -= 0.01f;}
 				else {add_angle = 0;}
@@ -103,7 +103,7 @@ void keyboard_gimbal_hook(void)
 		/* 正常模式 */
 		else 
 			{
-				pid_yaw.p = 25;
+//				pid_yaw.p = 25;
 				pc_data.v_now_i = 0;
 				gim.pid.yaw_angle_ref -= RC_CtrlData.mouse.x * MOUSE_TO_YAW_ANGLE_INC_FACT  ;//+ shoot_buff_data.dynamic_yaw * 0.015f;
 				gim.pid.pit_angle_ref += RC_CtrlData.mouse.y * MOUSE_TO_PITCH_ANGLE_INC_FACT ;//+ shoot_buff_data.dynamic_pit * 0.015f;

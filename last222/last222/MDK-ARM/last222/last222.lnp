@@ -67,7 +67,7 @@
 "last222\trcstreamingrecorder.o"
 "last222\segger_rtt.o"
 "last222\trcstreamingport.o"
---library_type=microlib --strict --scatter "last222\last222.sct"
+--library_type=microlib --nodebug --strict --scatter "last222\last222.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list "last222.map" -o last222\last222.axf
