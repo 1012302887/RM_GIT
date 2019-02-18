@@ -111,5 +111,5 @@ void Gimbal_Param_Init(void)
   PID_struct_init(&pid_yaw, POSITION_PID, 1000, 1000,
                   10,0, 0); //
   PID_struct_init(&pid_yaw_spd, POSITION_PID, 6000, 2000,
-                  50, 0, 0);
+                  45, 0, 0);
 }

@@ -3895,53 +3895,53 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-         0          0       2052          0          0       4736   arm_common_tables.o
-       120         12          0          0          0        774   arm_cos_f32.o
-       132         14          0          0          0        814   arm_sin_f32.o
-       988        126          0         20        784       7672   can.o
-       808        118          0         44        108       3265   chassis_task.o
-       458         16          0          0          0      23105   cmsis_os.o
-        56          4          0          0         20       1402   commom_task.o
-         0          0          0          0          0       8048   event_groups.o
-       216          8        224         36          0       2352   freertos.o
-       808        132          0         16          0       3503   get_chassis_info.o
-      1050        138          0          8          0       4318   get_gimbal_info.o
-       244         54          0          0          0       1986   get_shoot_info.o
-       628         98          0         44        104       4411   gimbal_task.o
-       552         38          0         24      15360      14383   heap_4.o
-       452         22        768         20        210       4452   judg_info.o
-        88          0          0          0        280       2144   kalman.o
-       136          0          0          0          0       3538   list.o
-       414         32          0          0          0       2890   main.o
-       276         50          0         17          0       1938   mode_switch_task.o
-       196         22          0          1         21       1424   ni_ming.o
-       642         18          0          0        816       5773   pid.o
-       758         84          0         12          0      11877   port.o
-      2476         98          0          0         64      16572   queue.o
-        64          6          0          0          0       1304   ramp.o
-       242         14          0          0          0       1742   reg_dma.o
-       430         40          0          0       1208       8334   segger_rtt.o
-       460         64          0          0         62       3493   shoot_task.o
-        36          8        392          0       1024        836   startup_stm32f407xx.o
-       180         28          0         12          0       4569   stm32f4xx_hal.o
-      1660          6          0          0          0     737751   stm32f4xx_hal_can.o
-       218         14          0          0          0      31021   stm32f4xx_hal_cortex.o
-       912         16          8          0          0       5803   stm32f4xx_hal_dma.o
-       442         44          0          0          0       2424   stm32f4xx_hal_gpio.o
-       812        110          0          4          0       3092   stm32f4xx_hal_msp.o
-      1272         82          0          0          0       5620   stm32f4xx_hal_rcc.o
-      1416         22          0          0          0       9548   stm32f4xx_hal_uart.o
-        86         30          0          0          0       5527   stm32f4xx_it.o
-        84         18         24          4          0       1159   system_stm32f4xx.o
-      3170        282          0         60        180      29470   tasks.o
-       930         78          0         20         40      11014   timers.o
-       104          6          0         28          0       7701   trckernelport.o
-        34          0          0          0          0       1057   trcstreamingport.o
-      2426        742          0        104       1712      29340   trcstreamingrecorder.o
-      1172        176          0         27       1616       9209   usart.o
+         0          0       2052          0          0       4772   arm_common_tables.o
+       120         12          0          0          0        790   arm_cos_f32.o
+       132         14          0          0          0        834   arm_sin_f32.o
+       988        126          0         20        784       7864   can.o
+       808        118          0         44        108       3357   chassis_task.o
+       458         16          0          0          0      23413   cmsis_os.o
+        56          4          0          0         20       1454   commom_task.o
+         0          0          0          0          0       8100   event_groups.o
+       216          8        224         36          0       2424   freertos.o
+       808        132          0         16          0       3607   get_chassis_info.o
+      1050        138          0          8          0       4462   get_gimbal_info.o
+       244         54          0          0          0       2058   get_shoot_info.o
+       628         98          0         44        104       4539   gimbal_task.o
+       552         38          0         24      15360      14551   heap_4.o
+       452         22        768         20        210       4560   judg_info.o
+        88          0          0          0        280       2236   kalman.o
+       136          0          0          0          0       3642   list.o
+       414         32          0          0          0       2982   main.o
+       276         50          0         17          0       2014   mode_switch_task.o
+       196         22          0          1         21       1476   ni_ming.o
+       642         18          0          0        816       5929   pid.o
+       758         84          0         12          0      12097   port.o
+      2476         98          0          0         64      16856   queue.o
+        64          6          0          0          0       1360   ramp.o
+       242         14          0          0          0       1794   reg_dma.o
+       430         40          0          0       1208       8510   segger_rtt.o
+       460         64          0          0         62       3605   shoot_task.o
+        36          8        392          0       1024        852   startup_stm32f407xx.o
+       180         28          0         12          0       4701   stm32f4xx_hal.o
+      1660          6          0          0          0     738511   stm32f4xx_hal_can.o
+       218         14          0          0          0      31153   stm32f4xx_hal_cortex.o
+       912         16          8          0          0       5939   stm32f4xx_hal_dma.o
+       442         44          0          0          0       2472   stm32f4xx_hal_gpio.o
+       812        110          0          4          0       3176   stm32f4xx_hal_msp.o
+      1272         82          0          0          0       5744   stm32f4xx_hal_rcc.o
+      1416         22          0          0          0       9796   stm32f4xx_hal_uart.o
+        86         30          0          0          0       5731   stm32f4xx_it.o
+        84         18         24          4          0       1207   system_stm32f4xx.o
+      3170        282          0         60        180      30050   tasks.o
+       930         78          0         20         40      11230   timers.o
+       104          6          0         28          0       7885   trckernelport.o
+        34          0          0          0          0       1093   trcstreamingport.o
+      2426        742          0        104       1712      29692   trcstreamingrecorder.o
+      1172        176          0         27       1616       9445   usart.o
 
     ----------------------------------------------------------------------
-     27688       2870       3500        504      23616    1041391   Object Totals
+     27688       2870       3500        504      23616    1047963   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         40          0          0          3          7          0   (incl. Padding)
 
@@ -3996,8 +3996,8 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     28984       2886       3500        504      23616    1018815   Grand Totals
-     28984       2886       3500         60      23616    1018815   ELF Image Totals (compressed)
+     28984       2886       3500        504      23616    1025387   Grand Totals
+     28984       2886       3500         60      23616    1025387   ELF Image Totals (compressed)
      28984       2886       3500         60          0          0   ROM Totals
 
 ==============================================================================
