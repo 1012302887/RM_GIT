@@ -109,7 +109,7 @@ void Gimbal_Param_Init(void)
 	
   /* yaw axis motor pid parameter */
   PID_struct_init(&pid_yaw, POSITION_PID, 1000, 1000,
-                  25,0, 0); //
+                  10,0, 0); //
   PID_struct_init(&pid_yaw_spd, POSITION_PID, 6000, 2000,
                   50, 0, 0);
 }
