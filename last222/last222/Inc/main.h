@@ -36,6 +36,7 @@
 #include "trcConfig.h"
 #include "Leg_Ctrl_Task.h"
 #include "Get_leg_Info.h"
+#include "qudan_api.h"
 /* USER CODE BEGIN Includes */
 extern osThreadId GET_LEG_INFHandle;
 extern osThreadId CAN_SEND_TASKHandle;

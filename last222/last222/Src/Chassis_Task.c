@@ -10,29 +10,48 @@ chassis_t chassis = {0};//储存底盘处理各项信息的结构体
 static float d_theta = 0;
 first_order_filter_type_t chassis_ref_first[4];
 /* 底盘定时任务*/
-int32_t ref1=0,ref2=0,ref3=0,ref4=0,fdb1=0,fdb2=0,fdb3=0,fdb4=0;
 void Chassis_Task(void const *argument)
 {
 //		printf("--%f--",InfantryJudge.remainPower);
 //	Ni_Ming(0xf1,gyro_data.yaw,gyro_data.yaw_angle,chassis.vw_offset,chassis.vw);
 //	Ni_Ming(0xf2, chassis.wheel_spd_ref[0],chassis.wheel_spd_ref[1],chassis.wheel_spd_fdb[0],chassis.wheel_spd_fdb[1]);
-
+	
+//	chassis.follow_gimbal = -gyro_data.yaw;
+//	
+//	/* run straight line with waist */
+//	if(chassis.follow_gimbal < 0){
+//		d_theta = chassis.follow_gimbal - 0;//rad
+//	}
+//	else if(chassis.follow_gimbal <= 0+ 180 ){
+//		d_theta = chassis.follow_gimbal - 0;
+//	}
+//	else if(chassis.follow_gimbal <= 360){
+//		d_theta = 360 - chassis.follow_gimbal + 0;
+//	}
+//	d_theta /= -57.295;
+//	
+//	chassis.vx = chassis.vx_offset * cos(d_theta) - chassis.vy_offset * sin(d_theta);
+//	chassis.vy = chassis.vx_offset * sin(d_theta) + chassis.vy_offset * cos(d_theta);
+	
 	chassis.vw =  chassis_pid_calc (&pid_rotate,gyro_data.yaw,chassis.vw_offset);
 
-	chassis.wheel_spd_ref[0] =  chassis.vx_offset - chassis.vy_offset +chassis.vw;
+	chassis.wheel_spd_ref[0] =   chassis.vx_offset - chassis.vy_offset + chassis.vw;
 	chassis.wheel_spd_ref[1] =  -chassis.vx_offset - chassis.vy_offset + chassis.vw;
 	chassis.wheel_spd_ref[2] =  -chassis.vx_offset + chassis.vy_offset + chassis.vw;
-	chassis.wheel_spd_ref[3] =  chassis.vx_offset + chassis.vy_offset + chassis.vw;
+	chassis.wheel_spd_ref[3] =   chassis.vx_offset + chassis.vy_offset + chassis.vw;
 	
 	if(chassis.stop == 1||leg_mode == leg_init_mode)
 	{
-						for(int i =0; i < 4; i++)
+		for(int i =0; i < 4; i++)
 		{
 			chassis.wheel_spd_ref[i] = 0;
 			chassis_leg.wheel_spd_ref[i]=0;
 		}
 		HAL_GPIO_WritePin(GPIOD,GPIO_PIN_7,GPIO_PIN_RESET);
 		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_7,GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOE,GPIO_PIN_0,GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOE,GPIO_PIN_1,GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOE,GPIO_PIN_2,GPIO_PIN_RESET);
 	}
 	
 	for(int i =0; i < 4; i++)
@@ -42,10 +61,6 @@ void Chassis_Task(void const *argument)
 //		/*滤波*/
 		chassis.current[i] = chassis_pid_calc(&pid_spd[i], chassis.wheel_spd_fdb[i], chassis.wheel_spd_ref[i]);//
 	} 
-//	ref1 = chassis.wheel_spd_ref[0]*100;ref2 = chassis.wheel_spd_ref[1]*100;
-//	ref3 = chassis.wheel_spd_ref[2]*100;ref4 = chassis.wheel_spd_ref[3]*100;
-//	fdb1 = chassis.wheel_spd_fdb[0]*100;fdb2= chassis.wheel_spd_fdb[1]*100;
-//	fdb3 = chassis.wheel_spd_fdb[2]*100;fdb4 = chassis.wheel_spd_fdb[3]*100;
 	
 	memcpy(glb_cur.chassis_cur, chassis.current, sizeof(chassis.current));
 	osSignalSet(CAN_SEND_TASKHandle, CHASSIS_MOTOR_MSG_SEND);
@@ -63,12 +78,12 @@ void Chassis_Param_Init(void)
 	ramp_init(&FBSpeedRamp, MOUSR_FB_RAMP_TICK_COUNT);
 	/* initializa chassis follow gimbal pid */
 		PID_struct_init(&pid_rotate, POSITION_PID, 27, 0, 
-	 1.9, 0, 0);//2.0
+	 1.8, 0, 0);//2.0
 	
 	 for (int k = 0; k < 4; k++)
   {
-    PID_struct_init(&pid_spd[k], POSITION_PID, 10000, 0,
-		300, 0, 0); 
+    PID_struct_init(&pid_spd[k], POSITION_PID, 8000, 0,
+		350, 0, 0); 
 		PID_struct_init(&pid_leg_spd[k], POSITION_PID, 8000, 0,
 		250, 0, 0); 
 	}

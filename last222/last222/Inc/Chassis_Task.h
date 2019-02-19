@@ -8,7 +8,7 @@
 #define WRITHE_SPEED_LIMIT					      30.0f/1.3f
 
 /* chassis speed ramp */
-#define MOUSR_LR_RAMP_TICK_COUNT		100
+#define MOUSR_LR_RAMP_TICK_COUNT		200
 #define MOUSR_FB_RAMP_TICK_COUNT		100
 
 
@@ -16,6 +16,8 @@ typedef struct
 {
   float           vx; // forward/back
   float           vy; // left/right
+	float           vy_foreword_leg; 
+	float           vy_back_leg; 
   float           vw; // rotate
   float        		vx_offset;
   float        		vy_offset; 

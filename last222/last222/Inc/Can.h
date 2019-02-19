@@ -106,8 +106,5 @@ void gyro_data_receive(GYRO_DATA* gyro,uint8_t Data[]);
 void send_fri_cur(int16_t a);
 extern moto_measure_t moto_chassis[];
 //extern shoot_moto_measure_t moto_friction[];
-extern moto_measure_t moto_yaw, moto_pit, moto_trigger;
-extern shoot_moto_measure_t moto_friction[2];
-extern moto_measure_t moto_trigger;
 extern GYRO_DATA gyro_data;
 #endif

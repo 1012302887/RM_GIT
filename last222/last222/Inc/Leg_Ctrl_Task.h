@@ -7,6 +7,8 @@ void Leg_Ctrl_Task(void const *argument);
 void Leg_task_init(void);
 void Leg_task_normal(void);
 extern uint8_t leg_mode;
+extern uint32_t handle_run_time;
+extern ramp_t LegSpeedRamp ;
 typedef enum
 {
 	leg_init_mode = 0,

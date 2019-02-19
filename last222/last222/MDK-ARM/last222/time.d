@@ -83,3 +83,4 @@ last222\time.o: ../Inc/JUDG_INFO.h
 last222\time.o: ../Inc/first_order_filter.h
 last222\time.o: ../Inc/Leg_Ctrl_Task.h
 last222\time.o: ../Inc/Get_leg_Info.h
+last222\time.o: ../Inc/qudan_api.h

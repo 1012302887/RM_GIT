@@ -72,6 +72,7 @@ last222\pid.o: ../Inc/JUDG_INFO.h
 last222\pid.o: ../Inc/first_order_filter.h
 last222\pid.o: ../Inc/Leg_Ctrl_Task.h
 last222\pid.o: ../Inc/Get_leg_Info.h
+last222\pid.o: ../Inc/qudan_api.h
 last222\pid.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h
 last222\pid.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 last222\pid.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h

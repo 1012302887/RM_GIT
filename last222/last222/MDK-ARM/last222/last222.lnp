@@ -36,6 +36,7 @@
 "last222\chassis_task.o"
 "last222\leg_ctrl_task.o"
 "last222\get_leg_info.o"
+"last222\qudan_api.o"
 "last222\ramp.o"
 "last222\can.o"
 "last222\usart.o"

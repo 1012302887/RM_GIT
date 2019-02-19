@@ -592,6 +592,16 @@
               <FileType>1</FileType>
               <FilePath>..\Src\Get_Leg_Info.c</FilePath>
             </File>
+            <File>
+              <FileName>qudan_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\qudan_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>qudan_api.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Inc\qudan_api.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
