@@ -36,11 +36,16 @@ void shoot_remote_handler(void)
 	if(shoot.fric.switching == ON)
 	{		
 		shoot.trig.delay++;
-		send_fri_cur(4400);
-			if(shoot.trig.delay > 800)
+		send_fri_cur(3750);
+			if(shoot.trig.delay > 1800)
 		{
 			shoot.trig.spd_ref = -12;
 		}
+	}
+	/* Ö»¿ª²¦ÅÌ*/
+	else if(shoot.fric.switching == OFF && RC_CtrlData.rc.s1==3)
+	{
+		shoot.trig.spd_ref = -12;
 	}
 	else
 	{	
