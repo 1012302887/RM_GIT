@@ -36,44 +36,14 @@ typedef __packed struct
 	Mouse mouse;
 	Key key;
 }RC_Ctl_t;
-typedef struct
+typedef struct TOF_MSG
 {
-	int16_t raw_yaw_angle;
-	int16_t raw_pit_angle;
-	
-	float filter_yaw;
-	float	filter_pit;
-	
-  float dynamic_yaw;
-	float dynamic_pit;
-	
-	uint16_t star_shoot;
-	uint16_t last_star_shoot;
-	uint16_t bug;
-	uint16_t last_bug;
-	
-	uint16_t time;
-	
-	float last_dynamic_yaw;
-	float last_dynamic_pit;
-	
-	float coordinate;
-	float coordinate_data[5];
-	float last_coordinate;
-	float last_coordinate_data[5];
-	
-	float last_times;
-	float now_times;
-	
-	float v_now;
-	float v_last;
-	float v_now_i;
-	
-	float	yaw_befoer[101];
-	float	pit_befoer[101];
-	uint8_t shoot_data;
-} pc_data_t;
-extern pc_data_t pc_data;
+	float Dist;
+	float Strength;
+	float Temp;
+	uint16_t Checksum;
+}TOF_MSG;
+extern TOF_MSG TOF_DATA;
 extern uint8_t Send_Pc_Data[4]; 
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart2;

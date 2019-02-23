@@ -1,6 +1,5 @@
 #include "main.h"
 #include "math.h"
-
 #if 1
 #pragma import(__use_no_semihosting)                     
 struct __FILE 
@@ -20,12 +19,11 @@ int fputc(int ch, FILE *f)
 	return ch;
 }
 #endif 
-
+TOF_MSG TOF_DATA;
+uint8_t tof_data[10];
 uint8_t rc_RxBuffer[RECEIVELEN];
 uint8_t Rx_data[8];
 RC_Ctl_t RC_CtrlData = {0};
-pc_data_t pc_data = {0};//
-uint8_t Send_Pc_Data[4]; 
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
 UART_HandleTypeDef huart3;
@@ -106,7 +104,6 @@ void MX_USART3_UART_Init(void)
 /* USART6 init function */
 void MX_USART6_UART_Init(void)
 {
-
 	huart6.Instance = USART6;
   huart6.Init.BaudRate = 115200;
   huart6.Init.WordLength = UART_WORDLENGTH_8B;
@@ -120,7 +117,7 @@ void MX_USART6_UART_Init(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 	SET_BIT(huart6.Instance->CR1, USART_CR1_IDLEIE);
-	HAL_UART_Receive_DMA(&huart6, (uint8_t *)Rx_data, RECEIVELEN);	
+	HAL_UART_Receive_DMA(&huart6, (uint8_t *)tof_data, RECEIVELEN);	
 }
 uint16_t	temp;
 void USART2_IRQHandler(void)
@@ -167,8 +164,7 @@ void USART3_IRQHandler(void)
       __HAL_DMA_ENABLE(huart3.hdmarx);
 } 
 
-extern uint32_t pc_i;
-float iii_,ooo_;
+
 void USART6_IRQHandler(void)
 {
 	if (__HAL_UART_GET_FLAG(&huart6, UART_FLAG_IDLE) && 
@@ -179,31 +175,14 @@ void USART6_IRQHandler(void)
       tmp--;
 			__HAL_DMA_DISABLE(huart6.hdmarx);
      	temp = huart6.hdmarx->Instance->NDTR; 
-			if((RECEIVELEN - temp) == 7)
+			if((RECEIVELEN - temp) == 9)
 			{
-				if(Rx_data[0]==0xaa && Rx_data[6]==0xbb)
+				if(tof_data[0]==0x59 && tof_data[1]==0x59)
 				{
-				  pc_data.raw_pit_angle = Rx_data[2]<<8 | Rx_data[1];  //pit
-					pc_data.raw_yaw_angle = Rx_data[4]<<8 | Rx_data[3];	 //yaw		
-					pc_data.dynamic_pit = (float)pc_data.raw_pit_angle / 100.0f; //pit动态角度
-					pc_data.dynamic_yaw = (float)pc_data.raw_yaw_angle / 100.0f; //yaw
-					pc_data.last_star_shoot = pc_data.star_shoot;
-					pc_data.star_shoot = Rx_data[5];   			
-						
-					/*********************滤波*******************************/
-//				pc_data.dynamic_yaw=Kalman_filter_calc(&zi_miao_kf[0],pc_data.dynamic_yaw);//
-//				pc_data.dynamic_pit=Kalman_filter_calc(&zi_miao_kf[1],pc_data.dynamic_pit);//	
-					iii_=Kalman_filter_calc(&zi_miao_kf[0],pc_data.dynamic_yaw);//
-					ooo_=Kalman_filter_calc(&zi_miao_kf[1],pc_data.dynamic_pit);//	
-					/*********************滤波*******************************/
-						
-					pc_data.last_times = pc_data.now_times;
-					pc_data.now_times = osKernelSysTick(); 
-					pc_data.last_dynamic_pit = pc_data.dynamic_pit;
-					pc_data.last_dynamic_yaw = pc_data.dynamic_yaw;
-						
-//					pc_data.dynamic_yaw += AUTOSHOOT_X_OFFSET;//偏移量
-						
+				 TOF_DATA.Dist = tof_data[2]|tof_data[3]<<8;
+				 TOF_DATA.Strength = tof_data[4]|tof_data[5];
+				 TOF_DATA.Temp = tof_data[6]|tof_data[7];
+				 TOF_DATA.Checksum = tof_data[8];//校验和和的低八位
 				}
 			}
 			 DMA2->LIFCR = DMA_FLAG_DMEIF1_5 | DMA_FLAG_FEIF1_5 | DMA_FLAG_HTIF1_5 | DMA_FLAG_TCIF1_5 | DMA_FLAG_TEIF1_5;

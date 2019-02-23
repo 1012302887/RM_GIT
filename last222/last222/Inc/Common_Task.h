@@ -10,6 +10,7 @@
 #define CHASSIS_MOTOR_MSG_SEND ( 1 << 7 )
 #define SHOOT_GET_SIGNAL       ( 1 << 8 )
 #define INFO_GET_SIGNAL   		 ( 1 << 9 )
+#define UP_LEG_COMMAND   		 		( 1 << 10 )
 
 typedef struct
 {

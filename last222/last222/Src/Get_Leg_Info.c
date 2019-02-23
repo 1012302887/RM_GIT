@@ -52,11 +52,7 @@ void keyboard_leg_hook(void)
 		}
 		if(RC_CtrlData.mouse.press_l == 1 && (handle_run_time - last_run_time)>=1000)
 		{
-//			while(Up_Leg_To_Box_Command());
-			Push_command();
-			Catch_command();
-//			Bounce_command();
-			last_run_time=handle_run_time;
+
 		}
 			/* ÕûÌåÉìËõ¿ØÖÆ*/
 		if(RC_CtrlData.key.v & R_KEY)

@@ -22,6 +22,7 @@ void Leg_Ctrl_Task(void const *argument)
 	} 
 		osSignalSet(CAN_SEND_TASKHandle, LEG_MOTOR_MSG_SEND);
 		osSignalSet(GET_LEG_INFHandle, LEG_INFO_GET_SIGNAL);
+	
 }
 void Leg_task_normal(void)
 {
