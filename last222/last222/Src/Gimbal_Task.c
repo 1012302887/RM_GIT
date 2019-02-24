@@ -51,7 +51,7 @@ void Gimbal_Task(void const * argument)
 
 	/* gimbal current out */
 	glb_cur.gimbal_cur[0] = pid_yaw_spd.out;
-	glb_cur.gimbal_cur[1] = pid_pit_spd.out;
+	glb_cur.gimbal_cur[1] = -pid_pit_spd.out;
 	glb_cur.gimbal_cur[2] = glb_cur.shoot_cur[2];
 //	glb_cur.gimbal_cur[2] = chassis_pid_calc(&pid_trigger_spd, shoot.trig.trig_spd, -shoot.trig.spd_ref);;
 	
@@ -103,13 +103,13 @@ void Gimbal_Param_Init(void)
 	/* pitch axis motor pid parameter */
 	
   PID_struct_init(&pid_pit, POSITION_PID, 1000, 1000,
-                  20, 0, 0); //30
+                  20, 0, 0); //20
   PID_struct_init(&pid_pit_spd, POSITION_PID, 6000, 2000,
-                 26, 0, 0); //60
+                 26, 0, 0); //26
 	
   /* yaw axis motor pid parameter */
   PID_struct_init(&pid_yaw, POSITION_PID, 1000, 1000,
-                  10,0, 0); //
+                  15,0, 0); //10
   PID_struct_init(&pid_yaw_spd, POSITION_PID, 6000, 2000,
-                  45, 0, 0);
+                  45, 0, 0);//45
 }

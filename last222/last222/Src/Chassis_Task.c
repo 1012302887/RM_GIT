@@ -18,7 +18,7 @@ void Chassis_Task(void const *argument)
 //	pid_rotate.p=0;//¹Ø±Õµ×ÅÌ¸úËæ
 //		printf("--%f--",InfantryJudge.remainPower);
 //	USART6_Transmit();
-	Ni_Ming(0xf1,chassis.wheel_spd_fdb[0],chassis.wheel_spd_fdb[1],chassis.wheel_spd_fdb[2],chassis.wheel_spd_fdb[3]);
+	Ni_Ming(0xf1,-(gim.pid.pit_angle_ref),gim.pid.pit_angle_fdb,pid_pit.out,pid_pit_spd.out);
 //	Ni_Ming(0xf2, chassis.wheel_spd_ref[0],chassis.wheel_spd_ref[1],chassis.wheel_spd_ref[2],chassis.wheel_spd_ref[3]);
 	if(gim.ctrl_mode == GIMBAL_INIT)//chassis dose not follow gimbal when gimbal initializa
 	{
