@@ -169,6 +169,7 @@ void USART3_IRQHandler(void)
 
 extern uint32_t pc_i;
 float iii_,ooo_;
+uint32_t rec_pc_time,last_rec_pc_time,pc_time_diff;
 void USART6_IRQHandler(void)
 {
 	if (__HAL_UART_GET_FLAG(&huart6, UART_FLAG_IDLE) && 
@@ -183,6 +184,12 @@ void USART6_IRQHandler(void)
 			{
 				if(Rx_data[0]==0xaa && Rx_data[6]==0xbb)
 				{
+					
+//					last_rec_pc_time = rec_pc_time;
+//					rec_pc_time = HAL_GetTick();
+//					pc_time_diff = rec_pc_time-last_rec_pc_time;
+					printf("--%d--",HAL_GetTick());
+					
 				  pc_data.raw_pit_angle = Rx_data[2]<<8 | Rx_data[1];  //pit
 					pc_data.raw_yaw_angle = Rx_data[4]<<8 | Rx_data[3];	 //yaw		
 					pc_data.dynamic_pit = (float)pc_data.raw_pit_angle / 100.0f; //pit¶¯Ì¬½Ç¶È

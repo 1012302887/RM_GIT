@@ -43,7 +43,7 @@ void shoot_remote_handler(void)
 		}
 	}
 	/* Ö»¿ª²¦ÅÌ*/
-	else if(shoot.fric.switching == OFF && RC_CtrlData.rc.s1==3)
+	else if((shoot.fric.switching == OFF)&&RC_CtrlData.rc.s1==3)
 	{
 		shoot.trig.spd_ref = -12;
 	}

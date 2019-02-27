@@ -12,6 +12,7 @@ extern osThreadId GET_GIMBAL_INFOHandle;
 extern osThreadId CAN_SEND_TASKHandle;
 void Gimbal_Task(void const * argument)
 {
+	USART6_Transmit();
 	handler_run_time++;
 //	gimbal_time_ms = HAL_GetTick() - gimbal_time_last;
 //	gimbal_time_last = HAL_GetTick();
@@ -103,13 +104,13 @@ void Gimbal_Param_Init(void)
 	/* pitch axis motor pid parameter */
 	
   PID_struct_init(&pid_pit, POSITION_PID, 1000, 1000,
-                  20, 0, 0); //20
+                  18, 0, 0); //20
   PID_struct_init(&pid_pit_spd, POSITION_PID, 6000, 2000,
-                 26, 0, 0); //26
+                 28, 0, 0); //26
 	
   /* yaw axis motor pid parameter */
   PID_struct_init(&pid_yaw, POSITION_PID, 1000, 1000,
-                  15,0, 0); //10
+                  17,0, 0); //10
   PID_struct_init(&pid_yaw_spd, POSITION_PID, 6000, 2000,
                   45, 0, 0);//45
 }
