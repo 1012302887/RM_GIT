@@ -2,17 +2,13 @@
 #include "arm_math.h"
 #define FPU_COS arm_cos_f32
 #define FPU_SIN arm_sin_f32
-float dipan_fdb_KF[4];
-extern float iii_,ooo_;
 /* chassis task global parameter */
 ramp_t FBSpeedRamp = RAMP_GEN_DAFAULT;
 ramp_t LRSpeedRamp = RAMP_GEN_DAFAULT;
 chassis_t chassis = {0};//储存底盘处理各项信息的结构体
-first_order_filter_type_t chassis_fdb_first[4];
 static float d_theta = 0;
 extern osThreadId CAN_SEND_TASKHandle;
 extern osThreadId GET_CHASSIS_INFHandle;
-float chassis_spd_fdb[4];
 /* 底盘定时任务*/
 void Chassis_Task(void const *argument)
 {
@@ -88,11 +84,6 @@ void Chassis_Task(void const *argument)
 	
 	for(int i =0; i < 4; i++)
 	{
-		/*滤波*/
-		first_order_filter_cali(&chassis_fdb_first[i],chassis.wheel_spd_fdb[i]);
-//	chassis.wheel_spd_fdb[i]=chassis_fdb_first[i].out;
-		chassis_spd_fdb[i]=chassis_fdb_first[i].out;
-		/*滤波*/
 		chassis.current[i] = chassis_pid_calc(&pid_spd[i], chassis.wheel_spd_fdb[i], chassis.wheel_spd_ref[i]);//
 	}
 	
@@ -119,9 +110,5 @@ void Chassis_Param_Init(void)
   {
     PID_struct_init(&pid_spd[k], POSITION_PID, 8000, 0,
 		580, 0, 0); 
-	}
-	for (int k = 0; k < 4; k++)
-  {
-    first_order_filter_init(&chassis_fdb_first[k],0.004,0.005);
 	}
 }

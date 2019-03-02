@@ -77,7 +77,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //		}
 	}
 }
-uint32_t Get_us(void)
+uint32_t Get_ms(void)
 {	
 	return tim3_count;
 }
