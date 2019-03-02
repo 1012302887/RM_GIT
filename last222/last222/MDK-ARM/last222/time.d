@@ -1,4 +1,5 @@
 last222\time.o: ..\Src\Time.c
+last222\time.o: ../Inc/Time.h
 last222\time.o: ../Inc/main.h
 last222\time.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h
 last222\time.o: ../Drivers/CMSIS/Include/core_cm4.h
@@ -32,6 +33,7 @@ last222\time.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
 last222\time.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 last222\time.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 last222\time.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
+last222\time.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_usart.h
 last222\time.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 last222\time.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 last222\time.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
@@ -81,3 +83,4 @@ last222\time.o: ../Inc/Kalman.h
 last222\time.o: ../Inc/REG_DMA.h
 last222\time.o: ../Inc/JUDG_INFO.h
 last222\time.o: ../Inc/first_order_filter.h
+last222\time.o: ../Inc/Time.h

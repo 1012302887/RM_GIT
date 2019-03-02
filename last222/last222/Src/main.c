@@ -4,7 +4,6 @@ extern osTimerId gimbal_timer_id;
 extern void FreeRtos_Init(void);
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
-int32_t buf[1024];
 int main(void)
 {
   HAL_Init();
@@ -21,6 +20,7 @@ int main(void)
 	MX_USART3_UART_Init();
 	MX_USART6_UART_Init();
   //MX_TIM9_Init();
+	MX_TIM3_Init();
 	Chassis_Param_Init();
 	Gimbal_Param_Init();
 	Shoot_Param_Init();

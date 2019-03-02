@@ -4,6 +4,9 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f407xx.h"
 #include "stm32f4xx_hal.h"
+#include "stm32f4xx_hal_uart.h"
+#include "stm32f4xx_hal_dma.h"
+#include "stm32f4xx_hal_tim.h"
 #include "cmsis_os.h"
 #include "FreeRTOS.h"
 #include "task.h"
@@ -11,8 +14,6 @@
 #include "arm_math.h"
 #include "stdio.h"
 #include "string.h"
-#include "stm32f4xx_hal_uart.h"
-#include "stm32f4xx_hal_dma.h"
 #include "Mode_Switch_Task.h"
 #include "Ramp.h"
 #include "Can_Send_Task.h"
@@ -34,6 +35,7 @@
 #include "JUDG_INFO.h"
 #include "first_order_filter.h"
 #include "trcConfig.h"
+#include "Time.h"
 /* USER CODE BEGIN Includes */
 /* USER CODE END Includes */
 

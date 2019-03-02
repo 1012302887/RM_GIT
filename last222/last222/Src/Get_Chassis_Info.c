@@ -17,25 +17,24 @@ void Get_Chassis_Info(void const * argument)
 		event = osSignalWait(INFO_GET_SIGNAL,osWaitForever);
 		if(event.value.signals & INFO_GET_SIGNAL)
 	   {	
-			 taskENTER_CRITICAL();
+					taskENTER_CRITICAL();
 			 
 					/* get gimbal and chassis relative angle */
-					chassis.follow_gimbal = moto_yaw.total_angle;   
+//					chassis.follow_gimbal = moto_yaw.total_angle;   
 					/* get chassis wheel fdb speed */
-					for (uint8_t i = 0; i < 4; i++)
-					 {
-							chassis.wheel_spd_fdb[i] = moto_chassis[i].speed_rpm*0.10472/19.0;//W=2*PI*N
-					 }
-					 
-					 if((InfantryJudge.remainPower > 60) || (InfantryJudge.remainPower < 0))
-					 {InfantryJudge.remainPower = 0;}
-					chassis.power_surplus = InfantryJudge.remainPower / 60;
-					 
-					/* get remote and keyboard chassis control information */
-					keyboard_chassis_hook();
-					remote_ctrl_chassis_hook();
-				
-			taskEXIT_CRITICAL();
+				for (uint8_t i = 0; i < 4; i++)
+				 {
+						chassis.wheel_spd_fdb[i] = moto_chassis[i].speed_rpm*0.10472/19.0;//W=2*PI*N
+				 }
+				 
+				 if((InfantryJudge.remainPower > 60) || (InfantryJudge.remainPower < 0))
+				 {InfantryJudge.remainPower = 0;}
+				chassis.power_surplus = InfantryJudge.remainPower / 60;
+				 
+				/* get remote and keyboard chassis control information */
+				keyboard_chassis_hook();
+				remote_ctrl_chassis_hook();
+				taskEXIT_CRITICAL();
      }
 		}
 }

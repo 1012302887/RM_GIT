@@ -27,29 +27,29 @@ void Chassis_Task(void const *argument)
 	}
 	else if(gim.ctrl_mode == GIMBAL_NORMAL)
 	{
-		chassis.vw = pid_calc(&pid_rotate, chassis.follow_gimbal, 0); //chassis.follow_gimbal = moto_yaw.total_angle
+		chassis.vw = pid_calc(&pid_rotate, moto_yaw.total_angle, 0); //chassis.follow_gimbal = moto_yaw.total_angle
 	}
 	
 	else if(gim.ctrl_mode == GIMBAL_WRITHE)
 	{
 		if((chassis.vx_offset == 0) && (chassis.vy_offset == 0))
 		{
-			if(chassis.follow_gimbal > 20)
+			if(moto_yaw.total_angle> 20)
 			{
-				chassis.writhe_speed_fac =  1;
+				 moto_yaw.total_angle =  1;
 			}
-			else if(chassis.follow_gimbal < -20)
+			else if( moto_yaw.total_angle < -20)
 			{
-				chassis.writhe_speed_fac =  -1;
+				 moto_yaw.total_angle =  -1;
 			}
 		}
 		else
 		{
-			if(chassis.follow_gimbal > 35)
+			if(moto_yaw.total_angle > 35)
 			{
 				chassis.writhe_speed_fac =  1;
 			}
-			else if(chassis.follow_gimbal < -35)
+			else if(moto_yaw.total_angle < -35)
 			{
 				chassis.writhe_speed_fac =  -1;
 			}
@@ -57,17 +57,15 @@ void Chassis_Task(void const *argument)
 		chassis.vw = pid_calc(&pid_rotate, chassis.writhe_speed_fac * 27, 0);
 	}
 	
-//	chassis.follow_gimbal = moto_yaw.total_angle;
-	
-/* run straight line with waist */
-	if(chassis.follow_gimbal < 0){
-		d_theta = chassis.follow_gimbal - 0;
+		/* run straight line with waist */
+	if(moto_yaw.total_angle < 0){
+		d_theta =  moto_yaw.total_angle - 0;
 	}
-	else if(chassis.follow_gimbal <= 0+ 180 ){
-		d_theta = chassis.follow_gimbal - 0;
+	else if(moto_yaw.total_angle <= 0+ 180 ){
+		d_theta =  moto_yaw.total_angle - 0;
 	}
-	else if(chassis.follow_gimbal <= 360){
-		d_theta = 360 - chassis.follow_gimbal + 0;
+	else if(moto_yaw.total_angle <= 360){
+		d_theta = 360 -  moto_yaw.total_angle + 0;
 	}
 	d_theta /= -57.295;
 	
@@ -97,7 +95,6 @@ void Chassis_Task(void const *argument)
 		/*ÂË²¨*/
 		chassis.current[i] = chassis_pid_calc(&pid_spd[i], chassis.wheel_spd_fdb[i], chassis.wheel_spd_ref[i]);//
 	}
-	Ni_Ming(0xf1,chassis.wheel_spd_fdb[0],chassis.wheel_spd_fdb[1],chassis.wheel_spd_fdb[2],chassis.wheel_spd_fdb[3]);
 	
 	memcpy(glb_cur.chassis_cur, chassis.current, sizeof(chassis.current));
 	osSignalSet(CAN_SEND_TASKHandle, CHASSIS_MOTOR_MSG_SEND);
