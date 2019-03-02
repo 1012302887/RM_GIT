@@ -12,13 +12,14 @@ first_order_filter_type_t chassis_fdb_first[4];
 static float d_theta = 0;
 extern osThreadId CAN_SEND_TASKHandle;
 extern osThreadId GET_CHASSIS_INFHandle;
+float chassis_spd_fdb[4];
 /* µ×ÅÌ¶¨Ê±ÈÎÎñ*/
 void Chassis_Task(void const *argument)
 {
 //	pid_rotate.p=0;//¹Ø±Õµ×ÅÌ¸úËæ
 //		printf("--%f--",InfantryJudge.remainPower);
-//	USART6_Transmit();
-//	Ni_Ming(0xf1,gyro_data.raw_yaw,gyro_data.raw_pitch,pid_pit.out,pid_pit_spd.out);
+//		USART6_Transmit();
+//		Ni_Ming(0xf1,gyro_data.raw_yaw,gyro_data.raw_pitch,glb_cur.gimbal_cur[0],glb_cur.gimbal_cur[1]);
 //	Ni_Ming(0xf2, chassis.wheel_spd_ref[0],chassis.wheel_spd_ref[1],chassis.wheel_spd_ref[2],chassis.wheel_spd_ref[3]);
 	if(gim.ctrl_mode == GIMBAL_INIT)//chassis dose not follow gimbal when gimbal initializa
 	{
@@ -89,12 +90,14 @@ void Chassis_Task(void const *argument)
 	
 	for(int i =0; i < 4; i++)
 	{
-//		/*ÂË²¨*/
-//		first_order_filter_cali(&chassis_fdb_first[i],chassis.wheel_spd_fdb[i]);
-//		chassis.wheel_spd_fdb[i]=chassis_fdb_first[i].out;
-//		/*ÂË²¨*/
+		/*ÂË²¨*/
+		first_order_filter_cali(&chassis_fdb_first[i],chassis.wheel_spd_fdb[i]);
+//	chassis.wheel_spd_fdb[i]=chassis_fdb_first[i].out;
+		chassis_spd_fdb[i]=chassis_fdb_first[i].out;
+		/*ÂË²¨*/
 		chassis.current[i] = chassis_pid_calc(&pid_spd[i], chassis.wheel_spd_fdb[i], chassis.wheel_spd_ref[i]);//
 	}
+	Ni_Ming(0xf1,chassis.wheel_spd_fdb[0],chassis.wheel_spd_fdb[1],chassis.wheel_spd_fdb[2],chassis.wheel_spd_fdb[3]);
 	
 	memcpy(glb_cur.chassis_cur, chassis.current, sizeof(chassis.current));
 	osSignalSet(CAN_SEND_TASKHandle, CHASSIS_MOTOR_MSG_SEND);
@@ -112,8 +115,8 @@ void Chassis_Param_Init(void)
 	ramp_init(&FBSpeedRamp, MOUSR_FB_RAMP_TICK_COUNT);
 	
 	/* initializa chassis follow gimbal pid */
-		PID_struct_init(&pid_rotate, POSITION_PID, 38, 0, 
-	 2, 0, 0);//2.0
+		PID_struct_init(&pid_rotate, POSITION_PID, 33, 0, 
+	 1.8, 0, 0);//2.0
 	
 	 for (int k = 0; k < 4; k++)
   {

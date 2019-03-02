@@ -78,16 +78,16 @@ void keyboard_gimbal_hook(void)
 			/* 自瞄部分 */
 			if(auto_shoot == 1&&Rx_data[5]==1)
 			{	
-				pid_yaw.p = 13;
-				pid_yaw_spd.p = 35;
+//				pid_yaw.p = 13;
+//				pid_yaw_spd.p = 35;
 				if(RC_CtrlData.key.v & Q_KEY)      {add_angle += 0.01f;}
 				else if(RC_CtrlData.key.v & E_KEY ) {add_angle -= 0.01f;}
 				else {add_angle = 0;}
 //				gim.pid.yaw_angle_ref  = pc_data.dynamic_yaw-RC_CtrlData.mouse.x*0.2f+add_angle;	
-//					gim.pid.pit_angle_ref = -( gim.sensor.pit_relative_angle + pc_data.dynamic_pit);
+					gim.pid.pit_angle_ref = -( gim.sensor.pit_relative_angle + pc_data.dynamic_pit);
 					gim.pid.yaw_angle_ref = gim.sensor.yaw_relative_angle + pc_data.dynamic_yaw+add_angle;
-//				gim.pid.yaw_angle_ref = pc_data.yaw_befoer[(pc_i+1)%50] + pc_data.dynamic_yaw;
-				  gim.pid.pit_angle_ref = pc_data.dynamic_pit;
+//					gim.pid.yaw_angle_ref = pc_data.yaw_befoer[(pc_i+1)%50] + pc_data.dynamic_yaw;
+//				  gim.pid.pit_angle_ref = pc_data.dynamic_pit;
 			}
 			/* 自瞄部分 */
 			else if(gim.ctrl_mode == GIMBAL_SUPPLY)
@@ -105,8 +105,8 @@ void keyboard_gimbal_hook(void)
 		/* 正常模式 */
 		else 
 			{
-				pid_yaw.p = 17;
-				pid_yaw_spd.p = 45;
+//				pid_yaw.p = 17;
+//				pid_yaw_spd.p = 45;
 				pc_data.v_now_i = 0;
 				gim.pid.yaw_angle_ref -= RC_CtrlData.mouse.x * MOUSE_TO_YAW_ANGLE_INC_FACT  ;//+ shoot_buff_data.dynamic_yaw * 0.015f;
 				gim.pid.pit_angle_ref += RC_CtrlData.mouse.y * MOUSE_TO_PITCH_ANGLE_INC_FACT ;//+ shoot_buff_data.dynamic_pit * 0.015f;

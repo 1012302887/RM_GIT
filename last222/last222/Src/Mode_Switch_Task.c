@@ -25,7 +25,7 @@ void Mode_Switch_Task(void const * argument)
 	}//pit电机初始值，需要自行修改。
 	#endif
 	//启动定时器任务，指定定时时间（毫秒）
-	osTimerStart(chassis_timer_id ,4);
+	osTimerStart(chassis_timer_id ,2);
 	osTimerStart(gimbal_timer_id  ,1);
 	osTimerStart(shoot_timer_id  ,3);
 	uint32_t mode_wake_time = osKernelSysTick();

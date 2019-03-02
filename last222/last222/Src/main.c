@@ -8,22 +8,23 @@ int32_t buf[1024];
 int main(void)
 {
   HAL_Init();
-	HAL_Delay(1500);
+	HAL_Delay(800);
   SystemClock_Config();
   MX_GPIO_Init();
 	MX_DMA_Init();
 	MX_USART1_UART_Init();
 	MX_CAN1_Init();
   MX_CAN2_Init();
+	send_Gyro(0x30,1000);//校准陀螺仪
+	HAL_Delay(3000);
   MX_USART2_UART_Init();
 	MX_USART3_UART_Init();
 	MX_USART6_UART_Init();
   //MX_TIM9_Init();
-	Gimbal_Param_Init();
 	Chassis_Param_Init();
+	Gimbal_Param_Init();
 	Shoot_Param_Init();
 	MYDMA_Config(DMA2_Stream7,4,(uint32_t)&USART1->DR,(uint32_t)send_buf,21);
-//	send_Gyro(0x30,1000);//校准陀螺仪
 //	SEGGER_RTT_ConfigUpBuffer(1,"JScope_t4",buf,2048,SEGGER_RTT_MODE_NO_BLOCK_SKIP);
 //	MYDMA_Config(DMA2_Stream6,5,(uint32_t)&USART6->DR,(uint32_t)SEND_DATA,7);
 //	vTraceEnable(TRC_START);
@@ -31,7 +32,7 @@ int main(void)
 	osKernelStart();
   while (1)
   {
-		
+//		send_gimbal_cur(-2000,0,0);
   }
 }
 

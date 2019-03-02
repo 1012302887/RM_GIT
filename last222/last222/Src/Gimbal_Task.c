@@ -12,7 +12,7 @@ extern osThreadId GET_GIMBAL_INFOHandle;
 extern osThreadId CAN_SEND_TASKHandle;
 void Gimbal_Task(void const * argument)
 {
-	USART6_Transmit();
+//	USART6_Transmit();
 	handler_run_time++;
 //	gimbal_time_ms = HAL_GetTick() - gimbal_time_last;
 //	gimbal_time_last = HAL_GetTick();
@@ -66,10 +66,10 @@ void init_mode_handler(void)
   gim.pid.yaw_angle_fdb = gim.sensor.yaw_relative_angle;
 	gim.pid.pit_angle_ref = 0;
 	gim.pid.yaw_angle_ref = 0;
-//	send_Gyro(0x30,1000);//校准陀螺仪
-		if(handler_run_time > 4000)
+// send_Gyro(0x30,1000);//校准陀螺仪
+	if(handler_run_time > 3000)
 	{
-//		send_Gyro(0x30,1000);//校准陀螺仪
+// send_Gyro(0x30,1000);//校准陀螺仪
 		gim.ctrl_mode = GIMBAL_NORMAL;
 	}
 }
@@ -106,11 +106,14 @@ void Gimbal_Param_Init(void)
   PID_struct_init(&pid_pit, POSITION_PID, 1000, 1000,
                   18, 0, 0); //20
   PID_struct_init(&pid_pit_spd, POSITION_PID, 6000, 2000,
-                 28, 0, 0); //26
+                 26, 0, 0); //26
 	
   /* yaw axis motor pid parameter */
   PID_struct_init(&pid_yaw, POSITION_PID, 1000, 1000,
-                  17,0, 0); //10
+                  10,0, 0); //10
   PID_struct_init(&pid_yaw_spd, POSITION_PID, 6000, 2000,
-                  45, 0, 0);//45
+                  30, 0, 0);//45
+									///////DEBUG//////
+//	pid_pit.p=5;pid_pit_spd.p=5;pid_yaw.p=5;pid_yaw_spd.p=5;
+	
 }
