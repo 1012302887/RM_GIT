@@ -310,7 +310,6 @@ void HAL_UART_MspInit(UART_HandleTypeDef* huart)
     {
       _Error_Handler(__FILE__, __LINE__);
     }
-
     __HAL_LINKDMA(huart,hdmarx,hdma_usart2_rx);
 
     HAL_NVIC_SetPriority(USART2_IRQn, 5, 0);

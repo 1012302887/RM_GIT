@@ -9,14 +9,23 @@ chassis_t chassis = {0};//储存底盘处理各项信息的结构体
 static float d_theta = 0;
 extern osThreadId CAN_SEND_TASKHandle;
 extern osThreadId GET_CHASSIS_INFHandle;
+	float sin_yaw = 0.0f, cos_yaw = 0.0f;
+	//摇摆角度是利用sin函数生成，swing_time 是sin函数的输入值
+	static float swing_time = 0.0f;
+	//swing_time 是计算出来的角度
+	static float swing_angle = 0.0f;
+	//max_angle 是sin函数的幅值
+	static float max_angle = 45;//摇摆原地不动摇摆最大角度(度)
+	//add_time 是摇摆角度改变的快慢，最大越快
+	static float const add_time = PI / 250.0f;
 /* 底盘定时任务*/
 void Chassis_Task(void const *argument)
 {
 //	pid_rotate.p=0;//关闭底盘跟随
 //		printf("--%f--",InfantryJudge.remainPower);
 //		USART6_Transmit();
-//		Ni_Ming(0xf1,gyro_data.raw_yaw,gyro_data.raw_pitch,glb_cur.gimbal_cur[0],glb_cur.gimbal_cur[1]);
-//	Ni_Ming(0xf2, chassis.wheel_spd_ref[0],chassis.wheel_spd_ref[1],chassis.wheel_spd_ref[2],chassis.wheel_spd_ref[3]);
+//	Ni_Ming(0xf1,1,2,3,4);
+//	Ni_Ming(0xf2, 5,6,7,8);
 	if(gim.ctrl_mode == GIMBAL_INIT)//chassis dose not follow gimbal when gimbal initializa
 	{
 		chassis.vw = 0;
@@ -28,29 +37,39 @@ void Chassis_Task(void const *argument)
 	
 	else if(gim.ctrl_mode == GIMBAL_WRITHE)
 	{
-		if((chassis.vx_offset == 0) && (chassis.vy_offset == 0))
+//		if((chassis.vx_offset == 0) && (chassis.vy_offset == 0))
+//		{
+//			if(moto_yaw.total_angle> 20)
+//			{
+//				 moto_yaw.total_angle =  1;
+//			}
+//			else if( moto_yaw.total_angle < -20)
+//			{
+//				 moto_yaw.total_angle =  -1;
+//			}
+//		}
+//		else
+//		{
+//			if(moto_yaw.total_angle > 35)
+//			{
+//				chassis.writhe_speed_fac =  1;
+//			}
+//			else if(moto_yaw.total_angle < -35)
+//			{
+//				chassis.writhe_speed_fac =  -1;
+//			}
+//		}	
+//		chassis.vw = pid_calc(&pid_rotate, chassis.writhe_speed_fac * 27, 0);
+
+		//sin函数生成控制角度
+		swing_angle = max_angle * arm_sin_f32(swing_time);
+		swing_time += add_time;
+		//sin函数不超过2pi
+		if (swing_time > 2 * PI)
 		{
-			if(moto_yaw.total_angle> 20)
-			{
-				 moto_yaw.total_angle =  1;
-			}
-			else if( moto_yaw.total_angle < -20)
-			{
-				 moto_yaw.total_angle =  -1;
-			}
+				swing_time -= 2 * PI;
 		}
-		else
-		{
-			if(moto_yaw.total_angle > 35)
-			{
-				chassis.writhe_speed_fac =  1;
-			}
-			else if(moto_yaw.total_angle < -35)
-			{
-				chassis.writhe_speed_fac =  -1;
-			}
-		}	
-		chassis.vw = pid_calc(&pid_rotate, chassis.writhe_speed_fac * 27, 0);
+		chassis.vw = pid_calc(&pid_rotate, moto_yaw.total_angle, swing_angle);
 	}
 	
 		/* run straight line with waist */

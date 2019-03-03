@@ -14,8 +14,8 @@ int main(void)
 	MX_USART1_UART_Init();
 	MX_CAN1_Init();
   MX_CAN2_Init();
-	send_Gyro(0x30,1000);//校准陀螺仪
-	HAL_Delay(3000);
+//	send_Gyro(0x30,1000);//校准陀螺仪
+//	HAL_Delay(3000);
   MX_USART2_UART_Init();
 	MX_USART3_UART_Init();
 	MX_USART6_UART_Init();
