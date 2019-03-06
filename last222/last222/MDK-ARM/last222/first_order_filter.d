@@ -77,7 +77,6 @@ last222\first_order_filter.o: ../Inc/NI_MING.h
 last222\first_order_filter.o: ../Inc/Get_Shoot_Info.h
 last222\first_order_filter.o: ../Inc/Shoot_Task.h
 last222\first_order_filter.o: ../Inc/Keyboard.h
-last222\first_order_filter.o: ../Inc/Car_num.h
 last222\first_order_filter.o: ../Inc/Kalman.h
 last222\first_order_filter.o: ../Inc/REG_DMA.h
 last222\first_order_filter.o: ../Inc/JUDG_INFO.h

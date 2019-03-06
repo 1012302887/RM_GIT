@@ -23,7 +23,7 @@ void get_gimbal_info(void)
 	gyro_data.yaw = Kalman_filter_calc(&GIMBAL_KF[1],gyro_data.yaw);////////////////////
 	gyro_data.v_x	= Kalman_filter_calc(&GIMBAL_KF[2],gyro_data.v_x);//////////////////////////
 	gyro_data.pitch = Kalman_filter_calc(&GIMBAL_KF[3],gyro_data.pitch);////////////////////
-		if(gim.ctrl_mode == GIMBAL_INIT)
+	if(gim.ctrl_mode == GIMBAL_INIT)
 	{
 		/* get gimbal relative angle */
 		#if (CAR_NUM==1)//不同小车，需要修改
@@ -34,13 +34,16 @@ void get_gimbal_info(void)
 		#endif				
 		gim.sensor.yaw_relative_angle = moto_yaw.total_angle * ramp_calc(&yaw_ramp);
 		gim.sensor.pit_relative_angle = gyro_data.pitch * ramp_calc(&pit_ramp);
-		
+				
 		gim.sensor.yaw_offset_angle   = gyro_data.yaw;
 	}
 	else if((gim.ctrl_mode == GIMBAL_NORMAL) || (gim.ctrl_mode == GIMBAL_WRITHE))
 	{
 		gim.sensor.yaw_relative_angle = gyro_data.yaw   - gim.sensor.yaw_offset_angle;
 		gim.sensor.pit_relative_angle = gyro_data.pitch;
+			/* gimbal pid and yaw speed pid */
+		gim.pid.yaw_spd_fdb = gyro_data.v_z;
+		gim.pid.pit_spd_fdb = gyro_data.v_x;
 		
 		ramp_init(&pit_ramp, PIT_PREPARE_TIMS_MS);
 		ramp_init(&yaw_ramp, YAW_PREPARE_TIMS_MS);
@@ -177,7 +180,7 @@ void GimbalAngleLimit(void)
 	}
 	else
 	{
-		VAL_LIMIT(gim.pid.pit_angle_ref, -13 ,24);
+		VAL_LIMIT(gim.pid.pit_angle_ref, -16 ,26);
 	}
 	VAL_LIMIT(gim.pid.yaw_angle_ref, gim.sensor.yaw_relative_angle-30, gim.sensor.yaw_relative_angle+30);  
 }

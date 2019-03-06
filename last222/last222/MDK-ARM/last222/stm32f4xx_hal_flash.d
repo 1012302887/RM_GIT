@@ -65,7 +65,6 @@ last222\stm32f4xx_hal_flash.o: ../Inc/NI_MING.h
 last222\stm32f4xx_hal_flash.o: ../Inc/Get_Shoot_Info.h
 last222\stm32f4xx_hal_flash.o: ../Inc/Shoot_Task.h
 last222\stm32f4xx_hal_flash.o: ../Inc/Keyboard.h
-last222\stm32f4xx_hal_flash.o: ../Inc/Car_num.h
 last222\stm32f4xx_hal_flash.o: ../Inc/Kalman.h
 last222\stm32f4xx_hal_flash.o: ../Inc/REG_DMA.h
 last222\stm32f4xx_hal_flash.o: ../Inc/JUDG_INFO.h

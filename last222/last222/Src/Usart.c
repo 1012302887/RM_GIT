@@ -33,6 +33,7 @@ UART_HandleTypeDef huart6;
 DMA_HandleTypeDef hdma_usart2_rx;
 DMA_HandleTypeDef hdma_usart6_rx;
 DMA_HandleTypeDef hdma_usart3_rx;
+DMA_HandleTypeDef hdma_usart6_tx;
 /** 
   * Enable DMA controller clock
   */
@@ -168,7 +169,6 @@ void USART3_IRQHandler(void)
 } 
 
 extern uint32_t pc_i;
-float iii_,ooo_;
 uint32_t rec_pc_time,last_rec_pc_time,pc_time_diff;
 void USART6_IRQHandler(void)
 {
@@ -188,8 +188,9 @@ void USART6_IRQHandler(void)
 //					last_rec_pc_time = rec_pc_time;
 //					rec_pc_time = HAL_GetTick();
 //					pc_time_diff = rec_pc_time-last_rec_pc_time;
-					printf("--%d--",HAL_GetTick());
-					
+//					
+//					printf("--%d--",pc_time_diff);
+			
 				  pc_data.raw_pit_angle = Rx_data[2]<<8 | Rx_data[1];  //pit
 					pc_data.raw_yaw_angle = Rx_data[4]<<8 | Rx_data[3];	 //yaw		
 					pc_data.dynamic_pit = (float)pc_data.raw_pit_angle / 100.0f; //pit¶¯Ì¬½Ç¶È
@@ -200,8 +201,6 @@ void USART6_IRQHandler(void)
 					/*********************ÂË²¨*******************************/
 //				pc_data.dynamic_yaw=Kalman_filter_calc(&zi_miao_kf[0],pc_data.dynamic_yaw);//
 //				pc_data.dynamic_pit=Kalman_filter_calc(&zi_miao_kf[1],pc_data.dynamic_pit);//	
-					iii_=Kalman_filter_calc(&zi_miao_kf[0],pc_data.dynamic_yaw);//
-					ooo_=Kalman_filter_calc(&zi_miao_kf[1],pc_data.dynamic_pit);//	
 					/*********************ÂË²¨*******************************/
 						
 					pc_data.last_times = pc_data.now_times;
@@ -225,7 +224,7 @@ void USART6_Transmit(void)
 	SEND_DATA[0]= 0xaa ;SEND_DATA[6]= 0xbb ;SEND_DATA[1]= (int16_t)(gyro_data.pitch*100)>>8;
 	SEND_DATA[2]= (int16_t)(gyro_data.pitch*100)&0xFF;SEND_DATA[3]=(int16_t)(gyro_data.yaw*100)>>8;
 	SEND_DATA[4]= (int16_t)(gyro_data.yaw*100)&0xFF;
-	HAL_UART_Transmit(&huart6,SEND_DATA,7,20);
+	HAL_UART_Transmit_DMA(&huart6,SEND_DATA,7);
 }
 void Get_Remote_info(RC_Ctl_t *rc, uint8_t *pData)
 {

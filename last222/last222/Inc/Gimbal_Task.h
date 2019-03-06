@@ -82,5 +82,4 @@ void Gimbal_Task(void const * argument);
 void init_mode_handler(void);
 void normal_mode_handler(void);
 void supply_mode_handler(void);
-
 #endif

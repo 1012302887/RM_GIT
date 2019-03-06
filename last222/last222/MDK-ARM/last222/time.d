@@ -78,7 +78,6 @@ last222\time.o: ../Inc/NI_MING.h
 last222\time.o: ../Inc/Get_Shoot_Info.h
 last222\time.o: ../Inc/Shoot_Task.h
 last222\time.o: ../Inc/Keyboard.h
-last222\time.o: ../Inc/Car_num.h
 last222\time.o: ../Inc/Kalman.h
 last222\time.o: ../Inc/REG_DMA.h
 last222\time.o: ../Inc/JUDG_INFO.h

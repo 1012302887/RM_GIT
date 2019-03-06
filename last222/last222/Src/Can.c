@@ -100,7 +100,7 @@ void send_chassis_cur(int16_t a, int16_t b, int16_t c, int16_t d)
 	HAL_CAN_AddTxMessage(&hcan1,&Tx1Message,i,(uint32_t*)CAN_TX_MAILBOX0);
 }
 
-void send_fri_cur(int16_t a)//速度3000到6000
+void send_fri_cur(int16_t a)//速度1000到1500
 { 
 	uint8_t i[2];
 	Tx1Message.RTR = CAN_RTR_DATA;
@@ -159,6 +159,21 @@ void send_Gyro(uint8_t mode ,uint16_t time)//
 	Data[2] = time;
 	HAL_CAN_AddTxMessage(&hcan2,&Tx2Message,Data,(uint32_t*)CAN_TX_MAILBOX0);
 }
+void Gyro_Cali(uint16_t delay_time)
+{
+	//10ms持续发送，校准陀螺仪
+	uint32_t tickstart = HAL_GetTick();
+  uint32_t wait = delay_time;//ms
+
+  if (wait < HAL_MAX_DELAY)
+  {
+    wait += (uint32_t)(1u);
+  }
+  while((HAL_GetTick() - tickstart) < wait)
+  {
+		send_Gyro(0x30,800);//校准陀螺仪
+  }
+}
 void  HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 {
 	if (hcan == &hcan1)
@@ -181,7 +196,7 @@ void  HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 			}break;
 			case CAN_PIT_MOTOR_ID:
 			{
-//				encoder_data_handler4(&moto_pit, DATA);
+//			encoder_data_handler4(&moto_pit, DATA);
 				#if (0)//不同小车，需要修改
 				moto_pit.total_angle += 360;				
 				#endif

@@ -43,7 +43,7 @@ void Mode_Switch_Task(void const * argument)
 		get_main_ctrl_mode();
 		
 		taskEXIT_CRITICAL();
-		
+		USART6_Transmit();
 		osSignalSet(GET_CHASSIS_INFHandle, INFO_GET_SIGNAL);
 		osSignalSet(GET_SHOOT_TASK_HANDEL, SHOOT_GET_SIGNAL);
 		osSignalSet(GET_GIMBAL_INFOHandle, GIMBAL_INFO_GET_SIGNAL);

@@ -18,14 +18,11 @@ void Get_Chassis_Info(void const * argument)
 		if(event.value.signals & INFO_GET_SIGNAL)
 	   {	
 					taskENTER_CRITICAL();
-			 
-					/* get gimbal and chassis relative angle */
-//					chassis.follow_gimbal = moto_yaw.total_angle;   
-					/* get chassis wheel fdb speed */
-				for (uint8_t i = 0; i < 4; i++)
-				 {
-						chassis.wheel_spd_fdb[i] = moto_chassis[i].speed_rpm*0.10472/19.0;//W=2*PI*N
-				 }
+//					/* get chassis wheel fdb speed */
+//				for (uint8_t i = 0; i < 4; i++)
+//				 {
+//						chassis.wheel_spd_fdb[i] = ((moto_chassis[i].speed_rpm*2*PI)/60.0f)/19.0f;//W=2*PI*N
+//				 }
 				 
 				 if((InfantryJudge.remainPower > 60) || (InfantryJudge.remainPower < 0))
 				 {InfantryJudge.remainPower = 0;}

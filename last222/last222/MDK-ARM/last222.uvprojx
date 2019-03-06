@@ -670,21 +670,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>CAR_NUM</GroupName>
-          <Files>
-            <File>
-              <FileName>Car_num.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\Car_num.c</FilePath>
-            </File>
-            <File>
-              <FileName>Car_num.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Inc\Car_num.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>NI_MING</GroupName>
           <Files>
             <File>

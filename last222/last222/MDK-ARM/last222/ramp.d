@@ -77,7 +77,6 @@ last222\ramp.o: ../Inc/NI_MING.h
 last222\ramp.o: ../Inc/Get_Shoot_Info.h
 last222\ramp.o: ../Inc/Shoot_Task.h
 last222\ramp.o: ../Inc/Keyboard.h
-last222\ramp.o: ../Inc/Car_num.h
 last222\ramp.o: ../Inc/Kalman.h
 last222\ramp.o: ../Inc/REG_DMA.h
 last222\ramp.o: ../Inc/JUDG_INFO.h

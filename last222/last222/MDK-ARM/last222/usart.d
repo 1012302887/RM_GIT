@@ -77,7 +77,6 @@ last222\usart.o: ../Inc/NI_MING.h
 last222\usart.o: ../Inc/Get_Shoot_Info.h
 last222\usart.o: ../Inc/Shoot_Task.h
 last222\usart.o: ../Inc/Keyboard.h
-last222\usart.o: ../Inc/Car_num.h
 last222\usart.o: ../Inc/Kalman.h
 last222\usart.o: ../Inc/REG_DMA.h
 last222\usart.o: ../Inc/JUDG_INFO.h

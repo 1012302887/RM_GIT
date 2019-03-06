@@ -44,7 +44,6 @@
 "last222\time.o"
 "last222\pid.o"
 "last222\keyboard.o"
-"last222\car_num.o"
 "last222\ni_ming.o"
 "last222\kalman.o"
 "last222\arm_mat_init_f32.o"

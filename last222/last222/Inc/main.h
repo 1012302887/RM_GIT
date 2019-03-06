@@ -29,7 +29,6 @@
 #include "Get_Shoot_Info.h"
 #include "Shoot_Task.h"
 #include "Keyboard.h"
-#include "Car_num.h"
 #include "Kalman.h"
 #include "REG_DMA.h"
 #include "JUDG_INFO.h"
@@ -37,6 +36,18 @@
 #include "trcConfig.h"
 #include "Time.h"
 /* USER CODE BEGIN Includes */
+#define       CAR_NUM      1
+
+#if   CAR_NUM == 1
+  #define				AUTOSHOOT_X_OFFSET  -2
+	#define       MOTO_YAW_OFFSET_ECD  150
+	#define       MOTO_PIT_OFFSET_ECD  1800
+#elif CAR_NUM == 4
+  #define				AUTOSHOOT_X_OFFSET  -2
+	#define       MOTO_YAW_OFFSET_ECD  3049
+	#define       MOTO_PIT_OFFSET_ECD  847
+#endif
+
 /* USER CODE END Includes */
 
 /* Private define ------------------------------------------------------------*/

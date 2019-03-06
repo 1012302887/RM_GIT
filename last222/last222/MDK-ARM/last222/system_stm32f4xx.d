@@ -66,7 +66,6 @@ last222\system_stm32f4xx.o: ../Inc/NI_MING.h
 last222\system_stm32f4xx.o: ../Inc/Get_Shoot_Info.h
 last222\system_stm32f4xx.o: ../Inc/Shoot_Task.h
 last222\system_stm32f4xx.o: ../Inc/Keyboard.h
-last222\system_stm32f4xx.o: ../Inc/Car_num.h
 last222\system_stm32f4xx.o: ../Inc/Kalman.h
 last222\system_stm32f4xx.o: ../Inc/REG_DMA.h
 last222\system_stm32f4xx.o: ../Inc/JUDG_INFO.h
